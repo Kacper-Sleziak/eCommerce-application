@@ -23,7 +23,7 @@ steps:
           - mock_master
           - mock_develop
   commands:
-  - docker build -t  ghcr.io/oldzii/frontend ./frontend/. --file ./frontend/docker/production/Dockerfile
+  - docker build -t  ghcr.io/oldzii/frontend:${DRONE_BRANCH}-latest ./frontend/. --file ./frontend/docker/production/Dockerfile
   - echo "build done"
 
 - name: test
@@ -54,7 +54,7 @@ steps:
 
   commands:
     - echo $PAT | docker login ghcr.io -u USER --password-stdin
-    - docker push ghcr.io/oldzii/frontend-${DRONE_BRANCH}
+    - docker push ghcr.io/oldzii/frontend:${DRONE_BRANCH}-latest
 
 
 volumes:
