@@ -3,6 +3,10 @@ type: docker
 name: default
 
 steps:
+- name: lint
+  commands:
+    - echo "lint to do"
+
 - name: build
   image: docker:dind 
   volumes:
@@ -16,13 +20,23 @@ steps:
       from_secret: pat
 
   commands:
-  - docker --version
-  - echo $USER
-  - echo $PAT | docker login ghcr.io -u USER --password-stdin
   - docker build -t  ghcr.io/oldzii/frontend ./frontend/. --file ./frontend/docker/production/Dockerfile
-  - docker push ghcr.io/oldzii/frontend 
-  - echo done
+  - echo "build done"
 
+- name: test
+  image: docker:dind
+  command:
+    - echo "testing to do"
+
+- name: push
+  image: docker:dind
+  when:
+    branch:
+    - mock_master
+    - develop
+    - master
+    - echo $PAT | docker login ghcr.io -u USER --password-stdin
+    - docker push ghcr.io/oldzii/frontend 
 
 volumes:
   - name: docker_sock
