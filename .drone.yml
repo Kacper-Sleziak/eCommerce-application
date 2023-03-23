@@ -19,8 +19,8 @@ steps:
   - docker --version
   - echo $USER
   - echo $PAT | docker login ghcr.io -u USER --password-stdin
-  - docker build -t ghcr.io/oldzii/frontend ./docker/production/Dockerfile
-  - docker push ghcr.io/Oldzii/frontend 
+  - docker build -t  ghcr.io/oldzii/frontend ./frontend/. --file ./frontend/docker/production/Dockerfile
+  - docker push ghcr.io/oldzii/frontend 
   - echo done
 
 
