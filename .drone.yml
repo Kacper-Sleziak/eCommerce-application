@@ -26,7 +26,7 @@ steps:
 
 - name: test
   image: docker:dind
-  command:
+  commands:
   - echo "testing to do"
 
 - name: push
@@ -36,6 +36,7 @@ steps:
     - mock_master
     - develop
     - master
+  commands:
     - echo $PAT | docker login ghcr.io -u USER --password-stdin
     - docker push ghcr.io/oldzii/frontend 
 
