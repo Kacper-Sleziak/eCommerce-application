@@ -13,13 +13,15 @@ steps:
   volumes:
   - name: docker_sock
     path: /var/run/docker.sock
-
-  environment:
-    USER:
-      from_secret: user
-    PAT:
-      from_secret: pat
-
+    when:
+      event:
+        pull_request: true
+        branch:
+          exclude:
+            - master
+            - develop
+            - mock_master
+            - mock_develop
   commands:
   - docker build -t  ghcr.io/oldzii/frontend ./frontend/. --file ./frontend/docker/production/Dockerfile
   - echo "build done"
@@ -31,14 +33,26 @@ steps:
 
 - name: push
   image: docker:dind
+
+  environment:
+    USER:
+      from_secret: user
+    PAT:
+      from_secret: pat
+
   when:
+    event:
+    - push
     branch:
     - mock_master
+    - mock_develop
     - develop
     - master
+
   commands:
     - echo $PAT | docker login ghcr.io -u USER --password-stdin
-    - docker push ghcr.io/oldzii/frontend 
+    - docker push ghcr.io/oldzii/frontend:${DRONE_BRANCH}-latest 
+
 
 volumes:
   - name: docker_sock
