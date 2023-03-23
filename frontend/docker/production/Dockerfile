@@ -8,6 +8,8 @@ COPY package.json yarn.lock /app/
 
 RUN yarn install
 
+COPY .eslintrc.json .prettierrc tsconfig.json /app/
+
 COPY ./ /app/
 
 RUN yarn run build
