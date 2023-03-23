@@ -13,15 +13,7 @@ steps:
   volumes:
   - name: docker_sock
     path: /var/run/docker.sock
-  when:
-    event:
-      pull_request: true
-      branch:
-        exclude:
-          - master
-          - develop
-          - mock_master
-          - mock_develop
+
   commands:
   - docker build -t  ghcr.io/oldzii/frontend:${DRONE_BRANCH}-latest ./frontend/. --file ./frontend/docker/production/Dockerfile
   - echo "build done"
@@ -46,6 +38,7 @@ steps:
   when:
     event:
     - push
+    - pull_request
     branch:
     - mock_master
     - mock_develop
