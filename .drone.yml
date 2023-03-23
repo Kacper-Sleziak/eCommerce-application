@@ -27,7 +27,7 @@ steps:
 - name: test
   image: docker:dind
   command:
-    - echo "testing to do"
+  - echo "testing to do"
 
 - name: push
   image: docker:dind
