@@ -15,8 +15,9 @@ steps:
     path: /var/run/docker.sock
 
   commands:
-  - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
-  - echo "build done"
+    - docker login ghcr.io -u $USER -p $PAT 
+    - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
+    - echo "build done"
 
 - name: test
   image: docker:dind
@@ -43,7 +44,7 @@ steps:
     - develop
 
   commands:
-    - echo $PAT | docker login ghcr.io -u USER --password-stdin
+    - docker login ghcr.io -u $USER -p $PAT 
     - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
 
 
