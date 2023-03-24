@@ -1,0 +1,53 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: lint
+  image: docker:dind 
+  commands:
+    - echo "lint to do"
+
+- name: build
+  image: docker:dind 
+  volumes:
+  - name: docker_sock
+    path: /var/run/docker.sock
+
+  commands:
+    - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
+    - echo "build done"
+
+- name: test
+  image: docker:dind
+  commands:
+  - echo "testing to do"
+
+- name: push
+  image: docker:dind
+  volumes:  
+  - name: docker_sock
+    path: /var/run/docker.sock
+  
+  environment:
+    USER:
+      from_secret: user
+    PAT:
+      from_secret: pat
+
+  when:
+    event:
+    - push
+    - pull_request
+    branch:
+    - develop
+
+  commands:
+    - echo $PAT | docker login ghcr.io -u $USER --password-stdin
+    - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
+
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
