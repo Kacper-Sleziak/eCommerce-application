@@ -13,14 +13,8 @@ steps:
   volumes:
   - name: docker_sock
     path: /var/run/docker.sock
-  environment:
-    USER:
-      from_secret: user
-    PAT:
-      from_secret: pat
 
   commands:
-    - docker run --rm -v ${HOME}/.docker:/root/.docker docker/cli:latest docker login ghcr.io -u $USER -p $PAT 
     - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
     - echo "build done"
 
@@ -49,7 +43,7 @@ steps:
     - develop
 
   commands:
-    - docker login ghcr.io -u $USER -p $PAT 
+    - echo $PAT | docker login ghcr.io -u $USER --password-stdin
     - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
 
 
