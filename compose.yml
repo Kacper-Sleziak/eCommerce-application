@@ -6,7 +6,7 @@ services:
     image: frontend-dev
     build:
       context: ./frontend/.
-      dockerfile: ./frontend/docker/development/Dockerfile
+      dockerfile: ./docker/development/Dockerfile
     volumes:
       - ./frontend/src:/app/src
     ports:
