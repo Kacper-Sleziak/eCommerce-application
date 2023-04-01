@@ -9,7 +9,9 @@ After installation process, restart your vs code.
 1. Click `file` -> `Preferences`
 2. Find option `Editor: Code formatter` and pick Prettier.
 3. Find option `Editor: Format On Save` and check box if is unchecked.
-4. After these steps, code should be formatted automatically after clicking `Ctrl` + `s`.
+4. Open terminal in frontend folder.
+5. Use command `yarn install --check-files`. 
+6. After these steps, code should be formatted automatically after clicking `Ctrl` + `s`.
 
 ### Linter console commands
 You can use them in your local environment/docker container.
