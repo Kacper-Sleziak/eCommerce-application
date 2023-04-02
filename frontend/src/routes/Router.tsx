@@ -1,22 +1,30 @@
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
-import React, { useState } from 'react'
+import React from 'react'
+import { ThemeProvider } from '@mui/material/styles'
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
-import AuthRoute from './protection_factors/AuthRoute'
+import AuthRoute from './protection_factors/ProtectedRoute'
+import theme from '../utils/materialUI/colorScheme'
 
 const RouterRoot = () => {
-  // Mock of future auth logic
-  const [isAuth] = useState(true)
+  // Mock of user data get from local store in future
+  const user = {
+    id: '123',
+    nickname: 'John',
+    roles: ['admin'],
+  }
 
   return (
-    <Router>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route element={<AuthRoute isAuth={isAuth} />}>
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route element={<AuthRoute user={user} protectionType="admin" />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   )
 }
 
