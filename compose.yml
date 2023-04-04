@@ -11,3 +11,10 @@ services:
       - ./frontend/src:/app/src
     ports:
       - 3000:3000
+  backend:
+    container_name: backend
+    build:
+      context: ./backend/.
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 9999:9999

@@ -1,8 +1,0 @@
-version: "3.3"
-services:
-  backend:
-    build: 
-      context: .
-      dockerfile: docker/Dockerfile
-    privileged: true
-    network_mode: host
