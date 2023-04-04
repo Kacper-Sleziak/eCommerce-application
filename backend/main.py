@@ -21,9 +21,7 @@ def run_fast_api() -> None:
     api = MainApi()
 
     fast_api_thread = Thread(
-        name="Fast API thread",
-        target=run_fastapi_thread,
-        args=(api.backend_api,)
+        name="Fast API thread", target=run_fastapi_thread, args=(api.backend_api,)
     )
 
     fast_api_thread.start()
