@@ -23,3 +23,20 @@ You can use them in your local environment/docker container.
 
 ## Setting backend linters
 
+## Running backend
+**Create and activate venv**
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Install requirements**
+```
+pip install -r requirements.txt
+```
+
+**To run the code, use**
+
+```
+python -m main
+```
