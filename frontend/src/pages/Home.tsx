@@ -1,7 +1,15 @@
 import React from 'react'
+import { Button } from '@mui/material'
 
-function Home(): JSX.Element {
-  return <div>Home test</div>
+const Home = () => {
+  return (
+    <div>
+      <Button variant="contained" color="primary">
+        Primary
+      </Button>
+      <div>Home</div>
+    </div>
+  )
 }
 
 export default Home
