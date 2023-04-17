@@ -1,0 +1,30 @@
+.navbar {
+  background-color: red;
+
+  .upper {
+    background-color: yellow;
+    display: flex;
+
+    padding: 1rem 2rem;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 2rem;
+
+      .png {
+        min-height: 50px;
+        min-width: 50px;
+        background-color: #000;
+      }
+      span {
+        margin-left: 1rem;
+        font-size: 32px;
+      }
+    }
+  }
+
+  .lower {
+    background-color: grey;
+  }
+}
