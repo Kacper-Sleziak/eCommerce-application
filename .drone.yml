@@ -3,6 +3,16 @@ type: docker
 name: default
 
 steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  settings:
+    restore: true
+    mount:
+      - ./node_modules
+  volumes:
+  - name: cache
+    path: /cache
+
 - name: lint
   image: node:19-alpine 
   commands:
@@ -50,7 +60,21 @@ steps:
     - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
 
 
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  settings:
+    rebuild: true
+    mount:
+      - ./node_modules
+  volumes:
+  - name: cache
+    path: /cache
+
 volumes:
+  - name: cache
+    host:
+      path: /tmp/drone/cache
+  
   - name: docker_sock
     host:
       path: /var/run/docker.sock
