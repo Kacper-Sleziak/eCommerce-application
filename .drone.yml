@@ -8,6 +8,7 @@ steps:
   settings:
     restore: true
     mount:
+      # - ./.yarn-cache
       - ./node_modules
   volumes:
   - name: cache
@@ -17,9 +18,10 @@ steps:
   image: node:19-alpine 
   commands:
     - cd frontend
-    - yarn install
+    - yarn install --frozen-lockfile
     - yarn lint
     - echo "lint done"
+
 
 - name: build
   image: docker:dind 
@@ -73,7 +75,7 @@ steps:
 volumes:
   - name: cache
     host:
-      path: /tmp/drone/cache
+      path: /tmp/cache
   
   - name: docker_sock
     host:
