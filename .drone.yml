@@ -4,9 +4,12 @@ name: default
 
 steps:
 - name: lint
-  image: docker:dind 
+  image: node:19-alpine 
   commands:
-    - echo "lint to do"
+    - cd frontend
+    - yarn install
+    - yarn lint
+    - echo "lint done"
 
 - name: build
   image: docker:dind 
