@@ -7,7 +7,7 @@ const Home = () => {
       <Button variant="contained" color="primary">
         Primary
       </Button>
-      <div>Hoome</div>
+      <div>Home</div>
     </div>
   )
 }
