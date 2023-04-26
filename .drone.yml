@@ -14,13 +14,30 @@ steps:
   - name: cache
     path: /cache
 
-- name: lint
+- name: install
   image: node:19-alpine 
   commands:
     - cd frontend
     - yarn install --frozen-lockfile
+    - echo "install done"
+
+- name: lint
+  image: node:19-alpine 
+  commands:
+    - cd frontend
     - yarn lint
     - echo "lint done"
+
+
+
+
+# - name: lint
+#   image: node:19-alpine 
+#   commands:
+#     - cd frontend
+#     - yarn install --frozen-lockfile
+#     - yarn lint
+#     - echo "lint done"
 
 
 - name: build
