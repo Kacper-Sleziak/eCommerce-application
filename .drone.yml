@@ -9,7 +9,7 @@ steps:
     restore: true
     mount:
       # - ./.yarn-cache
-      - ./node_modules
+      - ./frontend/node_modules
   volumes:
   - name: cache
     path: /cache
@@ -67,7 +67,7 @@ steps:
   settings:
     rebuild: true
     mount:
-      - ./node_modules
+      - ./frontend/node_modules
   volumes:
   - name: cache
     path: /cache
