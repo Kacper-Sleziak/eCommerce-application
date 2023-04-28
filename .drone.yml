@@ -19,6 +19,7 @@ steps:
   commands:
     - cd frontend
     - yarn install --frozen-lockfile
+    - npx playwright install
     - echo "install done"
 
 - name: lint
