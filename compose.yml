@@ -12,7 +12,7 @@ services:
     ports:
       - 3000:3000
   sql:
-    image: 'postgres:latest'
+    image: "postgres:latest"
     ports:
       - 5432:5432
     environment:
@@ -31,7 +31,6 @@ services:
       context: ./backend/.
       dockerfile: ./docker/Dockerfile
     volumes:
-      - ./backend/src:/backend/src
+      - ./backend/src:/backend
     ports:
-      - 9999:9999
-  
+      - 8000:8000
