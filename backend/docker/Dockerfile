@@ -1,6 +1,6 @@
 FROM fedora:35
 
-RUN dnf install --refresh -y python3 python3-devel python3-pip
+RUN dnf install --refresh -y python3 python3-devel python3-pip mysql-connector-python3 
 
 WORKDIR /backend
 
