@@ -1,3 +1,6 @@
+#docker
+backend/docker/db-data
+
 # IDE
 .idea
 
@@ -130,3 +133,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#ruff
+.ruff_cache/
