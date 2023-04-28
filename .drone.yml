@@ -14,6 +14,14 @@ steps:
   - name: cache
     path: /cache
 
+- name: test
+  image: mcr.microsoft.com/playwright:v1.33.0-jammy
+  commands:
+  - cd frontend
+  - yarn install
+  - npx playwright test
+  - echo "test done"
+
 - name: install
   image: node:19-alpine 
   commands:
@@ -29,13 +37,6 @@ steps:
     - echo "lint done"
 
 
-- name: test
-  image: mcr.microsoft.com/playwright:v1.33.0-jammy
-  commands:
-  - cd frontend
-  - npm ci
-  - npm playwright test
-  - echo "test done"
 
 - name: build
   image: docker:dind 
