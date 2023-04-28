@@ -1,5 +1,32 @@
 # eCommerce-application
 
+## Running Project
+1. Install docker https://docs.docker.com/engine/install/
+2. Install docker compose plugin https://docs.docker.com/compose/install/
+3. Open root folder of project
+4. Paste this comand
+```
+docker compose up -d --build
+```
+## Important docker commands
+**Start container without build**
+```
+docker compose up -d 
+```
+**Show all containers**
+```
+docker compose ps 
+```
+use `-a` flag to show also containers that dont run 
+
+**Enter inside container**
+```
+docker compose exec <container_name> bash
+```
+**Show logs of container**
+```
+docker compose logs <container_name>
+```
 ## Setting environment
 
 ## Setting frontend linters
