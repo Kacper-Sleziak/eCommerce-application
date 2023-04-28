@@ -30,11 +30,11 @@ steps:
 
 
 - name: test
-  image: node:19-alpine
+  image: mcr.microsoft.com/playwright:v1.33.0-jammy
   commands:
   - cd frontend
-  - npx playwright install
-  - yarn test
+  - npm ci
+  - npm playwright test
   - echo "test done"
 
 - name: build
