@@ -32,6 +32,7 @@ steps:
 - name: test
   image: node:19-alpine
   commands:
+  - cd frontend
   - yarn test
   - echo "test done"
 
