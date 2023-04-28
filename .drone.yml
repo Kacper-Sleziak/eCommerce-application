@@ -19,7 +19,6 @@ steps:
   commands:
     - cd frontend
     - yarn install --frozen-lockfile
-    - npx playwright install
     - echo "install done"
 
 - name: lint
@@ -34,6 +33,7 @@ steps:
   image: node:19-alpine
   commands:
   - cd frontend
+  - npx playwright install
   - yarn test
   - echo "test done"
 
