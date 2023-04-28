@@ -29,16 +29,11 @@ steps:
     - echo "lint done"
 
 
-
-
-# - name: lint
-#   image: node:19-alpine 
-#   commands:
-#     - cd frontend
-#     - yarn install --frozen-lockfile
-#     - yarn lint
-#     - echo "lint done"
-
+- name: test
+  image: node:19-alpine
+  commands:
+  - yarn test
+  - echo "test done"
 
 - name: build
   image: docker:dind 
@@ -49,11 +44,6 @@ steps:
   commands:
     - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
     - echo "build done"
-
-- name: test
-  image: docker:dind
-  commands:
-  - echo "testing to doo"
 
 - name: push
   image: docker:dind
