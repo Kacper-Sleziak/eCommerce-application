@@ -27,7 +27,6 @@ steps:
   image: mcr.microsoft.com/playwright:v1.33.0-jammy
   commands:
   - cd frontend
-  # - yarn install --frozen-lockfile
   - npx playwright test
   - echo "test done"
 
@@ -37,8 +36,6 @@ steps:
     - cd frontend
     - yarn lint
     - echo "lint done"
-
-
 
 - name: build
   image: docker:dind 
