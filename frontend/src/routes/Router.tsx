@@ -1,15 +1,14 @@
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
-import React from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
+import Footer from '../components/Footer'
 import Home from '../pages/Home'
+import Navbar from '../components/Navbar'
 import Profile from '../pages/Profile'
 import AuthRoute from './protection_factors/ProtectedRoute'
 import theme from '../utils/materialUI/colorScheme'
-import Navbar from '../pages/Navbar'
 
 const RouterRoot = () => {
-  // Mock of user data get from local store in future
   const user = {
     id: '123',
     nickname: 'John',
@@ -25,6 +24,9 @@ const RouterRoot = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
+          minWidth: '800px',
+          maxWidth: '1200px',
+          margin: 'auto',
         }}
       >
         <Navbar />
@@ -38,9 +40,7 @@ const RouterRoot = () => {
             </Routes>
           </Router>
         </Box>
-        <div style={{ height: '200px', width: '100%', background: 'pink' }}>
-          footer
-        </div>
+        <Footer />
       </Box>
     </ThemeProvider>
   )
