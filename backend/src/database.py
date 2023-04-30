@@ -2,7 +2,7 @@
 #
 #
 # conn = psycopg2.connect(database="leasing_shop",
-#                         host="sql",
+#                         host="db",
 #                         user="postgres",
 #                         password="postgres",
 #                         port="5432")

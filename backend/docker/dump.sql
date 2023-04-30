@@ -81,6 +81,7 @@ CREATE TABLE photo (
 CREATE TABLE product_category (
     category_id int NOT NULL,  
     product_id int NOT NULL,
+    PRIMARY KEY (category_id, product_id),
     FOREIGN KEY (category_id) REFERENCES category(category_id),
     FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
