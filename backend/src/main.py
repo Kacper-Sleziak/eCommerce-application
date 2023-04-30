@@ -24,3 +24,8 @@ def get_products_all() -> dict:
 @app.get("/product/{product_id}")
 def get_product_id(product_id: int) -> dict:
     return product_service.get_product(product_id)
+
+
+@app.get("/categories")
+def get_categories() -> dict:
+    return product_service.get_categories()

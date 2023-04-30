@@ -26,12 +26,9 @@ class ProductService:
             if "category" in params:
                 categories = list()
                 for category in params["category"]:
-                    print(category)
                     categories.append(ProductCategory.category_id == category)
                 filters.append(or_(*categories))
-            statement = session.query(Product).join(ProductCategory).filter(and_(*filters))
-            print(str(statement.statement.compile(dialect=postgresql.dialect())))
-            products = statement.all()
+            products = session.query(Product).join(ProductCategory).filter(and_(*filters)).all()
             for product in products:
                 result[count] = self.get_product_info(product)
                 count += 1
@@ -50,13 +47,23 @@ class ProductService:
         Session.remove()
         return result
 
-    def get_product(self, product_id: int):
-        result = dict()
-        print(product_id)
+    def get_product(self, product_id: int) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
             product = session.query(Product).filter(Product.product_id == product_id).one()
             result = self.get_product_info(product)
+        Session.remove()
+        return result
+
+    def get_categories(self) -> dict:
+        result = dict()
+        Session = self.engine.create_session()
+        count = 0
+        with Session() as session:
+            categories = session.query(Category).all()
+            for category in categories:
+                result[count] = category_to_json(category)
+                count += 1
         Session.remove()
         return result
 
