@@ -1,13 +1,11 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import OfferShortcut from '../components/OfferShortcut'
 
 const Home = () => {
   return (
     <div className="container">
-      <Button variant="contained" color="primary">
-        Primary
-      </Button>
       <div>Home</div>
+      <OfferShortcut />
     </div>
   )
 }

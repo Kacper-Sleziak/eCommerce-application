@@ -1,0 +1,35 @@
+/* .container {
+  background-color: red;
+}
+
+.navbar {
+  background-color: red;
+}
+.navbar .upper {
+  background-color: yellow;
+  display: flex;
+  padding: 1rem 2rem;
+}
+.navbar .upper .logo {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+.navbar .upper .logo .png {
+  min-height: 50px;
+  min-width: 50px;
+  background-color: #000;
+}
+.navbar .upper .logo span {
+  margin-left: 1rem;
+  font-size: 32px;
+}
+.navbar .lower {
+  background-color: grey;
+}
+
+body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}# sourceMappingURL=index.css.map */
