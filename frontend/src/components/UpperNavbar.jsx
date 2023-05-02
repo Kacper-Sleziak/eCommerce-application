@@ -7,11 +7,7 @@ import InputMui from './InputMui'
 import bubbles from '../imgs/bubbles.png'
 import '../styles/navbar.css'
 
-interface IExample {
-  name: string
-}
-
-const UpperNavbar = ({ name }: IExample) => {
+const UpperNavbar = () => {
   return (
     <div className="upperNavbar">
       <div className="logo">
@@ -59,7 +55,7 @@ const UpperNavbar = ({ name }: IExample) => {
             textTransform: 'none',
           }}
         >
-          Cart (0) {name}
+          Cart (0)
         </Button>
       </div>
     </div>
