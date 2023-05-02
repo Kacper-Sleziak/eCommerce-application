@@ -10,8 +10,7 @@
     "airbnb",
     "plugin:react/recommended",
     "standard-with-typescript",
-    "plugin:prettier/recommended",
-    "plugin:react-redux/recommended"
+    "plugin:prettier/recommended"
   ],
   "overrides": [
     {
@@ -32,8 +31,7 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "prettier",
-    "react-redux"
+    "prettier"
   ],
   "settings": {
     "import/resolver": {
