@@ -10,7 +10,8 @@
     "airbnb",
     "plugin:react/recommended",
     "standard-with-typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react-redux/recommended"
   ],
   "overrides": [
     {
@@ -31,7 +32,8 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "prettier"
+    "prettier",
+    "react-redux"
   ],
   "settings": {
     "import/resolver": {
@@ -62,6 +64,7 @@
         "allowConciseArrowFunctionExpressionsStartingWithVoid": true
       }
     ],
+    "@typescript-eslint/ban-ts-comment": "off",
     "react/jsx-filename-extension": [
       2,
       {
@@ -73,6 +76,11 @@
         ]
       }
     ],
+    "no-param-reassign": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
     "@typescript-eslint/dot-notation": "error",
     "quotes": [
       "error"
