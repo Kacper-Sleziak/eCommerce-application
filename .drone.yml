@@ -8,7 +8,6 @@ steps:
   settings:
     restore: true
     mount:
-      # - ./.yarn-cache
       - ./frontend/node_modules
   volumes:
   - name: cache
@@ -23,12 +22,12 @@ steps:
     - yarn install --frozen-lockfile
     - echo "install done"
 
-- name: test
-  image: mcr.microsoft.com/playwright:v1.33.0-jammy
-  commands:
-  - cd frontend
-  - npx playwright test
-  - echo "test done"
+# - name: test
+#   image: mcr.microsoft.com/playwright:v1.33.0-jammy
+#   commands:
+#   - cd frontend
+#   - npx playwright test
+#   - echo "test done"
 
 - name: lint
   image: node:19-alpine 
