@@ -1,24 +1,16 @@
-import * as React from 'react'
+import PropTypes from 'prop-types'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
-// seach in input or in diffrent component?
 import SearchIcon from '@mui/icons-material/Search'
 
-interface InputProps {
-  title: string
-  search?: boolean
-}
-
-// add basic value for search
-const InputMui = ({ title, search }: InputProps) => {
-  // Unexpected nullable boolean value in conditional. Please handle the nullish case explicitly
+const InputMui = ({ title, search }) => {
   return (
     <TextField
       id="input-with-icon-textfield"
       label={title}
       variant="outlined"
       InputProps={
-        search
+        search != null && search
           ? {
               startAdornment: (
                 <InputAdornment position="start">
@@ -34,6 +26,11 @@ const InputMui = ({ title, search }: InputProps) => {
 
 InputMui.defaultProps = {
   search: false,
+}
+
+InputMui.propTypes = {
+  title: PropTypes.string.isRequired,
+  search: PropTypes.bool,
 }
 
 export default InputMui
