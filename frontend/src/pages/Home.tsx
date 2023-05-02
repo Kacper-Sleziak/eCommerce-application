@@ -1,34 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { Button, Typography } from '@mui/material'
-import { selectUserInfo, selectPreferencesInfo, updateUserPreferences, Theme } from '../store/userData/UserDataSlice'
-
-
-const ExampleDispatchButton = () => {
-
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(updateUserPreferences({ fontSize: 12, theme: Theme.DARK }))
-  }
-
-  return (
-    <>
-      <Button variant="contained" color="primary" onClick={handleClick}>
-        Change user preferences
-      </Button>
-    </>
-  )
-}
+import { Button, Stack } from '@mui/material'
+import HowToUseStoreExample from '../components/HowToUseStoreExample'
 
 const Home = () => {
-  const userInfo = useSelector(selectUserInfo)
-  const userPreferences = useSelector(selectPreferencesInfo);
-
   return (
-    <>
-      <ExampleDispatchButton />
-      <Typography>Welcome Home {userInfo.name}, my roles are: {userInfo.roles.join(', ')} <br /> I like font size {userPreferences.fontSize} and {userPreferences.theme} theme</Typography>
-    </>
+    <Stack spacing={2} direction="column" alignItems="flex-start">
+      <Button variant="contained" color="primary">
+        Primary
+      </Button>
+      Home
+      <HowToUseStoreExample />
+    </Stack>
   )
 }
 
