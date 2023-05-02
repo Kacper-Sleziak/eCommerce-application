@@ -1,0 +1,9 @@
+.offerListClass {
+  display: flex;
+  justify-content: space-between;
+}
+
+.offers {
+  display: flex;
+  flex-direction: column;
+}
