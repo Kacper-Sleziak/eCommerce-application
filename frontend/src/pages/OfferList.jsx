@@ -1,4 +1,5 @@
-import { Card, Divider, Typography, Slider } from '@mui/material'
+import { Card, Divider, Typography } from '@mui/material'
+import CheckboxCategories from '../components/Checkbox'
 import Offer from '../components/Offer'
 import UsedFilter from '../components/UsedFilter'
 import '../styles/offerlistpage.css'
@@ -40,6 +41,7 @@ const OfferList = () => {
           <Typography
             sx={{
               paddingTop: 2,
+              paddingBottom: 2,
               width: '222px',
               height: '30px',
               fontStyle: 'normal',
@@ -51,13 +53,8 @@ const OfferList = () => {
           >
             Filters
           </Typography>
-          <Slider
-            defaultValue={50}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            color="primary"
-          />
           <Divider sx={{ border: '2px solid #A09D9D' }} />
+          <CheckboxCategories />
         </Card>
       </div>
       <div className="offers">
