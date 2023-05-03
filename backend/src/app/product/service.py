@@ -55,18 +55,6 @@ class ProductService:
         Session.remove()
         return result
 
-    def get_categories(self) -> dict:
-        result = dict()
-        Session = self.engine.create_session()
-        count = 0
-        with Session() as session:
-            categories = session.query(Category).all()
-            for category in categories:
-                result[count] = category_to_json(category)
-                count += 1
-        Session.remove()
-        return result
-
     def get_product_categories(self, product_id: int) -> dict:
         result = dict()
         Session = self.engine.create_session()
