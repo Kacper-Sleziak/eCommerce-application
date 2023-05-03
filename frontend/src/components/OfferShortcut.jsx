@@ -24,8 +24,8 @@ const OfferShortcut = ({ imageUrl, title, price }) => {
         alt="Image"
         sx={{ borderRadius: '30px' }}
       />
-      <CardContent>
-        <Typography gutterBottom variant="h5">
+      <CardContent sx={{ width: '85% !important', margin: 'none' }}>
+        <Typography gutterBottom variant="h5" sx={{ fontSize: '1.3rem' }}>
           {title}
         </Typography>
         <Typography variant="h6">{price}</Typography>

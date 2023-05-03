@@ -1,4 +1,4 @@
-import { Card, Divider, Typography } from '@mui/material'
+import { Card, Divider, Typography, Slider } from '@mui/material'
 import Offer from '../components/Offer'
 import UsedFilter from '../components/UsedFilter'
 import '../styles/offerlistpage.css'
@@ -32,8 +32,11 @@ const OfferList = () => {
             Used filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <UsedFilter filtername="Price" filterdetail="from lowest" />
-          <Divider sx={{ border: '2px solid #A09D9D' }} />
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <UsedFilter filtername="Price" filterdetail="from lowest" />
+            <UsedFilter filtername="Brand" filterdetail="BMW" />
+            <UsedFilter filtername="Localization" filterdetail="Wrocław" />
+          </div>
           <Typography
             sx={{
               paddingTop: 2,
@@ -48,9 +51,17 @@ const OfferList = () => {
           >
             Filters
           </Typography>
+          <Slider
+            defaultValue={50}
+            aria-label="Default"
+            valueLabelDisplay="auto"
+            color="primary"
+          />
+          <Divider sx={{ border: '2px solid #A09D9D' }} />
         </Card>
       </div>
       <div className="offers">
+        <Typography variant="h3">Offers</Typography>
         <Offer
           image="https://i.wpimg.pl/1280x/m.autokult.pl/fiat-126-maluch-1-9e6b06ce6f28d6.jpg"
           title="Samochód Maluch"

@@ -4,6 +4,7 @@ import { Box } from '@mui/material'
 import Footer from '../components/Footer'
 // import Home from '../pages/Home'
 import OfferList from '../pages/OfferList'
+// import Offer from '../pages/Offer'
 import Navbar from '../components/Navbar'
 import Profile from '../pages/Profile'
 import AuthRoute from './protection_factors/ProtectedRoute'
@@ -31,7 +32,7 @@ const RouterRoot = () => {
         }}
       >
         <Navbar />
-        <Box style={{ width: '100%', height: '1000px' }}>
+        <Box style={{ width: '100%', marginBottom: '1rem' }}>
           <Router>
             <Routes>
               <Route index element={<OfferList />} />

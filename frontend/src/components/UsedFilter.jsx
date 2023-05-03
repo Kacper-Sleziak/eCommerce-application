@@ -3,7 +3,7 @@ import { Box, Card, Typography } from '@mui/material'
 
 const UsedFilter = ({ filtername, filterdetail }) => {
   return (
-    <Box>
+    <Box sx={{ padding: '1rem' }}>
       <Typography
         sx={{
           fontStyle: 'normal',

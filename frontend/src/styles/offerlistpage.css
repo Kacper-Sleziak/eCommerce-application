@@ -1,9 +1,15 @@
 .offerListClass {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .offers {
   display: flex;
   flex-direction: column;
+  width: 60%;
+}
+
+.offers > div {
+  margin: 0.5rem 0;
 }
