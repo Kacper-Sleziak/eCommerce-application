@@ -11,7 +11,8 @@ services:
       - ./frontend/src:/app/src
     ports:
       - 3000:3000
-  sql:
+  db:
+    container_name: db
     image: "postgres:latest"
     ports:
       - 5432:5432
