@@ -8,12 +8,14 @@ const TabCard = ({ to, text, backgroundColor, startIcon: StartIcon }) => {
     <Link to={to}>
       <Card
         sx={{
-          position: 'absolute',
-          width: '240px',
+          maxWidth: '240px',
           height: '150px',
           background: backgroundColor,
           boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
           borderRadius: '30px',
+          display: 'flex',
+          fontSize: '1rem',
+          alignContent: 'center',
         }}
       >
         <CardContent
@@ -28,18 +30,10 @@ const TabCard = ({ to, text, backgroundColor, startIcon: StartIcon }) => {
             sx={{
               color: '#FFFFFF',
               fontSize: '3rem',
+              marginRight: '1rem',
             }}
           />
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: 'Arial',
-              color: '#FFF',
-              fontWeight: 500,
-              fontSize: '24px',
-              //   textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            }}
-          >
+          <Typography variant="body1" className="styledA">
             {text}
           </Typography>
         </CardContent>

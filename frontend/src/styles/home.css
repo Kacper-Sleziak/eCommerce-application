@@ -1,3 +1,54 @@
+a {
+  text-decoration: none;
+}
+
 .home {
-  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.main {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: calc(50% - 2rem);
+}
+
+.panel a {
+  width: calc(50% - 2rem);
+  margin: 0 1rem;
+}
+
+.styledA {
+  font-family: Arial !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  font-size: 24px !important;
+}
+
+.items {
+  display: flex;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.items h4 {
+  width: 100%;
+}
+
+.itemsBox {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.itemsBox div {
+  width: calc(20% - 1rem);
+  margin: 0 0.5rem;
 }
