@@ -1,10 +1,10 @@
 import { Card, Divider, Typography } from '@mui/material'
-import CheckboxCategories from '../components/Checkbox'
-import Offer from '../components/Offer'
-import UsedFilter from '../components/UsedFilter'
-import '../styles/offerlistpage.css'
+// import CheckboxCategories from '../components/Checkbox'
+import Offer from '../features/OfferList/Offer'
+import UsedFilter from '../features/OfferList/UsedFilter'
+import '../styles/pages/offerlistpage.css'
 
-const OfferList = () => {
+const OfferList: React.FC = () => {
   return (
     <div className="offerListClass">
       <div>
@@ -54,7 +54,6 @@ const OfferList = () => {
             Filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <CheckboxCategories />
         </Card>
       </div>
       <div className="offers">
@@ -65,7 +64,7 @@ const OfferList = () => {
           localization="Wrocław"
           parameters="color: red, year: 1990, status: super cool"
           price="6200 zł"
-          rating="4"
+          rating={4}
         />
         <Offer
           image="https://i.wpimg.pl/1280x/m.autokult.pl/fiat-126-maluch-1-9e6b06ce6f28d6.jpg"
@@ -73,7 +72,7 @@ const OfferList = () => {
           localization="Wrocław"
           parameters="color: red, year: 1990, status: super cool"
           price="6200 zł"
-          rating="4"
+          rating={4}
         />
         <Offer
           image="https://i.wpimg.pl/1280x/m.autokult.pl/fiat-126-maluch-1-9e6b06ce6f28d6.jpg"
@@ -81,7 +80,7 @@ const OfferList = () => {
           localization="Wrocław"
           parameters="color: red, year: 1990, status: super cool"
           price="6200 zł"
-          rating="4"
+          rating={4}
         />
         <Offer
           image="https://i.wpimg.pl/1280x/m.autokult.pl/fiat-126-maluch-1-9e6b06ce6f28d6.jpg"
@@ -89,7 +88,7 @@ const OfferList = () => {
           localization="Wrocław"
           parameters="color: red, year: 1990, status: super cool"
           price="6200 zł"
-          rating="4"
+          rating={4}
         />
       </div>
     </div>

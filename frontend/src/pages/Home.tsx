@@ -9,12 +9,10 @@ import {
   CardContent,
   Typography,
 } from '@mui/material'
-import OfferShortcut from '../components/OfferShortcut'
-import TabCard from '../components/TabCard'
+import OfferShortcut from '../features/Home/OfferShortcut'
+import TabCard from '../features/Home/TabCard'
 
-// import theme from '../utils/materialUI/colorScheme'
-
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div
       className="home"

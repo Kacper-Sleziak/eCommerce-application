@@ -3,11 +3,11 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
-import InputMui from './InputMui'
+import InputSearchBar from './InputMui'
 import bubbles from '../imgs/bubbles.png'
-import '../styles/navbar.css'
+import '../styles/components/navbar.css'
 
-const UpperNavbar = () => {
+const UpperNavbar: React.FC = () => {
   return (
     <div className="upperNavbar">
       <div className="logo">
@@ -23,7 +23,7 @@ const UpperNavbar = () => {
           Post-lease
         </Typography>
       </div>
-      <InputMui title="Search" />
+      <InputSearchBar label="Search..." />
       <div className="upperNavbarButtons">
         <Button
           className="signInButton"

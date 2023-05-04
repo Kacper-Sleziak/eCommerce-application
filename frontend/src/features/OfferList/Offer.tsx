@@ -1,8 +1,23 @@
-import PropTypes from 'prop-types'
 import { Box, Card, CardMedia, Rating, Typography } from '@mui/material'
 import PlaceIcon from '@mui/icons-material/Place'
 
-const Offer = ({ image, title, localization, parameters, price, rating }) => {
+interface OfferProps {
+  image: string
+  title: string
+  localization: string
+  parameters: string
+  price: string
+  rating: number
+}
+
+const Offer = ({
+  image,
+  title,
+  localization,
+  parameters,
+  price,
+  rating,
+}: OfferProps) => {
   return (
     <Card
       sx={{
@@ -60,15 +75,6 @@ const Offer = ({ image, title, localization, parameters, price, rating }) => {
       </div>
     </Card>
   )
-}
-
-Offer.propTypes = {
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  localization: PropTypes.string.isRequired,
-  parameters: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
 }
 
 export default Offer

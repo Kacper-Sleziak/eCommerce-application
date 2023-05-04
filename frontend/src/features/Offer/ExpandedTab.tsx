@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-const SimpleAccordion = () => {
+const SimpleAccordion: React.FC = () => {
   return (
     <div>
       <Accordion sx={{ backgroundColor: '#ECEBEB', marginBottom: '1rem' }}>

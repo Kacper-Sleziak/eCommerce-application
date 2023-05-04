@@ -1,10 +1,10 @@
 import { Card, CardMedia, Typography } from '@mui/material'
-import Breadcrumb from '../components/Breadcrumbs'
-import OfferSidePanel from '../components/OfferSidePanel'
-import SimpleAccordion from '../components/ExpandedTab'
-import '../styles/offer.css'
+import Breadcrumb from '../features/Offer/Breadcrumbs'
+import OfferSidePanel from '../features/Offer/OfferSidePanel'
+import SimpleAccordion from '../features/Offer/ExpandedTab'
+import '../styles/pages/offer.css'
 
-const Offer = () => {
+const Offer: React.FC = () => {
   return (
     <div>
       <Breadcrumb />

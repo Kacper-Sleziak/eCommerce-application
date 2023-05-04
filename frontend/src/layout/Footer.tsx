@@ -1,7 +1,7 @@
 import React from 'react'
-import '../styles/footer.css'
+import '../styles/components/footer.css'
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <div className="footer">
       <div className="rightFotter">
