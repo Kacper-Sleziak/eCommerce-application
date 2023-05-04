@@ -4,12 +4,12 @@ import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 
-function handleClick(event) {
+const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault()
   console.info('You clicked a breadcrumb.')
 }
 
-const Breadcrumb = () => {
+const Breadcrumb: React.FC = () => {
   const breadcrumbs = [
     <Link
       underline="hover"

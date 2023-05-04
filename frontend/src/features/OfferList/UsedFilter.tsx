@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types'
 import { Box, Card, Typography } from '@mui/material'
 
-const UsedFilter = ({ filtername, filterdetail }) => {
+interface UsedFilterProps {
+  filtername: string
+  filterdetail: string
+}
+
+const UsedFilter = ({ filtername, filterdetail }: UsedFilterProps) => {
   return (
     <Box sx={{ padding: '1rem' }}>
       <Typography
@@ -43,11 +47,6 @@ const UsedFilter = ({ filtername, filterdetail }) => {
       </Card>
     </Box>
   )
-}
-
-UsedFilter.propTypes = {
-  filtername: PropTypes.string.isRequired,
-  filterdetail: PropTypes.string.isRequired,
 }
 
 export default UsedFilter

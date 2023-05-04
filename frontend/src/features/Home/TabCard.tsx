@@ -1,9 +1,20 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, Typography } from '@mui/material'
-import '../styles/home.css'
+import '../styles/page/home.css'
 
-const TabCard = ({ to, text, backgroundColor, startIcon: StartIcon }) => {
+interface TabCardProps {
+  to: string
+  text: string
+  startIcon: React.ElementType
+  backgroundColor: string
+}
+
+const TabCard = ({
+  to,
+  text,
+  backgroundColor,
+  startIcon: StartIcon,
+}: TabCardProps) => {
   return (
     <Link to={to}>
       <Card
@@ -40,13 +51,6 @@ const TabCard = ({ to, text, backgroundColor, startIcon: StartIcon }) => {
       </Card>
     </Link>
   )
-}
-
-TabCard.propTypes = {
-  to: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  startIcon: PropTypes.elementType.isRequired,
-  backgroundColor: PropTypes.string.isRequired,
 }
 
 export default TabCard

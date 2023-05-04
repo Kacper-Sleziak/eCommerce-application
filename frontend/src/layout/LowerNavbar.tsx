@@ -1,13 +1,10 @@
-// import { useState } from 'react'
 import Button from '@mui/material/Button'
-import '../styles/navbar.css'
+import '../styles/components/navbar.css'
 
-const LowerNavbar = () => {
+const LowerNavbar = (): JSX.Element => {
   return (
     <div className="lowerNavbar">
       <Button
-        color="primary"
-        borderColor="primary"
         sx={{
           color: '#000',
           background: '#fff',
@@ -24,9 +21,6 @@ const LowerNavbar = () => {
         Automotive
       </Button>
       <Button
-        variant="outlined"
-        color="primary"
-        borderColor="primary"
         sx={{
           color: '#000',
           background: '#fff',
@@ -43,9 +37,6 @@ const LowerNavbar = () => {
         Electronics
       </Button>
       <Button
-        variant="outlined"
-        color="primary"
-        borderColor="primary"
         sx={{
           color: '#000',
           background: '#fff',
@@ -62,9 +53,6 @@ const LowerNavbar = () => {
         Office furniture
       </Button>
       <Button
-        variant="outlined"
-        color="primary"
-        borderColor="primary"
         sx={{
           color: '#000',
           background: '#fff',
@@ -81,9 +69,6 @@ const LowerNavbar = () => {
         White goods
       </Button>
       <Button
-        variant="outlined"
-        color="primary"
-        borderColor="primary"
         sx={{
           color: '#000',
           background: '#fff',

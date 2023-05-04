@@ -1,8 +1,13 @@
-import PropTypes from 'prop-types'
 import { Card, CardMedia, CardContent, Typography } from '@mui/material'
-import '../styles/home.css'
+import '../styles/page/home.css'
 
-const OfferShortcut = ({ imageUrl, title, price }) => {
+interface OfferShortcutProps {
+  imageUrl: string
+  title: string
+  price: string
+}
+
+const OfferShortcut = ({ imageUrl, title, price }: OfferShortcutProps) => {
   return (
     <Card
       sx={{
@@ -32,12 +37,6 @@ const OfferShortcut = ({ imageUrl, title, price }) => {
       </CardContent>
     </Card>
   )
-}
-
-OfferShortcut.propTypes = {
-  imageUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
 }
 
 export default OfferShortcut

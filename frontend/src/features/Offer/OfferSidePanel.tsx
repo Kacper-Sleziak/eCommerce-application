@@ -3,7 +3,7 @@ import CircleIcon from '@mui/icons-material/Circle'
 import PlaceIcon from '@mui/icons-material/Place'
 import QuantityControl from './PlusMinus'
 
-const OfferSidePanel = () => {
+const OfferSidePanel: React.FC = () => {
   return (
     <Card
       sx={{
@@ -13,18 +13,18 @@ const OfferSidePanel = () => {
         marginLeft: '1rem',
       }}
     >
-      <Typography variant="h4" fontWeight="600">
+      <Typography variant="h4" fontWeight={600}>
         Price: 35 000zł
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', margin: '0.5rem 0' }}>
-        <Typography variant="h5" fontWeight="500">
+        <Typography variant="h5" fontWeight={500}>
           2006
         </Typography>
         <Box
           component={CircleIcon}
           sx={{ color: '#000', ml: 1, mr: 1, fontSize: 10 }}
         />
-        <Typography variant="h5" fontWeight="500">
+        <Typography variant="h5" fontWeight={500}>
           Disel
         </Typography>
       </Box>
@@ -39,7 +39,7 @@ const OfferSidePanel = () => {
           flexWrap: 'wrap',
         }}
       >
-        <Typography variant="h5" fontWeight="600">
+        <Typography variant="h5" fontWeight={600}>
           Seller: xxx
         </Typography>
         <div
@@ -103,7 +103,7 @@ const OfferSidePanel = () => {
         </div>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <PlaceIcon />
-          <Typography variant="h6" fontWeight="600">
+          <Typography variant="h6" fontWeight={600}>
             Wrocław, Lower Silesia
           </Typography>
         </Box>
@@ -136,7 +136,7 @@ const OfferSidePanel = () => {
         >
           quantity:{' '}
         </Typography>
-        <QuantityControl />
+        <QuantityControl initialQuantity={1} />
         <Button
           sx={{
             width: '173px',
