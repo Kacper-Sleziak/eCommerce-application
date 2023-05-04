@@ -13,3 +13,7 @@
 .offers > div {
   margin: 0.5rem 0;
 }
+
+.MuiInputBase-root {
+  border-radius: 30px !important;
+}

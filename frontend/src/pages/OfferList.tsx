@@ -1,8 +1,18 @@
 import { Card, Divider, Typography } from '@mui/material'
-// import CheckboxCategories from '../components/Checkbox'
+import CheckboxCategories from '../features/OfferList/Checkbox'
 import Offer from '../features/OfferList/Offer'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
+
+const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
+const localisationList = [
+  { title: 'Wrocław' },
+  { title: 'Warsaw' },
+  { title: 'Cracow' },
+]
+const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
+const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
+const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
   return (
@@ -54,6 +64,29 @@ const OfferList: React.FC = () => {
             Filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              padding: 20,
+              height: '450px',
+              width: '300px',
+            }}
+          >
+            <CheckboxCategories categories={brandList} filterlabel="Brand" />
+            <CheckboxCategories categories={yearList} filterlabel="Year" />
+            <CheckboxCategories categories={colorList} filterlabel="Color" />
+            <CheckboxCategories
+              categories={categoryList}
+              filterlabel="Category"
+            />
+            <CheckboxCategories
+              categories={localisationList}
+              filterlabel="Localisation"
+            />
+          </div>
         </Card>
       </div>
       <div className="offers">
