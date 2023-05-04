@@ -5,8 +5,8 @@ import {
   selectPreferencesInfo,
   updateUserPreferences,
   Theme,
-} from '../store/userData/UserDataSlice'
-import { useGetRandomJokeMutation } from '../store/userData/UserDataApi'
+} from '../store/slices/UserDataSlice'
+import { useGetRandomJokeMutation } from '../store/services/UserDataApi'
 
 const ExampleDispatchButton = () => {
   const dispatch = useDispatch()
