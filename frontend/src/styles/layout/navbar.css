@@ -1,0 +1,27 @@
+.logoIcon {
+  height: 100px;
+  width: 100px;
+  display: table-cell;
+  background: #000000;
+}
+
+.logoText {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 10px;
+  color: #000000;
+}
+
+.logo {
+  display: table;
+}
+
+.upperNavbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upperNavbar {
+  width: 95vw;
+}

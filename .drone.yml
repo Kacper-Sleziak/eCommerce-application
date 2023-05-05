@@ -3,88 +3,85 @@ type: docker
 name: default
 
 steps:
-- name: restore-cache
-  image: drillster/drone-volume-cache
-  settings:
-    restore: true
-    mount:
-      - ./frontend/node_modules
-  volumes:
-  - name: cache
-    path: /cache
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./frontend/node_modules
+    volumes:
+      - name: cache
+        path: /cache
 
+  - name: install
+    image: node:19-alpine
+    commands:
+      - cd frontend
+      - yarn install
+      - echo "install done"
 
+  # - name: test
+  #   image: mcr.microsoft.com/playwright:v1.33.0-jammy
+  #   commands:
+  #   - cd frontend
+  #   - npx playwright test
+  #   - echo "test done"
 
-- name: install
-  image: node:19-alpine 
-  commands:
-    - cd frontend
-    - yarn install --frozen-lockfile
-    - echo "install done"
+  - name: lint
+    image: node:19-alpine
+    commands:
+      - cd frontend
+      - yarn lint
+      - echo "lint done"
 
-# - name: test
-#   image: mcr.microsoft.com/playwright:v1.33.0-jammy
-#   commands:
-#   - cd frontend
-#   - npx playwright test
-#   - echo "test done"
+  - name: build
+    image: docker:dind
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
 
-- name: lint
-  image: node:19-alpine 
-  commands:
-    - cd frontend
-    - yarn lint
-    - echo "lint done"
+    commands:
+      - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
+      - echo "build done"
 
-- name: build
-  image: docker:dind 
-  volumes:
-  - name: docker_sock
-    path: /var/run/docker.sock
+  - name: push
+    image: docker:dind
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
 
-  commands:
-    - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
-    - echo "build done"
+    environment:
+      USER:
+        from_secret: user
+      PAT:
+        from_secret: pat
 
-- name: push
-  image: docker:dind
-  volumes:  
-  - name: docker_sock
-    path: /var/run/docker.sock
-  
-  environment:
-    USER:
-      from_secret: user
-    PAT:
-      from_secret: pat
+    when:
+      event:
+        - push
+        - pull_request
+      branch:
+        - develop
 
-  when:
-    event:
-    - push
-    - pull_request
-    branch:
-    - develop
+    commands:
+      - echo $PAT | docker login ghcr.io -u $USER --password-stdin
+      - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
 
-  commands:
-    - echo $PAT | docker login ghcr.io -u $USER --password-stdin
-    - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
-
-
-- name: rebuild-cache
-  image: drillster/drone-volume-cache
-  settings:
-    rebuild: true
-    mount:
-      - ./frontend/node_modules
-  volumes:
-  - name: cache
-    path: /cache
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./frontend/node_modules
+    volumes:
+      - name: cache
+        path: /cache
 
 volumes:
   - name: cache
     host:
       path: /tmp/cache
-  
+
   - name: docker_sock
     host:
       path: /var/run/docker.sock
