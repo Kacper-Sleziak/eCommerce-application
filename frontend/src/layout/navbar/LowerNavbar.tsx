@@ -66,7 +66,7 @@ const LowerNavbar = (): JSX.Element => {
           },
         }}
       >
-        White goods
+        Home appliances
       </Button>
       <Button
         sx={{
