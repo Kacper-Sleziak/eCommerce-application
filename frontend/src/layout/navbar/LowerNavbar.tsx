@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import '../styles/components/navbar.css'
+import '../../styles/layout/navbar.css'
 
 const LowerNavbar = (): JSX.Element => {
   return (

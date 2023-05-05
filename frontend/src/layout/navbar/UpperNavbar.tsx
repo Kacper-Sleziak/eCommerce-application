@@ -4,8 +4,8 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import InputSearchBar from './InputMui'
-import bubbles from '../imgs/bubbles.png'
-import '../styles/components/navbar.css'
+import bubbles from '../../imgs/bubbles.png'
+import '../../styles/layout/navbar.css'
 
 const UpperNavbar: React.FC = () => {
   return (
