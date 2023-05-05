@@ -3,8 +3,8 @@ import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import Footer from '../layout/footer/Footer'
 import Home from '../pages/Home'
-// import OfferList from '../pages/OfferList'
-// import Offer from '../pages/Offer'
+import OfferList from '../pages/OfferList'
+import Offer from '../pages/Offer'
 import Navbar from '../layout/navbar/Navbar'
 import Profile from '../pages/Profile'
 import AuthRoute from './protection_factors/ProtectedRoute'
@@ -36,6 +36,8 @@ const RouterRoot = () => {
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/offers" element={<OfferList />} />
+              <Route path="/offerdetails" element={<Offer />} />
               <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>

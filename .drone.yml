@@ -17,7 +17,7 @@ steps:
     image: node:19-alpine
     commands:
       - cd frontend
-      - yarn install
+      - yarn install --frozen-lockfile
       - echo "install done"
 
   # - name: test
