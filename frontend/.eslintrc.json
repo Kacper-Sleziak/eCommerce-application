@@ -43,15 +43,6 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": true,
-        "allowTypedFunctionExpressions": true,
-        "allowHigherOrderFunctions": true,
-        "allowConciseArrowFunctionExpressionsStartingWithVoid": true
-      }
-    ],
     "@typescript-eslint/ban-ts-comment": "off",
     "react/jsx-filename-extension": [
       2,
