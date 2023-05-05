@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card, CardContent, Typography } from '@mui/material'
-import '../styles/page/home.css'
+import '../../styles/pages/home.css'
 
 interface TabCardProps {
   to: string

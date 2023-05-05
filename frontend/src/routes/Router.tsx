@@ -2,8 +2,8 @@ import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import Footer from '../layout/footer/Footer'
-// import Home from '../pages/Home'
-import OfferList from '../pages/OfferList'
+import Home from '../pages/Home'
+// import OfferList from '../pages/OfferList'
 // import Offer from '../pages/Offer'
 import Navbar from '../layout/navbar/Navbar'
 import Profile from '../pages/Profile'
@@ -35,7 +35,7 @@ const RouterRoot = () => {
         <Box style={{ width: '100%', marginBottom: '1rem' }}>
           <Router>
             <Routes>
-              <Route index element={<OfferList />} />
+              <Route index element={<Home />} />
               <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>

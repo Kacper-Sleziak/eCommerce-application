@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, Typography } from '@mui/material'
-import '../styles/page/home.css'
+import '../../styles/pages/home.css'
 
 interface OfferShortcutProps {
   imageUrl: string

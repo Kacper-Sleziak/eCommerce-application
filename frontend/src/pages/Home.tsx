@@ -92,7 +92,7 @@ const Home: React.FC = () => {
           />
           <TabCard
             to="https://google.pl"
-            text="White goods"
+            text="Home appliances"
             backgroundColor="#fca311"
             startIcon={KitchenIcon}
           />
