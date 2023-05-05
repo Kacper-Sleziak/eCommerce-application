@@ -35,7 +35,7 @@ const RouterRoot = () => {
         <Box style={{ width: '100%', marginBottom: '1rem' }}>
           <Router>
             <Routes>
-              <Route index element={<Home />} />
+              <Route path="/" element={<Home />} />
               <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
