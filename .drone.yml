@@ -3,10 +3,38 @@ type: docker
 name: default
 
 steps:
-- name: lint
-  image: docker:dind 
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  settings:
+    restore: true
+    mount:
+      - ./frontend/node_modules
+  volumes:
+  - name: cache
+    path: /cache
+
+
+
+- name: install
+  image: node:19-alpine 
   commands:
-    - echo "lint to do"
+    - cd frontend
+    - yarn install --frozen-lockfile
+    - echo "install done"
+
+# - name: test
+#   image: mcr.microsoft.com/playwright:v1.33.0-jammy
+#   commands:
+#   - cd frontend
+#   - npx playwright test
+#   - echo "test done"
+
+- name: lint
+  image: node:19-alpine 
+  commands:
+    - cd frontend
+    - yarn lint
+    - echo "lint done"
 
 - name: build
   image: docker:dind 
@@ -17,11 +45,6 @@ steps:
   commands:
     - docker build -t ghcr.io/oldzii/frontend_${DRONE_BRANCH} ./frontend/. --file ./frontend/docker/production/Dockerfile
     - echo "build done"
-
-- name: test
-  image: docker:dind
-  commands:
-  - echo "testing to do"
 
 - name: push
   image: docker:dind
@@ -47,7 +70,21 @@ steps:
     - docker push ghcr.io/oldzii/frontend_${DRONE_BRANCH}
 
 
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  settings:
+    rebuild: true
+    mount:
+      - ./frontend/node_modules
+  volumes:
+  - name: cache
+    path: /cache
+
 volumes:
+  - name: cache
+    host:
+      path: /tmp/cache
+  
   - name: docker_sock
     host:
       path: /var/run/docker.sock

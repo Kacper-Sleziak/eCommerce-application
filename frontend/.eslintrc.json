@@ -35,6 +35,7 @@
     }
   },
   "rules": {
+    "import/prefer-default-export": "off",
     "react/function-component-definition": [
       "error",
       {
@@ -51,10 +52,18 @@
         "allowConciseArrowFunctionExpressionsStartingWithVoid": true
       }
     ],
+    "@typescript-eslint/ban-ts-comment": "off",
     "react/jsx-filename-extension": [
       2,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
     ],
+    "no-param-reassign": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
     "@typescript-eslint/dot-notation": "error",
     "quotes": ["error"],
     "import/extensions": [

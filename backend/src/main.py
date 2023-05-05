@@ -1,32 +1,31 @@
-import logging
-import time
-import traceback
-from threading import Thread
-
-import uvicorn
 from fastapi import FastAPI
-from api.main_api import MainApi
+
+from app.product.service import ProductService
+
+app = FastAPI()
+product_service = ProductService()
 
 
-def run_fastapi_thread(api: FastAPI) -> None:
-    while True:
-        try:
-            time.sleep(1)
-            uvicorn.run(api, host="0.0.0.0", port=9999)
-        except Exception:
-            logging.critical("Fast API exception %s", traceback.format_exc())
+@app.get("/")
+async def welcome() -> dict:
+    return {"message": "Hello World!"}
 
 
-def run_fast_api() -> None:
-    api = MainApi()
-
-    fast_api_thread = Thread(
-        name="Fast API thread", target=run_fastapi_thread, args=(api.backend_api,)
-    )
-
-    fast_api_thread.start()
+@app.get("/products/{query}")
+def get_products_filter(query: str) -> dict:
+    return product_service.get_products_filter(query)
 
 
-if __name__ == "__main__":
-    run_fast_api()
-    print("Successfully running")
+@app.get("/products/")
+def get_products_all() -> dict:
+    return product_service.get_products_all()
+
+
+@app.get("/product/{product_id}")
+def get_product_id(product_id: int) -> dict:
+    return product_service.get_product(product_id)
+
+
+@app.get("/categories")
+def get_categories() -> dict:
+    return product_service.get_categories()

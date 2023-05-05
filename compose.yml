@@ -11,12 +11,27 @@ services:
       - ./frontend/src:/app/src
     ports:
       - 3000:3000
+  db:
+    container_name: db
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE=leasing_shop
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=leasing_shop
+    volumes:
+      - ./backend/docker/db-data/:/var/lib/postgresql/data/
+      - ./backend/docker/dump.sql:/docker-entrypoint-initdb.d/init.sql
   backend:
     container_name: backend
     build:
       context: ./backend/.
       dockerfile: ./docker/Dockerfile
     volumes:
-      - ./backend/src:/backend/src
+      - ./backend/src:/backend
     ports:
-      - 9999:9999
+      - 8000:8000

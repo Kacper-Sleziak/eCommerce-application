@@ -1,3 +1,4 @@
+[![Build Status](https://vps-7bcd8bcd.vps.ovh.net:8000/api/badges/Kacper-Sleziak/eCommerce-application/status.svg)](https://vps-7bcd8bcd.vps.ovh.net:8000/Kacper-Sleziak/eCommerce-application)
 
 ## DEVELOPMENT ENVIRONMENT
 
