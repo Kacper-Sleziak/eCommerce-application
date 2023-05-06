@@ -1,3 +1,4 @@
+import os
 from app.models import Product, Category, Photo
 
 
@@ -14,7 +15,7 @@ def query_to_dict(query: str) -> dict:
     return result
 
 
-def product_to_json(product: Product, categories: dict, photo: str) -> dict:
+def product_to_json(product: Product, categories: dict, photos: dict) -> dict:
     result = dict()
     result["id"] = product.product_id
     result["seller"] = product.seller_id
@@ -23,7 +24,7 @@ def product_to_json(product: Product, categories: dict, photo: str) -> dict:
     result["quantity"] = product.quantity
     result["total_price"] = product.total_price
     result["sale_type"] = product.sale_type
-    result["photo"] = photo
+    result["photos"] = photos
     result["categories"] = categories
     return result
 
@@ -36,7 +37,11 @@ def category_to_json(category: Category) -> dict:
 
 
 def photo_to_json(photo: Photo) -> dict:
+    # path
+    with open(photo.photo_url, "rb") as buffer:
+        as_bytes = buffer.read()
     result = dict()
     result["id"] = photo.photo_id
     result["url"] = photo.photo_url
+    result["byte_code"] = as_bytes.hex()
     return result
