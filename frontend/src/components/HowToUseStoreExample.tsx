@@ -7,6 +7,7 @@ import {
   Theme,
 } from '../store/slices/UserDataSlice'
 import { useGetRandomJokeMutation } from '../store/services/UserDataApi'
+import { useEffect } from 'react'
 
 const ExampleDispatchButton = () => {
   const dispatch = useDispatch()
@@ -25,6 +26,9 @@ const ExampleDispatchButton = () => {
 const GetAJokeButton = () => {
   const [getJoke, getJokeResult] = useGetRandomJokeMutation()
 
+  useEffect(() => {
+    console.log({ getJokeResult })
+  }, [])
   const handleClick = () => {
     getJoke({})
   }

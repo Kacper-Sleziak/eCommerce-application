@@ -1,8 +1,10 @@
 import { Card, Divider, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import Offer from '../features/OfferList/Offer'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
+import { useGetOfferListQuery } from '../store/services/OfferListDataApi'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
 const localisationList = [
@@ -15,6 +17,12 @@ const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
+  const { data, error, isLoading } = useGetOfferListQuery({})
+
+  useEffect(() => {
+    console.log(data)
+  })
+
   return (
     <div className="offerListClass">
       <div>
