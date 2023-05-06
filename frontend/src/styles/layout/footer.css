@@ -1,0 +1,23 @@
+.footerNavbarShortcut {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-self: center;
+}
+
+.copywright {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer {
+  background-color: #ecebeb;
+  display: flex;
+  justify-content: space-evenly;
+  width: 98vw;
+}
+
+.rightFotter {
+  display: flex;
+  flex-direction: column;
+}
