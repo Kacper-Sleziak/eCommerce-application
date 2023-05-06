@@ -7,7 +7,7 @@ router = APIRouter(
     tags=["Users"],
     responses={404: {"description": "Not found"}},
 )
-user_service = UserService()
+category_service = UserService()
 
 @router.post("/register")
 def register_user(user: User) -> dict:
