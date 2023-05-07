@@ -35,13 +35,13 @@ services:
       - ./backend/src:/backend
     ports:
       - 8000:8000
-  ftp:
-    container_name: ftp
-    build:
-      context: ./ftp/.
-      dockerfile: ./docker/Dockerfile
+  pg_admin:
+    container_name: pg_admin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
     ports:
-      - 21:21
-      - 30000-30009:30000-30009
-    volumes:
-      - ./ftp/docker/data:/home/ftpuser
+      - "5050:80"
+    depends_on:
+      - db
