@@ -1,29 +1,29 @@
 from fastapi import APIRouter
-from app.user.service import UserService
-from app.user.model import User, UserUpdate
+from app.review.service import ReviewService
+from app.review.model import Review
 
 router = APIRouter(
-    prefix="/users",
-    tags=["Users"],
+    prefix="/reviews",
+    tags=["Reviews"],
     responses={404: {"description": "Not found"}},
 )
-category_service = UserService()
+review_service = ReviewService()
 
-@router.post("/register")
-def register_user(user: User) -> dict:
+@router.post("/")
+def create_review(review: Review) -> dict:
     #todo: call to service
-    return {"user_id": 1,
-            "role_id": 2,
-            "address_id": 1,
-            "username": "test",
-            "email": "test@tst.com"}
+    return {
+        "review_id": 1,
+        "seller_id": 1,
+        "reviewer_id": 1,
+        "review": 3,
+        "review_description": "test"
+    }
 
 
-@router.get("/login")
-def login_user(username: str, password: str) -> dict:
-    #todo: call to service
-    return {"user_id": 1}
-
+@router.get("/")
+def get_reviews_all() -> dict:
+    return {}
 
 @router.get("/logout")
 def logout_user() -> dict:
@@ -42,7 +42,7 @@ def get_user(user_id: int) -> dict:
 
 
 @router.put("/")
-def update_user(user: UserUpdate) -> dict:
+def update_user(user: Review) -> dict:
     #todo: call to service
     return {"user_id": 1,
             "role_id": 2,
