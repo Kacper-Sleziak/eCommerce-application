@@ -35,3 +35,13 @@ services:
       - ./backend/src:/backend
     ports:
       - 8000:8000
+  ftp:
+    container_name: ftp
+    build:
+      context: ./ftp/.
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 21:21
+      - 30000-30009:30000-30009
+    volumes:
+      - ./ftp/docker/data:/home/ftpuser

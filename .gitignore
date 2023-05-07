@@ -1,5 +1,6 @@
 #docker
 backend/docker/db-data
+ftp/docker/data
 
 # IDE
 .idea
