@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
 from app.product.service import ProductService
+from app.product.models import ProductCreate
+from typing import List
 
 router = APIRouter(
     prefix="/products",
@@ -21,3 +23,8 @@ def get_products_all() -> dict:
 @router.get("/{product_id}")
 def get_product_id(product_id: int) -> dict:
     return product_service.get_product(product_id)
+
+
+@router.post("/")
+def create_product(product: ProductCreate) -> dict:
+    return product_service.create_product(product)
