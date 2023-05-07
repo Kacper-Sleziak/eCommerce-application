@@ -123,8 +123,7 @@ INSERT INTO product(seller_id, name, product_description, quantity, total_price,
 
 INSERT INTO question_answer(product_id, question, answer) VALUES (4, 'Is it red?', 'It is white');
 
-INSERT INTO photo(photo_url, product_id) VALUES 
-('/backend/static/photos/Office chair/chair.jpg', 1), ('/backend/static/photos/Volvo V4/volvo.webp', 2), ('/backend/static/photos/Tesla T100/teslunia.webp', 3), ('/backend/static/photos/Bentley B1/bentlus.jpg', 4);
+INSERT INTO photo(photo_url, product_id) VALUES ('/backend/static/48/6ab79ff3-2eb8-46e7-b6e8-0a29fc3396a2.jpg', 1), ('/backend/static/48/87bba05b-cee2-47fa-8d7f-f9aeb91b0b26.jpg', 2), ('/backend/static/48/44ecbfe6-120a-45a8-b8dc-879e3ace18a5.jpg', 3), ('/backend/static/48/44ecbfe6-120a-45a8-b8dc-879e3ace18a5', 4);
 
 INSERT INTO product_category(category_id, product_id) VALUES (3, 1), (1, 2), (1, 3), (1, 4);
 

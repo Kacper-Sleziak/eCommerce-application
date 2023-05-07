@@ -37,11 +37,7 @@ def category_to_json(category: Category) -> dict:
 
 
 def photo_to_json(photo: Photo) -> dict:
-    # path
-    with open(photo.photo_url, "rb") as buffer:
-        as_bytes = buffer.read()
     result = dict()
     result["id"] = photo.photo_id
     result["url"] = photo.photo_url
-    result["byte_code"] = as_bytes.hex()
     return result
