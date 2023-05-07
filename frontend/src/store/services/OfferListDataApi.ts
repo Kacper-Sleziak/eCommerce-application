@@ -9,7 +9,7 @@ export const offerListDataApi = createApi({
 
   endpoints: (builder) => ({
     getOfferList: builder.query({
-      query: () => 'products',
+      query: (params) => `products?${params}`,
     }),
   }),
 })
