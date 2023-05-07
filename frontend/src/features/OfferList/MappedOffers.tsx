@@ -2,7 +2,7 @@ import { OfferInterface } from '../../types/offer'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { useSearchParams } from 'react-router-dom'
-import { searchParamsToStringQuery } from '../../utils/paramasConverter'
+import { searchParamsToStringQuery } from '../../utils/urls'
 
 const MappedOffers: React.FC = () => {
   let [searchParams, setSearchParams] = useSearchParams()

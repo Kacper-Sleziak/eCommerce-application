@@ -1,17 +1,16 @@
-export const addParamsToRequest = (
-  request: string,
+export const searchParamsToStringQuery = (
   searchParams: URLSearchParams,
 ): string => {
+  var searchParamsString = ''
+
   const params = new URLSearchParams(searchParams)
   const paramArray = Array.from(params)
 
-  var searchParamsString = ''
-  paramArray.forEach(([, value]) => {
-    searchParamsString += `${value}, `
+  paramArray.forEach(([key, value]) => {
+    searchParamsString += `${key}=${value}, `
   })
-
-  const fixedSearchParamsString = searchParamsString.slice(0, -1)
+  const fixedSearchParamsString = searchParamsString.slice(0, -2)
   console.log(fixedSearchParamsString)
 
-  return `${request}?${fixedSearchParamsString}`
+  return fixedSearchParamsString
 }
