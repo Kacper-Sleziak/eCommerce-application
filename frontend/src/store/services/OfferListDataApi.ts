@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { BACKEND_BASE_URL } from '../../config/backend'
+import { addParamsToRequest } from '../../utils/urls'
 
 export const offerListDataApi = createApi({
   reducerPath: 'offerListDataApi',
@@ -9,7 +10,7 @@ export const offerListDataApi = createApi({
 
   endpoints: (builder) => ({
     getOfferList: builder.query({
-      query: (params) => `products?${params}`,
+      query: (params) => `products`,
     }),
   }),
 })
