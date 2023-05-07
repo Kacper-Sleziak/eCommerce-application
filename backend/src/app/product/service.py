@@ -1,5 +1,4 @@
 import os
-import shutil
 from typing import List
 import uuid
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo
@@ -7,6 +6,7 @@ from app.utils import query_to_dict, product_to_json, category_to_json, photo_to
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_
 from app.product.models import ProductCreate
+from fastapi import UploadFile
 
 class ProductService:
 
@@ -84,40 +84,53 @@ class ProductService:
         photos = self.get_product_photos(product.product_id)
         return product_to_json(product, categories, photos)
     
-    def create_product(self, product: ProductCreate) -> dict:
+    async def create_product(self, product: ProductCreate, photos: List[UploadFile]) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            product_entity = Product(
-                seller_id=product.seller_id,
-                name=product.name,
-                product_description=product.description,
-                quantity=product.quantity,
-                total_price=product.total_price,
-                sale_type=product.sale_type,
+            product_id = self.create_product_info(session, product)
+            self.create_product_categories(session, product_id, product.categories)
+            await self.create_product_photos(session, product_id, photos)
+        Session.commit()
+        return self.get_product(product_id)
+    
+    def create_product_info(self, session, product: ProductCreate) -> int:
+        new_product = Product(
+            seller_id=product.seller_id,
+            name=product.name,
+            product_description=product.description,
+            quantity=product.quantity,
+            total_price=product.total_price,
+            sale_type=product.sale_type
+        )
+        session.add(new_product)
+        session.commit()
+        return new_product.product_id
+
+    def create_product_categories(self, session, product_id: int, categories: List[int]) -> None:
+        for category_id in categories:
+            new_product_category = ProductCategory(
+                product_id=product_id,
+                category_id=category_id
             )
-            session.add(product_entity)
-            session.commit()
-            product_id = product_entity.product_id
-            for photo in product.photos:
-                if not os.path.exists("/backend/static/photos/" + product.name):
-                    os.makedirs("/backend/static/photos/" + product.name)
-                filename = str(uuid.uuid4()) + ".jpg"
-                with open("/backend/static/photos/" + product.name + "/" + filename, "wb") as buffer:
-                    as_bytes = bytes.fromhex(photo)
-                    buffer.write(as_bytes)
-                photo_entity = Photo(
-                    product_id=product_id,
-                    photo_url="/backend/static/photos/" + product.name + "/" + filename
-                )
-                session.add(photo_entity)
-            session.commit()
-            for category in product.categories:
-                product_category_entity = ProductCategory(
-                    product_id=product_id,
-                    category_id=category
-                )
-                session.add(product_category_entity)
-                session.commit()
-            result = self.get_product(product_id)
-        Session.remove()
-        return result
+            session.add(new_product_category)
+        session.commit()
+    
+    async def create_product_photos(self, session, product_id: int, photos: List[UploadFile]) -> None:
+        if not os.path.exists(f"/backend/static/{product_id}"):
+            os.mkdir(f"/backend/static/{product_id}")
+
+        for photo in photos:
+            photo_url = f"/backend/static/{product_id}/{uuid.uuid4()}.{photo.filename.split('.')[-1]}"
+            with open(photo_url, "wb") as image:
+                content = await photo.read()
+                image.write(content)
+                image.close()
+            new_photo = Photo(
+                product_id=product_id,
+                photo_url=photo_url
+            )
+            session.add(new_photo)
+        session.commit()
+
+            
+            

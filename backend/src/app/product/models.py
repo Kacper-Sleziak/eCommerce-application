@@ -9,4 +9,3 @@ class ProductCreate(BaseModel):
     total_price: float
     sale_type: str
     categories: List[int]
-    photos: List[str]
