@@ -25,6 +25,10 @@ const ExampleDispatchButton = () => {
 const GetAJokeButton = () => {
   const [getJoke, getJokeResult] = useGetRandomJokeMutation()
 
+  const handleClick = () => {
+    getJoke({})
+  }
+
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleClick}>
