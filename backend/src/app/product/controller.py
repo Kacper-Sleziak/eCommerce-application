@@ -42,7 +42,3 @@ async def create_product(seller_id: int,
                             sale_type=sale_type,
                             categories=categories)
     return await product_service.create_product(product, photos)
-
-@router.post("/uploadfiles/")
-async def create_upload_files(files: list[UploadFile]):
-    return {"filenames": [file.filename for file in files]}
