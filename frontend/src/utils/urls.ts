@@ -10,7 +10,5 @@ export const searchParamsToStringQuery = (
     searchParamsString += `${key}=${value}, `
   })
   const fixedSearchParamsString = searchParamsString.slice(0, -2)
-  console.log(fixedSearchParamsString)
-
   return fixedSearchParamsString
 }

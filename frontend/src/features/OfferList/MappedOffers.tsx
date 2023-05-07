@@ -1,13 +1,15 @@
-import { OfferInterface } from '../../types/offer'
+import { useSearchParams } from 'react-router-dom'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
-import { useSearchParams } from 'react-router-dom'
 import { searchParamsToStringQuery } from '../../utils/urls'
+import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
 
 const MappedOffers: React.FC = () => {
-  let [searchParams, setSearchParams] = useSearchParams()
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const paramsString = searchParamsToStringQuery(searchParams)
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const { data, error, isLoading } = useGetOfferListQuery({ paramsString })
 
   const returnOffers: () => any = () => {
@@ -15,23 +17,21 @@ const MappedOffers: React.FC = () => {
     if (!isLoading) {
       Object.keys(data).forEach((key) => {
         var offer = data[key]
-
         offers.push(
           <Offer
             key={key}
-            image="https://i.wpimg.pl/1280x/m.autokult.pl/fiat-126-maluch-1-9e6b06ce6f28d6.jpg"
+            image={getPhotoFromAPI(offer.photos)}
             title={offer.name}
             localization="Wrocław"
             parameters={offer.description}
-            price={`${offer.total_price}`}
+            price={offer.total_price}
             rating={4}
           />,
         )
       })
       return offers
-    } else {
-      return <h1>There are no offers to show</h1>
     }
+    return <h1>There are no offers to show</h1>
   }
 
   return <div>{returnOffers()}</div>
