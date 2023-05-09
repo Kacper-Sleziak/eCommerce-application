@@ -1,16 +1,16 @@
 version: "3.9"
 
 services:
-  # app:
-  #   container_name: frontend-dev
-  #   image: frontend-dev
-  #   build:
-  #     context: ./frontend/.
-  #     dockerfile: ./docker/development/Dockerfile
-  #   volumes:
-  #     - ./frontend/src:/app/src
-  #   ports:
-  #     - 3000:3000
+  app:
+    container_name: frontend-dev
+    image: frontend-dev
+    build:
+      context: ./frontend/.
+      dockerfile: ./docker/development/Dockerfile
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - 3000:3000
 
   db:
     container_name: db
@@ -36,14 +36,14 @@ services:
       - ./backend/src:/backend
     ports:
       - 9999:9999
-  # pg_admin:
-  #   container_name: pg_admin
-  #   image: dpage/pgadmin4
+  pg_admin:
+    container_name: pg_admin
+    image: dpage/pgadmin4
 
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
-  #     PGADMIN_DEFAULT_PASSWORD: postgres
-  #   ports:
-  #     - "5050:80"
-  #   depends_on:
-  #     - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
