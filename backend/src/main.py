@@ -3,12 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.router import router as api_router
 
 app = FastAPI()
-origins = ["http://146.59.95.181:8080",
-           "http://146.59.95.181:8080", 
-           "https://146.59.95.181:8081",
-           "https://vps-7bcd8bcd.vps.ovh.net:8081" 
-           ]
 
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
