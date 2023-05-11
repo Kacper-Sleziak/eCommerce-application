@@ -11,8 +11,10 @@ import { OfferInterface } from '../../types/offer'
 import { bool } from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectOfferFilters } from '../../store/slices/OfferFiltersSlice'
+import { MappedOffersCallInterface } from './utils/mappedOffersCallInterface'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
-const MappedOffers = () => {
+const MappedOffers = forwardRef<MappedOffersCallInterface>((props, ref) => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [searchParams, setSearchParams] = useSearchParams()
   const paramsString = searchParamsToStringQuery(searchParams)
@@ -20,6 +22,12 @@ const MappedOffers = () => {
   const { data, error, isLoading } = useGetOfferListQuery({ paramsString })
 
   var storeFilters = useSelector(selectOfferFilters)
+
+  useImperativeHandle(ref, () => ({
+    updateUrlParams() {
+      setSearchParams(storeFilters)
+    },
+  }))
 
   const returnOffers: () => JSX.Element = () => {
     if (isLoading) {
@@ -57,6 +65,6 @@ const MappedOffers = () => {
   }
 
   return <>{returnOffers()}</>
-}
+})
 
 export default MappedOffers

@@ -1,18 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable */
 import Checkbox from '@mui/material/Checkbox'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import React, { forwardRef, useRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { FilterRefInterface } from './utils/filterCallInterface'
-import {
-  updateFilters,
-  selectOfferFilters,
-} from '../../store/slices/OfferFiltersSlice'
-import { DataSaverOff } from '@mui/icons-material'
+import { updateFilters } from '../../store/slices/OfferFiltersSlice'
 
 interface Category {
   title: string
@@ -29,11 +25,9 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />
 const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
   (props: Filter, ref) => {
     const { categories, filterlabel } = props
-
     const [value, setValue] = useState<Category[]>([])
 
     const dispatch = useDispatch()
-    const filtersInfo = useSelector(selectOfferFilters)
 
     useImperativeHandle(ref, () => ({
       pushFiltersToStore() {
@@ -42,7 +36,6 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
           data.push(filter.title)
         })
         dispatch(updateFilters({ filterName: filterlabel, data: data }))
-        console.log(filtersInfo)
       },
     }))
 
