@@ -1,3 +1,3 @@
-export interface IAlert {
-  getAlert(): void
+export interface FilterRefInterface {
+  pushFiltersToStore(): void
 }

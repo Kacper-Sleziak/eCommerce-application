@@ -6,7 +6,7 @@ import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
 import { useRef } from 'react'
-import { IAlert } from '../features/OfferList/utils/filterCallInterface'
+import { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
 const localisationList = [
@@ -19,12 +19,24 @@ const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
-  const brandFilterRef = useRef<IAlert>(null)
+  const brandFilterRef = useRef<FilterRefInterface>(null)
+  const colorFilterRef = useRef<FilterRefInterface>(null)
+  const yearFilterRef = useRef<FilterRefInterface>(null)
+  const categoryFilterRef = useRef<FilterRefInterface>(null)
+
+  const refArray = [
+    brandFilterRef,
+    colorFilterRef,
+    yearFilterRef,
+    categoryFilterRef,
+  ]
 
   const filterOnClick = () => {
-    if (brandFilterRef.current !== null) {
-      brandFilterRef.current.getAlert()
-    }
+    refArray.map((ref) => {
+      if (ref.current !== null) {
+        ref.current.pushFiltersToStore()
+      }
+    })
   }
 
   return (
@@ -89,29 +101,25 @@ const OfferList: React.FC = () => {
           >
             <CheckboxCategories
               categories={brandList}
-              filterlabel="Brand"
+              filterlabel="brand"
               ref={brandFilterRef}
             />
-            {/* <CheckboxCategories
+            <CheckboxCategories
               categories={yearList}
-              filterlabel="Year"
-              ref={childFunctionRef}
+              filterlabel="year"
+              ref={yearFilterRef}
             />
             <CheckboxCategories
               categories={colorList}
-              filterlabel="Color"
-              ref={childFunctionRef}
+              filterlabel="color"
+              ref={colorFilterRef}
             />
             <CheckboxCategories
               categories={categoryList}
-              filterlabel="Category"
-              ref={childFunctionRef}
+              filterlabel="category"
+              ref={categoryFilterRef}
             />
-            <CheckboxCategories
-              categories={localisationList}
-              filterlabel="Localisation"
-              ref={childFunctionRef}
-            /> */}
+
             <button type="button" onClick={filterOnClick}>
               Filter
             </button>
