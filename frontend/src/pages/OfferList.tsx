@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 import { MappedOffersCallInterface } from '../features/OfferList/utils/mappedOffersCallInterface'
 import { selectOfferFilters } from '../store/slices/OfferFiltersSlice'
+import store from '../store/store'
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
 const localisationList = [
   { title: 'Wrocław' },
@@ -32,8 +33,8 @@ const OfferList: React.FC = () => {
     yearFilterRef,
     categoryFilterRef,
   ]
-
-  const mappedOffersRef = useRef<MappedOffersCallInterface>(null)
+  var storeFilters = useSelector(selectOfferFilters)
+  var storeFiltersProp: string[] = []
 
   const filterOnClick = () => {
     refArray.map((ref) => {
@@ -41,10 +42,6 @@ const OfferList: React.FC = () => {
         ref.current.pushFiltersToStore()
       }
     })
-    
-    if (mappedOffersRef.current){
-      mappedOffersRef.current.updateUrlParams()
-    }
   }
 
   return (
@@ -136,7 +133,7 @@ const OfferList: React.FC = () => {
       </div>
       <div className="offers">
         <Typography variant="h3">Offers</Typography>
-        <MappedOffers ref={mappedOffersRef} />
+        <MappedOffers />
       </div>
     </div>
   )

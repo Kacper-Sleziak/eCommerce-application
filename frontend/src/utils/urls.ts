@@ -7,8 +7,9 @@ export const searchParamsToStringQuery = (
   const paramArray = Array.from(params)
 
   paramArray.forEach(([key, value]) => {
-    searchParamsString += `${key}=${value}, `
+    value = value.replace(/ /g, '_')
+    searchParamsString += `${key}=${value}&`
   })
-  const fixedSearchParamsString = searchParamsString.slice(0, -2)
+  const fixedSearchParamsString = searchParamsString.slice(0, -1)
   return fixedSearchParamsString
 }

@@ -2,32 +2,27 @@
 
 import { useSearchParams } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
-import Box from '@mui/material/Box'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
 import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
-import { OfferInterface } from '../../types/offer'
-import { bool } from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectOfferFilters } from '../../store/slices/OfferFiltersSlice'
-import { MappedOffersCallInterface } from './utils/mappedOffersCallInterface'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { useEffect } from 'react'
 
-const MappedOffers = forwardRef<MappedOffersCallInterface>((props, ref) => {
+const MappedOffers = () => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [searchParams, setSearchParams] = useSearchParams()
   const paramsString = searchParamsToStringQuery(searchParams)
 
-  const { data, error, isLoading } = useGetOfferListQuery({ paramsString })
+  const { data, error, isLoading } = useGetOfferListQuery(paramsString)
 
   var storeFilters = useSelector(selectOfferFilters)
 
-  useImperativeHandle(ref, () => ({
-    updateUrlParams() {
-      setSearchParams(storeFilters)
-    },
-  }))
+  useEffect(() => {
+    var storeFiltersVar = storeFilters
+    setSearchParams(storeFiltersVar)
+  }, [storeFilters])
 
   const returnOffers: () => JSX.Element = () => {
     if (isLoading) {
@@ -65,6 +60,6 @@ const MappedOffers = forwardRef<MappedOffersCallInterface>((props, ref) => {
   }
 
   return <>{returnOffers()}</>
-})
+}
 
 export default MappedOffers
