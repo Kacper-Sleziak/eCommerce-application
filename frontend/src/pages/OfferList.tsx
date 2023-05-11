@@ -1,8 +1,12 @@
+/* eslint-disable */
+
 import { Card, Divider, Typography } from '@mui/material'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
+import { useRef } from 'react'
+import { IAlert } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
 const localisationList = [
@@ -15,6 +19,14 @@ const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
+  const brandFilterRef = useRef<IAlert>(null)
+
+  const filterOnClick = () => {
+    if (brandFilterRef.current !== null) {
+      brandFilterRef.current.getAlert()
+    }
+  }
+
   return (
     <div className="offerListClass">
       <div>
@@ -75,17 +87,34 @@ const OfferList: React.FC = () => {
               width: '300px',
             }}
           >
-            <CheckboxCategories categories={brandList} filterlabel="Brand" />
-            <CheckboxCategories categories={yearList} filterlabel="Year" />
-            <CheckboxCategories categories={colorList} filterlabel="Color" />
+            <CheckboxCategories
+              categories={brandList}
+              filterlabel="Brand"
+              ref={brandFilterRef}
+            />
+            {/* <CheckboxCategories
+              categories={yearList}
+              filterlabel="Year"
+              ref={childFunctionRef}
+            />
+            <CheckboxCategories
+              categories={colorList}
+              filterlabel="Color"
+              ref={childFunctionRef}
+            />
             <CheckboxCategories
               categories={categoryList}
               filterlabel="Category"
+              ref={childFunctionRef}
             />
             <CheckboxCategories
               categories={localisationList}
               filterlabel="Localisation"
-            />
+              ref={childFunctionRef}
+            /> */}
+            <button type="button" onClick={filterOnClick}>
+              Filter
+            </button>
           </div>
         </Card>
       </div>

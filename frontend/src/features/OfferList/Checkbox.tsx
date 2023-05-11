@@ -1,10 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable */
 import Checkbox from '@mui/material/Checkbox'
+import { useDispatch, useSelector } from 'react-redux'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import React from 'react'
+import React, { forwardRef, useRef, useImperativeHandle } from 'react'
+import { IAlert } from './utils/filterCallInterface'
+import {
+  updateFilters,
+  selectOfferFilters,
+} from '../../store/slices/OfferFiltersSlice'
 
 interface Category {
   title: string
@@ -18,8 +25,18 @@ interface Filter {
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
-const CheckboxCategories = ({ categories, filterlabel }: Filter) => {
+const CheckboxCategories = forwardRef<IAlert, Filter>((props: Filter, ref) => {
+  const { categories, filterlabel } = props
   const [value, setValue] = React.useState<Category[]>([])
+  const dispatch = useDispatch()
+  const filtersInfo = useSelector(selectOfferFilters)
+
+  useImperativeHandle(ref, () => ({
+    getAlert() {
+      dispatch(updateFilters({ filterName: 'brand', data: ['bmw'] }))
+
+    },
+  }))
 
   return (
     <Autocomplete
@@ -30,7 +47,7 @@ const CheckboxCategories = ({ categories, filterlabel }: Filter) => {
       }}
       multiple
       id="checkboxes-tags-demo"
-      options={categories}
+      options={props.categories}
       disableCloseOnSelect
       getOptionLabel={(option) => option.title}
       onChange={(
@@ -62,6 +79,6 @@ const CheckboxCategories = ({ categories, filterlabel }: Filter) => {
       )}
     />
   )
-}
+})
 
 export default CheckboxCategories
