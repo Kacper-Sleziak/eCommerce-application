@@ -1,20 +1,19 @@
-from app.models import CreateEngine, Category
-from app.utils import category_to_json
+from app.models import CreateEngine, Product
 from sqlalchemy.dialects import postgresql
 
 
-class CategoryService:
+class BrandService:
     def __init__(self):
         self.engine = CreateEngine()
 
-    def get_categories(self) -> dict:
+    def get_brands(self) -> dict:
         result = dict()
         Session = self.engine.create_session()
         count = 0
         with Session() as session:
-            categories = session.query(Category).all()
-            for category in categories:
-                result[count] = category_to_json(category)
+            brands = session.query(Product.brand).distinct(Product.brand)
+            for brand in brands:
+                result[count] = brand
                 count += 1
         Session.remove()
         return result
