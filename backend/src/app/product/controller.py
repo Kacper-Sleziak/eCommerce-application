@@ -1,7 +1,8 @@
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, UploadFile, Query
 from app.product.service import ProductService
 from app.product.models import ProductCreate
-from typing import List
+from typing import List, Annotated
+from app.product.utils import ProductParams
 
 router = APIRouter(
     prefix="/products",
@@ -10,9 +11,32 @@ router = APIRouter(
 )
 product_service = ProductService()
 
-@router.get("")
-def get_products_filter(params: str = "") -> dict:
-    if params != "":
+
+@router.get("/")
+def get_products_filter(search: str | None = None,
+                        quantity: int | None = None,
+                        category: Annotated[list[int] | None, Query()] = None,
+                        brand: Annotated[list[str] | None, Query()] = None,
+                        color: Annotated[list[str] | None, Query()] = None,
+                        price: int | None = None,
+                        order: str | None = None,
+                        order_by: str | None = None,
+                        page: int | None = None,
+                        limit: int | None = None) -> dict:
+
+    params = ProductParams(
+        search=search,
+        quantity=quantity,
+        categories=category,
+        brands=brand,
+        colors=color,
+        price=price,
+        order=order,
+        order_by=order_by,
+        page=page,
+        limit=limit
+    )
+    if params.has_data():
         return product_service.get_products_filter(params)
     return product_service.get_products_all()
 
@@ -24,13 +48,13 @@ def get_product_id(product_id: int) -> dict:
 
 @router.post("/")
 async def create_product(seller_id: int,
-                            name: str,
-                            description: str,
-                            quantity: int,
-                            total_price: float,
-                            sale_type: str,
-                            categories: List[int],
-                            photos: list[UploadFile]) -> dict:
+                         name: str,
+                         description: str,
+                         quantity: int,
+                         total_price: float,
+                         sale_type: str,
+                         categories: List[int],
+                         photos: list[UploadFile]) -> dict:
     product = ProductCreate(seller_id=seller_id,
                             name=name,
                             description=description,

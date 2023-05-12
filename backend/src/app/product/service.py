@@ -4,51 +4,67 @@ import uuid
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo
 from app.utils import query_to_dict, product_to_json, category_to_json, photo_to_json
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, desc, asc
 from app.product.models import ProductCreate
+from app.product.utils import ProductParams
 from fastapi import UploadFile
+
 
 class ProductService:
 
     def __init__(self):
         self.engine = CreateEngine()
 
-    def get_products_filter(self, query: str) -> dict:
+    def get_products_filter(self, params: ProductParams) -> dict:
         result = dict()
-        params = query_to_dict(query)
-        Session = self.engine.create_session()
         count = 0
 
+        Session = self.engine.create_session()
         with Session() as session:
             filters = list()
-            if "search" in params:
-                filters.append(Product.name.like("%{}%".format(params["search"][0])))
-            if "price" in params:
-                filters.append(Product.total_price < params["price"][0])
-            if "quantity" in params:
-                filters.append(Product.quantity > params["quantity"][0])
-            if "category" in params:
+            if params.has_search():
+                filters.append(Product.name.like("%{}%".format(params.search)))
+            if params.has_quantity():
+                filters.append(Product.quantity > params.quantity)
+            if params.has_categories():
                 categories = list()
-                for category in params["category"]:
+                for category in params.categories:
                     categories.append(ProductCategory.category_id == category)
                 filters.append(or_(*categories))
-            products = session.query(Product).join(ProductCategory).filter(and_(*filters)).all()
+            # if params.has_brands():
+            #     brands = list()
+            #     for brand in params.brands:
+            #         brands.append(Product.brand == brand)
+            #     filters.append(or_(*brands))
+            # if params.has_colors():
+            #     colors = list()
+            #     for color in params.colors:
+            #         colors.append(ProductColors.color_id == color)
+            #     filters.append(or_(*colors))
+            if params.has_price():
+                filters.append(Product.total_price < params.price)
+            sort = asc(params.order_by) if params.order == "ASC" else desc(params.order_by)
+            query = session.query(Product).join(ProductCategory).filter(and_(*filters)).order_by(sort)
+            products = query.limit(params.limit).offset(params.page * params.limit).all()
             for product in products:
                 result[count] = self.get_product_info(product)
                 count += 1
         Session.remove()
+
         return result
 
     def get_products_all(self) -> dict:
         result = dict()
-        Session = self.engine.create_session()
         count = 0
+
+        Session = self.engine.create_session()
         with Session() as session:
-            products = session.query(Product).all()
+            products = session.query(Product).order_by(asc("product_id")).limit(20).all()
             for product in products:
                 result[count] = self.get_product_info(product)
                 count += 1
         Session.remove()
+
         return result
 
     def get_product(self, product_id: int) -> dict:
@@ -63,7 +79,8 @@ class ProductService:
         result = dict()
         Session = self.engine.create_session()
         with Session() as session:
-            categories = session.query(Category).join(ProductCategory).filter(ProductCategory.product_id == product_id).all()
+            categories = session.query(Category).join(ProductCategory).filter(
+                ProductCategory.product_id == product_id).all()
             for i, category in enumerate(categories):
                 result[i] = category_to_json(category)
         Session.remove()
@@ -83,7 +100,7 @@ class ProductService:
         categories = self.get_product_categories(product.product_id)
         photos = self.get_product_photos(product.product_id)
         return product_to_json(product, categories, photos)
-    
+
     async def create_product(self, product: ProductCreate, photos: List[UploadFile]) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
@@ -92,7 +109,7 @@ class ProductService:
             await self.create_product_photos(session, product_id, photos)
         Session.commit()
         return self.get_product(product_id)
-    
+
     def create_product_info(self, session, product: ProductCreate) -> int:
         new_product = Product(
             seller_id=product.seller_id,
@@ -114,7 +131,7 @@ class ProductService:
             )
             session.add(new_product_category)
         session.commit()
-    
+
     async def create_product_photos(self, session, product_id: int, photos: List[UploadFile]) -> None:
         if not os.path.exists(f"/backend/static/{product_id}"):
             os.mkdir(f"/backend/static/{product_id}")
@@ -131,6 +148,3 @@ class ProductService:
             )
             session.add(new_photo)
         session.commit()
-
-            
-            
