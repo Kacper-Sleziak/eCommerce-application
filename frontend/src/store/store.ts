@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userAccountApi } from './services/UserDataApi'
 import { offerListDataApi } from './services/OfferListDataApi'
 import UserDataReducer from './slices/UserDataSlice'
+import OfferFiltersReducer from './slices/OfferFiltersSlice'
 
 const store = configureStore({
   reducer: {
     userData: UserDataReducer,
+    offerFiltersData: OfferFiltersReducer,
     [userAccountApi.reducerPath]: userAccountApi.reducer,
     [offerListDataApi.reducerPath]: offerListDataApi.reducer,
   },

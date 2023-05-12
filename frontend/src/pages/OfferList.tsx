@@ -1,20 +1,38 @@
+import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
+import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
-const localisationList = [
-  { title: 'Wrocław' },
-  { title: 'Warsaw' },
-  { title: 'Cracow' },
-]
 const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
 const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
+  const brandFilterRef = useRef<FilterRefInterface | null>(null)
+  const colorFilterRef = useRef<FilterRefInterface | null>(null)
+  const yearFilterRef = useRef<FilterRefInterface | null>(null)
+  const categoryFilterRef = useRef<FilterRefInterface | null>(null)
+
+  const refArray = [
+    brandFilterRef,
+    colorFilterRef,
+    yearFilterRef,
+    categoryFilterRef,
+  ]
+
+  const filterOnClick = () => {
+    refArray.forEach((ref) => {
+      if (ref.current !== null) {
+        ref.current.pushFiltersToStore()
+      }
+    })
+  }
+
   return (
     <div className="offerListClass">
       <div>
@@ -75,17 +93,30 @@ const OfferList: React.FC = () => {
               width: '300px',
             }}
           >
-            <CheckboxCategories categories={brandList} filterlabel="Brand" />
-            <CheckboxCategories categories={yearList} filterlabel="Year" />
-            <CheckboxCategories categories={colorList} filterlabel="Color" />
+            <CheckboxCategories
+              categories={brandList}
+              filterlabel="brand"
+              ref={brandFilterRef}
+            />
+            <CheckboxCategories
+              categories={yearList}
+              filterlabel="year"
+              ref={yearFilterRef}
+            />
+            <CheckboxCategories
+              categories={colorList}
+              filterlabel="color"
+              ref={colorFilterRef}
+            />
             <CheckboxCategories
               categories={categoryList}
-              filterlabel="Category"
+              filterlabel="category"
+              ref={categoryFilterRef}
             />
-            <CheckboxCategories
-              categories={localisationList}
-              filterlabel="Localisation"
-            />
+
+            <Button variant="contained" onClick={filterOnClick}>
+              Filter
+            </Button>
           </div>
         </Card>
       </div>
