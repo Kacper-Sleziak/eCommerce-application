@@ -1,26 +1,22 @@
-/* eslint-disable */
-
+import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
 import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
-import { useSelector } from 'react-redux'
 import { selectOfferFilters } from '../../store/slices/OfferFiltersSlice'
-import React, { useEffect } from 'react'
 
 const MappedOffers = () => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [searchParams, setSearchParams] = useSearchParams()
   const paramsString = searchParamsToStringQuery(searchParams)
 
   const { data, error, isLoading } = useGetOfferListQuery(paramsString)
-
-  var storeFilters = useSelector(selectOfferFilters)
+  const storeFilters = useSelector(selectOfferFilters)
 
   useEffect(() => {
-    var storeFiltersVar = storeFilters
+    var storeFiltersVar: any = storeFilters
     setSearchParams(storeFiltersVar)
   }, [storeFilters])
 
@@ -28,18 +24,23 @@ const MappedOffers = () => {
     if (isLoading) {
       return <CircularProgress />
     }
-    if (error) {
-      return (
-        <>
-          <h1>Eror 500</h1>
-          <span>
-            error on the server side, occurs, we are sorry for problems
-          </span>
-        </>
-      )
+
+    if (error !== undefined) {
+      if ('status' in error) {
+        const errMsg =
+          'error' in error ? error.error : JSON.stringify(error.data)
+
+        return (
+          <div>
+            <div>An error has occurred:</div>
+            <div>{errMsg}</div>
+          </div>
+        )
+      }
+      return <div>{error.message}</div>
     }
 
-    if (data) {
+    if (data !== undefined) {
       return (
         <>
           {Object.keys(data).map((key) => (

@@ -1,22 +1,12 @@
-/* eslint-disable */
-
+import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import CheckboxCategories from '../features/OfferList/Checkbox'
-import { useDispatch, useSelector } from 'react-redux'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
-import { useRef, useEffect } from 'react'
-import { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
-import { MappedOffersCallInterface } from '../features/OfferList/utils/mappedOffersCallInterface'
-import { selectOfferFilters } from '../store/slices/OfferFiltersSlice'
-import store from '../store/store'
+import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
+
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
-const localisationList = [
-  { title: 'Wrocław' },
-  { title: 'Warsaw' },
-  { title: 'Cracow' },
-]
 const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
 const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
@@ -33,11 +23,9 @@ const OfferList: React.FC = () => {
     yearFilterRef,
     categoryFilterRef,
   ]
-  var storeFilters = useSelector(selectOfferFilters)
-  var storeFiltersProp: string[] = []
 
   const filterOnClick = () => {
-    refArray.map((ref) => {
+    refArray.forEach((ref) => {
       if (ref.current !== null) {
         ref.current.pushFiltersToStore()
       }

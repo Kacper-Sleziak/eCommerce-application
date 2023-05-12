@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable */
 import Checkbox from '@mui/material/Checkbox'
 import { useDispatch } from 'react-redux'
 import TextField from '@mui/material/TextField'
@@ -7,7 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import { FilterRefInterface } from './utils/filterCallInterface'
+import type { FilterRefInterface } from './utils/filterCallInterface'
 import { updateFilters } from '../../store/slices/OfferFiltersSlice'
 
 interface Category {
@@ -24,7 +23,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />
 
 const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
   (props: Filter, ref) => {
-    const { categories, filterlabel } = props
+    const { filterlabel } = props
     const [value, setValue] = useState<Category[]>([])
 
     const dispatch = useDispatch()
@@ -32,9 +31,7 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
     useImperativeHandle(ref, () => ({
       pushFiltersToStore() {
         var data: string[] = []
-        value.map((filter) => {
-          data.push(filter.title)
-        })
+        value.map((filter) => data.push(filter.title))
         dispatch(updateFilters({ filterName: filterlabel, data: data }))
       },
     }))
@@ -82,5 +79,5 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
     )
   },
 )
-
+CheckboxCategories.displayName = 'CheckboxCategories'
 export default CheckboxCategories
