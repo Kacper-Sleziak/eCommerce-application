@@ -8,6 +8,7 @@ router = APIRouter(
 )
 category_service = CategoryService()
 
+
 @router.get("/")
 def get_categories() -> dict:
     return category_service.get_categories()
