@@ -23,7 +23,7 @@ class ProductService:
             filters = list()
 
             if params.has_search():
-                filters.append(Product.name.like("%{}%".format(params.search)))
+                filters.append(Product.name.ilike("%{}%".format(params.search)))
             if params.has_quantity():
                 filters.append(Product.quantity > params.quantity)
             if params.has_categories():
