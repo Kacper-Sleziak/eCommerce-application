@@ -1,8 +1,7 @@
 from fastapi import APIRouter, File, UploadFile, Query
 from app.product.service import ProductService
-from app.product.models import ProductCreate
+from app.product.models import ProductCreate, ProductParams
 from typing import List, Annotated
-from app.product.utils import ProductParams
 
 router = APIRouter(
     prefix="/products",

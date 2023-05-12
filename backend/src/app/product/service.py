@@ -4,9 +4,8 @@ import uuid
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor
 from app.utils import query_to_dict, product_to_json, category_to_json, photo_to_json, color_to_json
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import or_, and_, desc, asc
-from app.product.models import ProductCreate
-from app.product.utils import ProductParams
+from sqlalchemy import or_, and_, desc, asc, text
+from app.product.models import ProductCreate, ProductParams
 from fastapi import UploadFile
 
 
@@ -45,7 +44,7 @@ class ProductService:
             if params.has_price():
                 filters.append(Product.total_price < params.price)
 
-            sort = asc(params.order_by) if params.order == "ASC" else desc(params.order_by)
+            sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).filter(and_(*filters))
             products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
             for product in products:
