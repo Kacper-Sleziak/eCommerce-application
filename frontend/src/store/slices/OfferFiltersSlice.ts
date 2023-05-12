@@ -5,7 +5,7 @@ interface IUpdateFiltersPayload {
   data: string[]
 }
 
-export interface IFIltersState {
+export interface IFiltersState {
   brand: string[]
   year: string[]
   color: string[]
@@ -13,7 +13,7 @@ export interface IFIltersState {
   pagination: number
 }
 
-const initialState: IFIltersState = {
+const initialState: IFiltersState = {
   brand: [],
   year: [],
   color: [],
@@ -53,7 +53,7 @@ export const OfferFiltersSLice = createSlice({
 export const { updateFilters, updatePagination } = OfferFiltersSLice.actions
 
 export const selectOfferFilters = (state: {
-  offerFiltersData: IFIltersState
+  offerFiltersData: IFiltersState
 }) => {
   return state.offerFiltersData
 }

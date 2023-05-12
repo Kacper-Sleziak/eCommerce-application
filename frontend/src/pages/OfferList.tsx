@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
@@ -12,10 +13,10 @@ const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
-  const brandFilterRef = useRef<FilterRefInterface>(null)
-  const colorFilterRef = useRef<FilterRefInterface>(null)
-  const yearFilterRef = useRef<FilterRefInterface>(null)
-  const categoryFilterRef = useRef<FilterRefInterface>(null)
+  const brandFilterRef = useRef<FilterRefInterface | null>(null)
+  const colorFilterRef = useRef<FilterRefInterface | null>(null)
+  const yearFilterRef = useRef<FilterRefInterface | null>(null)
+  const categoryFilterRef = useRef<FilterRefInterface | null>(null)
 
   const refArray = [
     brandFilterRef,
@@ -113,9 +114,9 @@ const OfferList: React.FC = () => {
               ref={categoryFilterRef}
             />
 
-            <button type="button" onClick={filterOnClick}>
+            <Button variant="contained" onClick={filterOnClick}>
               Filter
-            </button>
+            </Button>
           </div>
         </Card>
       </div>
