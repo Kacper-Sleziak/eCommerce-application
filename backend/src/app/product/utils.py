@@ -45,6 +45,8 @@ class ProductParams:
         return self.price is not None
 
     def has_data(self) -> bool:
-        return (self.has_search() or self.has_quantity()
+        return (self.page != 0 or self.limit != 0
+                or self.order_by != "product_id" or self.order != "ASC"
+                or self.has_search() or self.has_quantity()
                 or self.has_categories() or self.has_brands()
                 or self.has_colors() or self.has_price())

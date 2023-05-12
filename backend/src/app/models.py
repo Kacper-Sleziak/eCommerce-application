@@ -46,6 +46,15 @@ class Category(Base):
     name = Column(String(255), nullable=False)
 
 
+class Color(Base):
+    __tablename__ = 'color'
+    __table_args__ = {'extend_existing': True}
+
+    color_id = Column(Integer, primary_key=True,
+                      server_default=text("nextval('color_color_id_seq'::regclass)"))
+    name = Column(String(255), nullable=False)
+
+
 class Product(Base):
     __tablename__ = 'product'
     __table_args__ = {'extend_existing': True}
@@ -53,6 +62,7 @@ class Product(Base):
     product_id = Column(Integer, primary_key=True, server_default=text("nextval('product_product_id_seq'::regclass)"))
     seller_id = Column(ForeignKey('user_.user_id'), nullable=False)
     name = Column(String(255), nullable=False)
+    brand = Column(String(255), nullable=False)
     product_description = Column(String(255), nullable=False)
     quantity = Column(Integer, nullable=False)
     total_price = Column(Numeric(8, 2), nullable=False)
@@ -122,6 +132,17 @@ class ProductCategory(Base):
     product_id = Column(ForeignKey('product.product_id'), primary_key=True, nullable=False)
 
     category = relationship('Category')
+    product = relationship('Product')
+
+
+class ProductColor(Base):
+    __tablename__ = 'product_color'
+    __table_args__ = {'extend_existing': True}
+
+    color_id = Column(ForeignKey('color.color_id'), primary_key=True, nullable=False)
+    product_id = Column(ForeignKey('product.product_id'), primary_key=True, nullable=False)
+
+    color = relationship('Color')
     product = relationship('Product')
 
 

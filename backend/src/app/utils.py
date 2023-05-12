@@ -1,5 +1,5 @@
 import os
-from app.models import Product, Category, Photo
+from app.models import Product, Category, Photo, Color
 
 
 def query_to_dict(query: str) -> dict:
@@ -15,7 +15,7 @@ def query_to_dict(query: str) -> dict:
     return result
 
 
-def product_to_json(product: Product, categories: dict, photos: dict) -> dict:
+def product_to_json(product: Product, categories: dict, photos: dict, colors: dict) -> dict:
     result = dict()
     result["id"] = product.product_id
     result["seller"] = product.seller_id
@@ -26,6 +26,7 @@ def product_to_json(product: Product, categories: dict, photos: dict) -> dict:
     result["sale_type"] = product.sale_type
     result["photos"] = photos
     result["categories"] = categories
+    result["colors"] = colors
     return result
 
 
@@ -33,6 +34,13 @@ def category_to_json(category: Category) -> dict:
     result = dict()
     result["id"] = category.category_id
     result["name"] = category.name
+    return result
+
+
+def color_to_json(color: Color) -> dict:
+    result = dict()
+    result["id"] = color.color_id
+    result["name"] = color.name
     return result
 
 
