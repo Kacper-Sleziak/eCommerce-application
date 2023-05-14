@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.review.service import ReviewService
-from app.review.model import Review
+from app.review.model import ReviewTs
 
 router = APIRouter(
     prefix="/reviews",
@@ -9,43 +9,17 @@ router = APIRouter(
 )
 review_service = ReviewService()
 
+
 @router.post("/")
-def create_review(review: Review) -> dict:
-    #todo: call to service
-    return {
-        "review_id": 1,
-        "seller_id": 1,
-        "reviewer_id": 1,
-        "review": 3,
-        "review_description": "test"
-    }
+def create_review(review: ReviewTs) -> dict:
+    return review_service.post_review(review)
 
 
-@router.get("/")
-def get_reviews_all() -> dict:
-    return {}
-
-@router.get("/logout")
-def logout_user() -> dict:
-    #todo: call to service
-    return {"message": "User logged out"}
+@router.get("/seller/{seller_id}")
+def get_reviews_seller(seller_id: int) -> dict:
+    return review_service.get_reviews(seller_id, True)
 
 
-@router.get("/{user_id}")
-def get_user(user_id: int) -> dict:
-    #todo: call to service
-    return {"user_id": 1,
-            "role_id": 2,
-            "address_id": 1,
-            "username": "test",
-            "email": "test@tst.com"}
-
-
-@router.put("/")
-def update_user(user: Review) -> dict:
-    #todo: call to service
-    return {"user_id": 1,
-            "role_id": 2,
-            "address_id": 1,
-            "username": "test",
-            "email": "test@tst.com"}
+@router.get("/buyer/{buyer_id}")
+def get_reviews_buyer(buyer_id: int) -> dict:
+    return review_service.get_reviews(buyer_id, False)
