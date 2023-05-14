@@ -30,11 +30,6 @@ class ReviewService:
         return result
 
     def post_review(self, review: ReviewTs) -> dict:
-        review_id = self.create_review(review)
-
-        return self.get_review(review_id)
-
-    def create_review(self, review: ReviewTs) -> int:
         Session = self.engine.create_session()
 
         with Session() as session:
@@ -49,4 +44,4 @@ class ReviewService:
             new_id = new_review.review_id
         Session.remove()
 
-        return new_id
+        return self.get_review(new_id)
