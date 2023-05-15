@@ -4,7 +4,7 @@ import uuid
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.schema import ProductCreateSchema, ProductParams
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreate
 from datetime import datetime
 from fastapi import UploadFile
 
@@ -154,23 +154,66 @@ class ProductService:
 
         return self.get_product(product_id)
 
-    def create_product_info(self, product: ProductCreateSchema) -> int:
-        new_product = Product(
-            seller_id=product.seller_id,
-            name=product.name,
-            product_description=product.description,
-            quantity=product.quantity,
-            total_price=product.total_price,
-            sale_type=product.sale_type
-        )
+    def create_product_auction(self, product: ProductCreate, auction: AuctionCreate, photos: List[UploadFile]) -> dict:
+
+        product_id = self.create_product_info(product)
+        self.create_auction(auction, product_id)
+        self.create_product_categories(product_id, product.categories)
+        self.create_product_colors(product_id, product.colors)
+        self.create_product_photos(product_id, photos)
+
+        return self.get_product(product_id)
+
+    def create_auction(self, auction: AuctionCreate, product_id: int) -> None:
+
+        new_auction = Auction(
+            product_id=product_id,
+            highest_bidder_id=auction.highest_bidder_id,
+            current_price=auction.starting_price,
+            highest_bid=auction.highest_bid,
+            minimal_bump=auction.minimal_bump,
+            end_date=auction.end_date)
 
         Session = self.engine.create_session()
         with Session() as session:
-            session.add(new_product)
-        Session.commit()
+            session.add(new_auction)
+            session.commit()
         Session.remove()
 
-        return new_product.product_id
+        return self.get_product(product_id)
+
+    def create_product_info(self, product: ProductCreateSchema) -> int:
+
+        Session = self.engine.create_session()
+        with Session() as session:
+            new_product = Product(
+                seller_id=product.seller_id,
+                name=product.name,
+                brand=product.brand,
+                product_description=product.description,
+                quantity=product.quantity,
+                total_price=product.total_price,
+                sale_type=product.sale_type
+            )
+            session.add(new_product)
+            session.commit()
+            new_id = new_product.product_id
+        Session.remove()
+
+        return new_id
+
+    def create_product_colors(self, product_id: int, colors: List[int]) -> None:
+
+        Session = self.engine.create_session()
+        with Session() as session:
+            for color_id in colors:
+                new_product_color = ProductColor(
+                    product_id=product_id,
+                    color_id=color_id
+                )
+                session.add(new_product_color)
+            session.commit()
+        Session.remove()
 
     def create_product_categories(self, product_id: int, categories: List[int]) -> None:
 
@@ -182,7 +225,7 @@ class ProductService:
                     category_id=category_id
                 )
                 session.add(new_product_category)
-        Session.commit()
+            session.commit()
         Session.remove()
 
     async def create_product_photos(self, product_id: int, photos: List[UploadFile]) -> None:
@@ -202,5 +245,5 @@ class ProductService:
                     photo_url=photo_url
                 )
                 session.add(new_photo)
-        Session.commit()
+            session.commit()
         Session.remove()

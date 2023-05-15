@@ -5,11 +5,21 @@ from typing import List
 class ProductCreateSchema(BaseModel):
     seller_id: int
     name: str
+    brand: str
     description: str
     quantity: int
     total_price: float
     sale_type: str
     categories: List[int]
+    colors: List[int]
+
+
+class AuctionCreate(BaseModel):
+    highest_bidder_id: int
+    starting_price: float
+    highest_bid: float
+    minimal_bump: float
+    end_date: str
 
 
 class ProductParams:
@@ -41,7 +51,7 @@ class ProductParams:
         self.order_by: str = order_by if order_by is not None else "product_id"
         if self.order_by == "price":
             self.order_by = "total_price"
-        self.order_by = "Product."+self.order_by
+        self.order_by = "Product." + self.order_by
         self.page: int = page if page is not None else 0
         self.limit: int = limit if limit is not None else 20
         self.auction: bool = auction

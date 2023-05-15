@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, Query
 from app.product.service import ProductService
-from app.product.schema import ProductCreateSchema, ProductParams
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreate
 from typing import List, Annotated
 
 router = APIRouter(
@@ -52,17 +52,50 @@ def get_product_id(product_id: int) -> dict:
 @router.post("/")
 async def create_product(seller_id: int,
                          name: str,
+                         brand: str,
                          description: str,
                          quantity: int,
                          total_price: float,
-                         sale_type: str,
                          categories: List[int],
+                         colors: List[int],
                          photos: list[UploadFile]) -> dict:
     product = ProductCreateSchema(seller_id=seller_id,
-                                  name=name,
-                                  description=description,
-                                  quantity=quantity,
-                                  total_price=total_price,
-                                  sale_type=sale_type,
-                                  categories=categories)
+                            name=name,
+                            brand=brand,
+                            description=description,
+                            quantity=quantity,
+                            total_price=total_price,
+                            sale_type="Regular",
+                            categories=categories,
+                            colors=colors)
     return await product_service.create_product(product, photos)
+
+
+@router.post("/auction")
+def create_auction(seller_id: int,
+                   name: str,
+                   brand: str,
+                   description: str,
+                   quantity: int,
+                   categories: List[int],
+                   colors: List[int],
+                   photos: list[UploadFile],
+                   starting_price: float,
+                   minimal_bump: float,
+                   end_date: str
+                   ) -> dict:
+    product = ProductCreateSchema(seller_id=seller_id,
+                            name=name,
+                            brand=brand,
+                            description=description,
+                            quantity=quantity,
+                            total_price=starting_price,
+                            sale_type="Auction",
+                            categories=categories,
+                            colors=colors)
+    auction = AuctionCreate(highest_bidder_id=seller_id,
+                            starting_price=starting_price,
+                            highest_bid=starting_price,
+                            minimal_bump=minimal_bump,
+                            end_date=end_date)
+    return product_service.create_product_auction(product, auction, photos)
