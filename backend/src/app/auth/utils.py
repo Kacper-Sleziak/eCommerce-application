@@ -13,9 +13,10 @@ def token_response(token: str) -> dict:
         }
 
 
-def sign_JWT(userEmail: str) -> dict:
+def sign_JWT(userEmail: str, userRole: int) -> dict:
     payload = {
         "user_email": userEmail,
+        "user_role": userRole,
         "expiration": time.time() + 1200
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
@@ -51,7 +52,7 @@ class jwtAdminBearer(HTTPBearer):
         except:
             payload = None
         if payload:
-            if payload.get("role") == "Admin":
+            if payload["user_role"] == 1:
                 isTokenValid = True
         return isTokenValid
     
@@ -77,7 +78,7 @@ class jwtUserBearer(HTTPBearer):
         except:
             payload = None
         if payload:
-            if payload.get("role") == "User":
+            if payload["user_role"] == 2 :
                 isTokenValid = True
         return isTokenValid
     
