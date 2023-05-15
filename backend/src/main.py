@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.router import router as api_router
+from app.auth.utils import jwtAdminBearer
 
 app = FastAPI()
 
@@ -16,7 +17,7 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-@app.get("/")
+@app.get("/", dependencies=[Depends(jwtAdminBearer())])
 async def welcome() -> dict:
     return {"message": "Hello World!"}
 
