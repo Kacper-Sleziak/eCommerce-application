@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from app.auth.service import AuthService
 from app.auth.models import UserSignUp, UserLogin
 from app.auth.utils import sign_JWT
-
+from argon2 import PasswordHasher
 
 router = APIRouter(
     prefix="/auth",
@@ -10,6 +10,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 auth_service = AuthService()
+ph = PasswordHasher()
 
 @router.post("/signup")
 def signup(user: UserSignUp) -> dict:
@@ -25,9 +26,13 @@ def login(userCredentials: UserLogin) -> dict:
     except:
         raise HTTPException(status_code=400, detail="Invalid credentials")
     
-    if user["password"] == userCredentials.password:
-        return sign_JWT(user["email"], user["role"])
+    try:
+        if ph.verify(user["password"], userCredentials.password):
+            return sign_JWT(user["email"], user["role"])
+    except:
+        raise HTTPException(status_code=400, detail="Invalid credentials")
     raise HTTPException(status_code=400, detail="Invalid credentials")
+    
 
 @router.post("/refresh_token")
 

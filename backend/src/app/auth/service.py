@@ -1,10 +1,12 @@
 from app.auth.models import UserSignUp, UserLogin
 from app.models import CreateEngine, User
 from app.utils import user_to_json
+from argon2 import PasswordHasher
 
 class AuthService:
     def __init__(self):
         self.engine = CreateEngine()
+        self.ph = PasswordHasher()
         
     def add_user(self, user: UserSignUp) -> dict:
         Session = self.engine.create_session()
@@ -19,7 +21,7 @@ class AuthService:
                     address_id = user.address_id,
                     username = user.username,
                     email = user.email,
-                    password = user.password)
+                    password = self.ph.hash(user.password))
                 session.add(new_user)
                 session.commit()
                 result = user_to_json(session.query(User).filter(User.user_id == new_user.user_id).one())
