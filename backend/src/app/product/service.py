@@ -1,11 +1,11 @@
 import os
 from typing import List
 import uuid
-from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor
-from app.utils import query_to_dict, product_to_json, category_to_json, photo_to_json, color_to_json
+from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
 from app.product.schema import ProductCreateSchema, ProductParams
+from datetime import datetime
 from fastapi import UploadFile
 
 
@@ -42,10 +42,19 @@ class ProductService:
                 filters.append(or_(*colors))
             if params.has_price():
                 filters.append(Product.total_price < params.price)
+            if params.has_auction():
+                auction_type = "Auction" if params.auction else "Regular"
+                filters.append(Product.sale_type == auction_type)
+            if params.has_auction_active():
+                today = datetime.today().strftime('%Y-%m-%d')
+                if params.auction_active:
+                    filters.append(Auction.end_date >= today)
+                else:
+                    filters.append(Auction.end_date < today)
 
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).filter(and_(*filters))
-            products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Auction)
+            products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(params.page * params.limit)
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
         Session.remove()
@@ -82,12 +91,12 @@ class ProductService:
             categories = session.query(Category).join(ProductCategory).filter(
                 ProductCategory.product_id == product_id).all()
             for i, category in enumerate(categories):
-                result[i] = category_to_json(category)
+                result[i] = category.serialize()
         Session.remove()
 
         return result
 
-    def get_product_colors(self, product_id: int) -> str:
+    def get_product_colors(self, product_id: int) -> dict:
         result = dict()
 
         Session = self.engine.create_session()
@@ -95,28 +104,43 @@ class ProductService:
             colors = session.query(Color).join(ProductColor).filter(
                 ProductColor.product_id == product_id).all()
             for i, color in enumerate(colors):
-                result[i] = color_to_json(color)
+                result[i] = color.serialize()
         Session.remove()
 
         return result
 
-    def get_product_photos(self, product_id: int) -> str:
+    def get_product_photos(self, product_id: int) -> dict:
         result = dict()
 
         Session = self.engine.create_session()
         with Session() as session:
             photos = session.query(Photo).filter(Photo.product_id == product_id).all()
             for i, photo in enumerate(photos):
-                result[i] = photo_to_json(photo)
+                result[i] = photo.serialize()
+        Session.remove()
+
+        return result
+
+    def get_product_auction(self, product_id: int) -> dict:
+
+        Session = self.engine.create_session()
+        with Session() as session:
+            auction = session.query(Auction).filter(Auction.product_id == product_id).one()
+            result = auction.serialize()
         Session.remove()
 
         return result
 
     def get_product_info(self, product: Product) -> dict:
-        colors = self.get_product_colors(product.product_id)
-        categories = self.get_product_categories(product.product_id)
-        photos = self.get_product_photos(product.product_id)
-        return product_to_json(product, categories, photos, colors)
+
+        result = product.serialize()
+        result["photos"] = self.get_product_photos(product.product_id)
+        result["colors"] = self.get_product_colors(product.product_id)
+        result["categories"] = self.get_product_categories(product.product_id)
+
+        if product.sale_type == "Auction":
+            result["auction"] = self.get_product_auction(product.product_id)
+        return result
 
     async def create_product(self, product: ProductCreateSchema, photos: List[UploadFile]) -> dict:
 

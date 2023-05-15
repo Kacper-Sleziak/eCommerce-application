@@ -25,7 +25,9 @@ class ProductParams:
             order: str | None,
             order_by: str | None,
             page: int | None,
-            limit: int | None
+            limit: int | None,
+            auction: bool | None,
+            auction_active: bool | None
     ):
         self.search: str = search
         self.quantity: int = quantity
@@ -42,6 +44,8 @@ class ProductParams:
         self.order_by = "Product."+self.order_by
         self.page: int = page if page is not None else 0
         self.limit: int = limit if limit is not None else 20
+        self.auction: bool = auction
+        self.auction_active: bool = auction_active
 
     def has_search(self) -> bool:
         return self.search is not None
@@ -61,9 +65,22 @@ class ProductParams:
     def has_price(self) -> bool:
         return self.price is not None
 
+    def has_auction(self) -> bool:
+        return self.auction is not None
+
+    def has_auction_active(self) -> bool:
+        return self.auction_active is not None
+
     def has_data(self) -> bool:
-        return (self.page != 0 or self.limit != 0
-                or self.order_by != "product_id" or self.order != "ASC"
-                or self.has_search() or self.has_quantity()
-                or self.has_categories() or self.has_brands()
-                or self.has_colors() or self.has_price())
+        return (self.page != 0
+                or self.limit != 20
+                or self.order_by != "Product.product_id"
+                or self.order != "ASC"
+                or self.has_search()
+                or self.has_quantity()
+                or self.has_categories()
+                or self.has_brands()
+                or self.has_colors()
+                or self.has_price()
+                or self.has_auction()
+                or self.has_auction_active())

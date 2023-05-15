@@ -1,5 +1,4 @@
 from app.models import CreateEngine, Color
-from app.utils import color_to_json
 from sqlalchemy.dialects import postgresql
 
 
@@ -13,6 +12,6 @@ class ColorService:
         with Session() as session:
             colors = session.query(Color).all()
             for count, color in enumerate(colors):
-                result[count] = color_to_json(color)
+                result[count] = color.serialize()
         Session.remove()
         return result
