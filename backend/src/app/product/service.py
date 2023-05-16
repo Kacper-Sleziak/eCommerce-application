@@ -1,3 +1,4 @@
+import decimal
 import os
 from typing import List
 import uuid
@@ -7,6 +8,7 @@ from sqlalchemy import or_, and_, desc, asc, text
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreate
 from datetime import datetime
 from fastapi import UploadFile
+from decimal import Decimal
 
 
 class ProductService:
@@ -247,3 +249,21 @@ class ProductService:
                 session.add(new_photo)
             session.commit()
         Session.remove()
+
+    def auction_bump(self, product_id: int, user_id: int, bid: float) -> dict:
+        bid = Decimal(bid)
+        Session = self.engine.create_session()
+        with Session() as session:
+            reference_value = bid
+            auction = session.query(Auction).filter(Auction.product_id == product_id).one()
+            if auction.highest_bid < bid:
+                auction.highest_bidder_id = user_id
+                auction.highest_bid = bid
+                reference_value = auction.current_price
+            auction.current_price = min(auction.highest_bid, reference_value + auction.minimal_bump)
+            session.commit()
+            result = session.query(Auction).filter(Auction.product_id == product_id).one().serialize()
+
+        Session.remove()
+
+        return result

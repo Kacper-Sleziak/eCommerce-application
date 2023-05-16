@@ -99,3 +99,8 @@ def create_auction(seller_id: int,
                             minimal_bump=minimal_bump,
                             end_date=end_date)
     return product_service.create_product_auction(product, auction, photos)
+
+
+@router.put("/auction")
+def bid_auction(product_id: int, user_id: int, bid: float) -> dict:
+    return product_service.auction_bump(product_id, user_id, bid)
