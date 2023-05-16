@@ -32,11 +32,3 @@ def login(userCredentials: UserLogin) -> dict:
     except:
         raise HTTPException(status_code=400, detail="Invalid credentials")
     raise HTTPException(status_code=400, detail="Invalid credentials")
-    
-
-@router.post("/refresh_token")
-
-@router.post("/logout")
-def logout_user() -> dict:
-    #todo: call to service
-    return {"message": "User logged out"}
