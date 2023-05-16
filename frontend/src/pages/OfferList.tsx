@@ -1,10 +1,13 @@
 import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
-import MappedOffers from '../features/OfferList/MappedOffers'
+// import MappedOffers from '../features/OfferList/MappedOffers'
+import PaginationBar from '../features/OfferList/PaginationBar'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
@@ -122,8 +125,13 @@ const OfferList: React.FC = () => {
       </div>
       <div className="offers">
         <Typography variant="h3">Offers</Typography>
-        <MappedOffers />
+        {/* <MappedOffers /> */}
       </div>
+
+      <Stack spacing={2}>
+        <Pagination count={10} shape="rounded" />
+      </Stack>
+      <PaginationBar />
     </div>
   )
 }
