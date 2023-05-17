@@ -15,6 +15,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import theme from '../utils/materialUI/colorScheme'
 import { useSignUpMutation } from '../store/services/UserDataApi'
 import { useEffect, useState } from 'react'
+import ConfirmationMessageSnackbar from '../components/sharedComponents/ConfirmationMessageSnackbar'
 
 const Copyright = (props: any) => {
   return (
@@ -40,7 +41,7 @@ const SignUp = () => {
   useEffect(() => {
     if (signUpResult.isSuccess && !isSignUpSuccessful) {
       console.log("hihi");
-      setIsSignUpSuccessful(true)      
+      setIsSignUpSuccessful(true)
 
     }
   }, [signUpResult])
@@ -186,7 +187,9 @@ const SignUp = () => {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
+        <ConfirmationMessageSnackbar message={isSignUpSuccessful ? "Sign up successful" : ""} severity="error" />
       </Container>
+
     </ThemeProvider >
   )
 }
