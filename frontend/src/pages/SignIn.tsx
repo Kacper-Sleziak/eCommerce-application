@@ -1,42 +1,44 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import theme from '../utils/materialUI/colorScheme';
-import { ThemeProvider } from '@mui/material/styles';
+import * as React from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from '../utils/materialUI/colorScheme'
 
-function Copyright(props: any) {
+const Copyright = (props: any) => {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         ItApps
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {new Date().getFullYear()}.
     </Typography>
-  );
+  )
 }
 
-
 export default function SignIn() {
-  const [signInText, setSignInText] = useState<string>("Sign in");
+  const [signInText, setSignInText] = useState<string>('Sign in')
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {}
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +58,12 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             {signInText}
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -97,7 +104,7 @@ export default function SignIn() {
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
@@ -106,6 +113,5 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
+  )
 }
-
