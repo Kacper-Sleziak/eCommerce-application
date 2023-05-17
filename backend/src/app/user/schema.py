@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-class User(BaseModel):
+
+class UserSchema(BaseModel):
     role_id: int
     address_id: int
     username: str
@@ -8,7 +9,7 @@ class User(BaseModel):
     password: str
 
 
-class UserUpdate(BaseModel):
+class UserUpdateSchema(BaseModel):
     user_id: int
     role_id: int
     address_id: int

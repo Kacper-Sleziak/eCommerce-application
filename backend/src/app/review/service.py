@@ -1,6 +1,6 @@
 from app.models import CreateEngine, Review
 from sqlalchemy.dialects import postgresql
-from app.review.model import ReviewTs
+from app.review.schema import ReviewSchema
 
 
 class ReviewService:
@@ -29,7 +29,7 @@ class ReviewService:
         Session.remove()
         return result
 
-    def post_review(self, review: ReviewTs) -> dict:
+    def post_review(self, review: ReviewSchema) -> dict:
         Session = self.engine.create_session()
 
         with Session() as session:

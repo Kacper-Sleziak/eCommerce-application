@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.qa.service import QAService
-from app.qa.model import QuestionTs
+from app.qa.schema import QuestionSchema
 
 router = APIRouter(
     prefix="/qa",
@@ -11,7 +11,7 @@ qa_service = QAService()
 
 
 @router.post("/")
-def create_review(qa: QuestionTs) -> dict:
+def create_review(qa: QuestionSchema) -> dict:
     return qa_service.post_question(qa)
 
 

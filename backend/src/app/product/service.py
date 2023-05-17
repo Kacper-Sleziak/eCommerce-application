@@ -5,7 +5,7 @@ from app.models import CreateEngine, Product, ProductCategory, Category, Photo, 
 from app.utils import query_to_dict, product_to_json, category_to_json, photo_to_json, color_to_json
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.models import ProductCreate, ProductParams
+from app.product.schema import ProductCreateSchema, ProductParams
 from fastapi import UploadFile
 
 
@@ -122,7 +122,7 @@ class ProductService:
         photos = self.get_product_photos(product.product_id)
         return product_to_json(product, categories, photos, colors)
 
-    async def create_product(self, product: ProductCreate, photos: List[UploadFile]) -> dict:
+    async def create_product(self, product: ProductCreateSchema, photos: List[UploadFile]) -> dict:
 
         Session = self.engine.create_session()
         with Session() as session:
@@ -134,7 +134,7 @@ class ProductService:
 
         return self.get_product(product_id)
 
-    def create_product_info(self, product: ProductCreate) -> int:
+    def create_product_info(self, product: ProductCreateSchema) -> int:
         new_product = Product(
             seller_id=product.seller_id,
             name=product.name,

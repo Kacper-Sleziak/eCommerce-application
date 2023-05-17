@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.review.service import ReviewService
-from app.review.model import ReviewTs
+from app.review.schema import ReviewSchema
 
 router = APIRouter(
     prefix="/reviews",
@@ -11,7 +11,7 @@ review_service = ReviewService()
 
 
 @router.post("/")
-def create_review(review: ReviewTs) -> dict:
+def create_review(review: ReviewSchema) -> dict:
     return review_service.post_review(review)
 
 

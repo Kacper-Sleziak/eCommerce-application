@@ -1,6 +1,6 @@
 from app.models import CreateEngine, QuestionAnswer
 from sqlalchemy.dialects import postgresql
-from app.qa.model import QuestionTs
+from app.qa.schema import QuestionSchema
 
 
 class QAService:
@@ -28,7 +28,7 @@ class QAService:
         Session.remove()
         return result
 
-    def post_question(self, question: QuestionTs) -> dict:
+    def post_question(self, question: QuestionSchema) -> dict:
         Session = self.engine.create_session()
 
         with Session() as session:
