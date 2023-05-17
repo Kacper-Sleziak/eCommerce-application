@@ -11,22 +11,6 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../utils/materialUI/colorScheme'
 
-const Copyright = (props: any) => {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        ItApps
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  )
-}
 
 export default function LogOut() {
   const dispatch = useDispatch()
@@ -71,7 +55,6 @@ export default function LogOut() {
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   )
