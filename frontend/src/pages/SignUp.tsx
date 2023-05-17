@@ -36,13 +36,22 @@ const Copyright = (props: any) => {
 
 const SignUp = () => {
   const [signUp, signUpResult] = useSignUpMutation()
-  const [isSignUpSuccessful, setIsSignUpSuccessful] = useState<boolean>(false)
+  const [userMessage, setUserMessage] = useState<string>("")
 
   useEffect(() => {
-    if (signUpResult.isSuccess && !isSignUpSuccessful) {
-      console.log("hihi");
-      setIsSignUpSuccessful(true)
+    console.log(signUpResult);
 
+    if (signUpResult.isSuccess && !userMessage) {
+      setUserMessage("Logged in successfully")
+
+    }
+
+    if (signUpResult.isError && !userMessage) {
+      setUserMessage(`Something went wrong: ${signUpResult.error?.data?.detail}`);
+    }
+
+    if (signUpResult.isLoading) {
+      setUserMessage("")
     }
   }, [signUpResult])
   // const [signUpData, updateSignUpData] = React.useReducer(
@@ -187,7 +196,7 @@ const SignUp = () => {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
-        <ConfirmationMessageSnackbar message={isSignUpSuccessful ? "Sign up successful" : ""} severity="error" />
+        <ConfirmationMessageSnackbar message={userMessage} severity="error" />
       </Container>
 
     </ThemeProvider >
