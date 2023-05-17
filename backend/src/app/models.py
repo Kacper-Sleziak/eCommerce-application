@@ -8,6 +8,8 @@ from sqlalchemy import (
     String,
     text,
     create_engine,
+    Boolean,
+    DateTime,
 )
 from sqlalchemy.orm import relationship, sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
@@ -354,4 +356,55 @@ class Address(Base):
             "flat": self.flat,
             "latitude": self.latitude,
             "longitude": self.longitude,
+        }
+
+
+class Chat(Base):
+    __tablename__ = "chat"
+    __table_args__ = {"extend_existing": True}
+
+    chat_id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('chat_chat_id_seq'::regclass)"),
+    )
+    seller_id = Column(ForeignKey("user_.user_id"), nullable=False)
+    buyer_id = Column(ForeignKey("user_.user_id"), nullable=False)
+    blocked = Column(Boolean, nullable=False)
+
+    seller = relationship("User")
+    buyer = relationship("User")
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.chat_id,
+            "seller_id": self.seller_id,
+            "buyer_id": self.buyer_id,
+            "blocked": self.blocked,
+        }
+
+
+class ChatMessage(Base):
+    __tablename__ = "chat_message"
+    __table_args__ = {"extend_existing": True}
+
+    message_id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('chat_message_message_id_seq'::regclass)"),
+    )
+    chat_id = Column(ForeignKey("chat.chat_id"), nullable=False)
+    seller = Column(Boolean, nullable=False)
+    time = Column(DateTime, nullable=False)
+    message = Column(String(255), nullable=False)
+
+    chat = relationship("Chat")
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.message_id,
+            "chat_id": self.chat_id,
+            "seller": self.seller,
+            "time": self.time,
+            "message": self.message,
         }
