@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from app.address.service import AddressService
 from app.address.schema import CreateAddressSchema
-from app.models import Address
 
 router = APIRouter(
     prefix="/addresses",

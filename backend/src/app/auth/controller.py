@@ -16,21 +16,16 @@ ph = PasswordHasher()
 @router.post("/signup")
 def signup(user: UserSignUpSchema) -> dict:
     user = auth_service.add_user(user)
-    if user:
-        return sign_jwt(user["email"], user["role_id"])
-    raise HTTPException(status_code=400, detail="User already exists")
+    if user is not None:
+        return sign_jwt(user["email"], user["role"])
+    else:
+        raise HTTPException(status_code=400, detail="User already exists")
 
 
 @router.post("/login")
-def login(userCredentials: UserLoginSchema) -> dict:
-    try:
-        user = auth_service.get_user_by_email(userCredentials.email)
-    except:
-        raise HTTPException(status_code=400, detail="Invalid credentials")
-
-    try:
-        if ph.verify(user["password"], userCredentials.password):
-            return sign_jwt(user["email"], user["role_id"])
-    except:
-        raise HTTPException(status_code=400, detail="Invalid credentials")
+def login(user_credentials: UserLoginSchema) -> dict:
+    user = auth_service.get_user_by_email(user_credentials.email)
+    if user is not None:
+        if ph.verify(user["password"], user_credentials.password):
+            return sign_jwt(user["email"], user["role"])
     raise HTTPException(status_code=400, detail="Invalid credentials")

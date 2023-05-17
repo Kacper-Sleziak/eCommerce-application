@@ -1,5 +1,4 @@
 from app.models import CreateEngine
-from sqlalchemy.dialects import postgresql
 
 
 class UserService:

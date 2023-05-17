@@ -1,6 +1,5 @@
 from app.models import CreateEngine, QuestionAnswer, Product
 from fastapi import HTTPException
-from sqlalchemy.dialects import postgresql
 from app.qa.schema import QuestionSchema
 
 

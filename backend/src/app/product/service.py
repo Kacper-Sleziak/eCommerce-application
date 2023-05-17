@@ -62,10 +62,9 @@ class ProductService:
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
 
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
-            query = query.join(Auction, isouter=True)
+            query = query.join(Auction, isouter=True).filter(and_(*filters))
 
-            products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(
-                params.page * params.limit)
+            products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
         Session.remove()

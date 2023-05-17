@@ -8,7 +8,7 @@ class AuthService:
         self.engine = CreateEngine()
         self.ph = PasswordHasher()
 
-    def add_user(self, user: UserSignUpSchema) -> dict:
+    def add_user(self, user: UserSignUpSchema) -> dict | None:
         Session = self.engine.create_session()
 
         with Session() as session:
@@ -28,7 +28,7 @@ class AuthService:
         Session.remove()
         return result
 
-    def get_user_by_email(self, email: str) -> dict:
+    def get_user_by_email(self, email: str) -> dict | None:
         Session = self.engine.create_session()
         with Session() as session:
             user = session.query(User).filter(User.email == email).first()

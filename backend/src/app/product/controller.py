@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from fastapi import APIRouter, Query, HTTPException
 from app.product.service import ProductService
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
@@ -111,4 +110,8 @@ def create_auction(seller_id: int,
 
 @router.put("/auction")
 def bid_auction(product_id: int, user_id: int, bid: float) -> dict:
-    return product_service.auction_bump(product_id, user_id, bid)
+    result = product_service.auction_bump(product_id, user_id, bid)
+    if result is not None:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="No product found")

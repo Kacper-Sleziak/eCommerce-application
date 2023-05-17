@@ -9,7 +9,8 @@ JWT_ALGORITHM = config("JWT_ALGORITHM")
 roles = {
     "admin": 1,
     "user": 2
-    }
+}
+
 
 def token_response(token: str) -> dict:
     return {
@@ -29,8 +30,8 @@ def sign_jwt(userEmail: str, userRole: int) -> dict:
 
 def decode_jwt(token: str):
     try:
-      decode_token = jwt.decode(token, JWT_SECRET, algorithm=JWT_ALGORITHM)
-      return decode_token if decode_token["expiration"] >= time.time() else None
+        decode_token = jwt.decode(token, JWT_SECRET, algorithm=JWT_ALGORITHM)
+        return decode_token if decode_token["expiration"] >= time.time() else None
     except:
        return {}
     
@@ -48,7 +49,7 @@ class JwtAdminBearer(HTTPBearer):
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
-        
+
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid = False
         try:
@@ -74,7 +75,7 @@ class JwtUserBearer(HTTPBearer):
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
-        
+
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid: bool = False
         try:
@@ -85,7 +86,8 @@ class JwtUserBearer(HTTPBearer):
             if payload["user_role"] == roles["user"]:
                 is_token_valid = True
         return is_token_valid
-    
+
+
 class JwtBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
        super(JwtBearer, self).__init__(auto_error=auto_error)
@@ -100,7 +102,7 @@ class JwtBearer(HTTPBearer):
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
-        
+
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid: bool = False
         try:
@@ -110,4 +112,3 @@ class JwtBearer(HTTPBearer):
         if payload:
             is_token_valid = True
         return is_token_valid
-    
