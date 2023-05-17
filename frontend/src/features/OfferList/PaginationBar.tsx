@@ -3,14 +3,15 @@ import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+// import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Select from '@mui/material/Select'
 
 const PaginationBar: React.FC = () => {
-  const [itemsPerPage, setItemsPerPage] = React.useState('')
+  // const [itemsPerPage, setItemsPerPage] = React.useState('')
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setItemsPerPage(event.target.value as string)
-  }
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setItemsPerPage(event.target.value as string)
+  // }
 
   return (
     <Box sx={{ minWidth: 100 }}>
@@ -19,9 +20,9 @@ const PaginationBar: React.FC = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={itemsPerPage}
+          // value={itemsPerPage}
           label="Items"
-          onChange={handleChange}
+          // onChange={handleChange}
         >
           <MenuItem value={10}>10</MenuItem>
           <MenuItem value={25}>25</MenuItem>
