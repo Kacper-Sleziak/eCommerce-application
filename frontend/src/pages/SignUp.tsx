@@ -20,7 +20,7 @@ import ConfirmationMessageSnackbar from '../components/sharedComponents/Confirma
 
 const isEmailValid = (email: string) => {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-  return email ? emailRegex.test(email) : true
+  return email !== '' ? emailRegex.test(email) : true
 }
 
 const isSignUpFormValid = (
@@ -28,7 +28,12 @@ const isSignUpFormValid = (
   password: string,
   email: string,
 ) => {
-  if (username && password && email && isEmailValid(email)) {
+  if (
+    username !== '' &&
+    password !== '' &&
+    email !== '' &&
+    isEmailValid(email)
+  ) {
     return true
   }
   return false
@@ -42,14 +47,14 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>('')
 
   useEffect(() => {
-    if (signUpResult.isSuccess && !userMessage) {
+    if (signUpResult.isSuccess && userMessage !== '') {
       setUserMessage('Signed up successfully')
     }
 
-    if (signUpResult.isError && !userMessage) {
+    if (signUpResult.isError && userMessage !== '') {
       // @ts-expect-error
       const errorDetail = signUpResult.error?.data?.detail
-      const errorMessage = Array.isArray(errorDetail)
+      const errorMessage: string = Array.isArray(errorDetail)
         ? errorDetail[0]
         : errorDetail
 
@@ -59,12 +64,12 @@ const SignUp = () => {
     if (signUpResult.isLoading) {
       setUserMessage('')
     }
-  }, [signUpResult])
+  }, [signUpResult, userMessage])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const role_id = 1
-    const address_id = 1
+    const roleId = 1
+    const addressId = 1
 
     if (!isSignUpFormValid(username, password, email)) {
       setUserMessage('Fill properly form')
@@ -76,8 +81,8 @@ const SignUp = () => {
         username,
         email,
         password,
-        role_id,
-        address_id,
+        role_id: roleId,
+        address_id: addressId,
       },
     })
   }
