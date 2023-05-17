@@ -280,9 +280,9 @@ class Address(Base):
     postal_code = Column(String(255), nullable=False)
     street = Column(String(255), nullable=False)
     building = Column(Integer, nullable=False)
-    flat = Column(String(3))
-    latitude = Column(String(10))
-    longitude = Column(String(10))
+    flat = Column(String(3), nullable=True)
+    latitude = Column(String(10), nullable=True)
+    longitude = Column(String(10), nullable=True)
 
     def serialize(self) -> dict:
         return {
