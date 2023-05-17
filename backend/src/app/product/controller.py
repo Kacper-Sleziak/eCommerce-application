@@ -1,6 +1,6 @@
-from fastapi import APIRouter, File, UploadFile, Query
+from fastapi import APIRouter, UploadFile, Query
 from app.product.service import ProductService
-from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreate
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from typing import List, Annotated
 
 router = APIRouter(
@@ -24,7 +24,6 @@ def get_products_filter(search: str | None = None,
                         limit: int | None = None,
                         auction: bool | None = None,
                         auction_active: bool | None = None) -> dict:
-
     params = ProductParams(
         search=search,
         quantity=quantity,
@@ -60,14 +59,14 @@ async def create_product(seller_id: int,
                          colors: List[int],
                          photos: list[UploadFile]) -> dict:
     product = ProductCreateSchema(seller_id=seller_id,
-                            name=name,
-                            brand=brand,
-                            description=description,
-                            quantity=quantity,
-                            total_price=total_price,
-                            sale_type="Regular",
-                            categories=categories,
-                            colors=colors)
+                                  name=name,
+                                  brand=brand,
+                                  description=description,
+                                  quantity=quantity,
+                                  total_price=total_price,
+                                  sale_type="Regular",
+                                  categories=categories,
+                                  colors=colors)
     return await product_service.create_product(product, photos)
 
 
@@ -85,19 +84,19 @@ def create_auction(seller_id: int,
                    end_date: str
                    ) -> dict:
     product = ProductCreateSchema(seller_id=seller_id,
-                            name=name,
-                            brand=brand,
-                            description=description,
-                            quantity=quantity,
-                            total_price=starting_price,
-                            sale_type="Auction",
-                            categories=categories,
-                            colors=colors)
-    auction = AuctionCreate(highest_bidder_id=seller_id,
-                            starting_price=starting_price,
-                            highest_bid=starting_price,
-                            minimal_bump=minimal_bump,
-                            end_date=end_date)
+                                  name=name,
+                                  brand=brand,
+                                  description=description,
+                                  quantity=quantity,
+                                  total_price=starting_price,
+                                  sale_type="Auction",
+                                  categories=categories,
+                                  colors=colors)
+    auction = AuctionCreateSchema(highest_bidder_id=seller_id,
+                                  starting_price=starting_price,
+                                  highest_bid=starting_price,
+                                  minimal_bump=minimal_bump,
+                                  end_date=end_date)
     return product_service.create_product_auction(product, auction, photos)
 
 

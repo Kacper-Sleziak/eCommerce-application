@@ -112,7 +112,7 @@ CREATE TABLE order_product (
 CREATE TABLE auction (
     auction_id serial PRIMARY KEY,
     product_id int NOT NULL,
-    highest_bidder_id int,
+    highest_bidder_id int NOT NULL,
     current_price decimal(8,2) NOT NULL,
     highest_bid decimal(8,2) NOT NULL,
     minimal_bump decimal(5,2) NOT NULL,

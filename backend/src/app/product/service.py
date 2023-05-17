@@ -79,7 +79,7 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            product = session.query(Product).filter(Product.product_id == product_id).one()
+            product = session.query(Product).get(product_id)
             result = self.get_product_info(product)
         Session.remove()
 

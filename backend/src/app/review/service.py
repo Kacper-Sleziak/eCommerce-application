@@ -22,7 +22,7 @@ class ReviewService:
     def get_review(self, review_id: int) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            review = session.query(Review).filter(Review.review_id == review_id).one()
+            review = session.query(Review).get(review_id)
             result = review.serialize()
         Session.remove()
         return result

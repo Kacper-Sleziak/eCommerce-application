@@ -14,7 +14,7 @@ class ProductCreateSchema(BaseModel):
     colors: List[int]
 
 
-class AuctionCreate(BaseModel):
+class AuctionCreateSchema(BaseModel):
     highest_bidder_id: int
     starting_price: float
     highest_bid: float

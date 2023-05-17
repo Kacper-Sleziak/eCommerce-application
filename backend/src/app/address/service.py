@@ -1,7 +1,6 @@
 from sqlalchemy.dialects import postgresql
 from app.address.schema import CreateAddressSchema
 from app.models import CreateEngine, Address
-from app.utils import address_to_json
 
 
 class AddressService:
@@ -23,16 +22,16 @@ class AddressService:
                 longitude=address.longitude)
             session.add(new_address)
             session.commit()
-            result = session.query(Address).filter(Address.address_id == new_address.address_id).one()
+            result = session.query(Address).get(new_address.address_id)
         Session.remove()
-        return address_to_json(result)
+        return result.serialize()
 
     def get_address(self, address_id: int) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            address = session.query(Address).filter(Address.address_id == address_id).one()
+            address = session.query(Address).get(address_id)
         Session.remove()
-        return address_to_json(address)
+        return address.serialize()
 
     def get_addresses(self) -> dict:
         result = dict()
@@ -40,6 +39,6 @@ class AddressService:
         with Session() as session:
             addresses = session.query(Address).all()
             for i, address in enumerate(addresses):
-                result[i] = address_to_json(address)
+                result[i] = address.serialize()
         Session.remove()
         return result

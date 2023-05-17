@@ -21,7 +21,7 @@ class QAService:
     def get_qa(self, qa_id: int) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            review = session.query(QuestionAnswer).filter(QuestionAnswer.qa_id == qa_id).one()
+            review = session.query(QuestionAnswer).get(qa_id)
             result = review.serialize()
         Session.remove()
         return result
