@@ -10,6 +10,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 @router.get("/")
 def get_photo(path: str) -> dict:
     return FileResponse(path)

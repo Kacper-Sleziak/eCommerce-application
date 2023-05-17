@@ -36,6 +36,15 @@ class User(Base):
     address = relationship('Address')
     role = relationship('Role')
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.product_id,
+            "role_id": self.role_id,
+            "address_id": self.address_id,
+            "username": self.username,
+            "email": self.email
+        }
+
 
 class Category(Base):
     __tablename__ = 'category'
@@ -44,6 +53,12 @@ class Category(Base):
     category_id = Column(Integer, primary_key=True,
                          server_default=text("nextval('category_category_id_seq'::regclass)"))
     name = Column(String(255), nullable=False)
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.category_id,
+            "name": self.name
+        }
 
 
 class Color(Base):
@@ -70,6 +85,17 @@ class Product(Base):
 
     seller = relationship('User')
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.product_id,
+            "seller_id": self.seller_id,
+            "name": self.name,
+            "product_description": self.product_description,
+            "quantity": self.quantity,
+            "total_price": self.total_price,
+            "sale_type": self.sale_type
+        }
+
 
 class Review(Base):
     __tablename__ = 'review'
@@ -84,6 +110,15 @@ class Review(Base):
     reviewer = relationship('User', primaryjoin='Review.reviewer_id == User.user_id')
     seller = relationship('User', primaryjoin='Review.seller_id == User.user_id')
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.review_id,
+            "seller_id": self.seller_id,
+            "reviewer_id": self.reviewer_id,
+            "review": self.review,
+            "review_description": self.review_description
+        }
+
 
 class QuestionAnswer(Base):
     __tablename__ = 'question_answer'
@@ -96,6 +131,14 @@ class QuestionAnswer(Base):
 
     product = relationship('Product')
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.qa_id,
+            "product_id": self.product_id,
+            "question": self.question,
+            "answer": self.answer
+        }
+
 
 class Photo(Base):
     __tablename__ = 'photo'
@@ -106,6 +149,13 @@ class Photo(Base):
     product_id = Column(ForeignKey('product.product_id'), nullable=False)
 
     product = relationship('Product')
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.photo_id,
+            "photo_url": self.photo_url,
+            "product_id": self.product_id
+        }
 
 
 class Auction(Base):
@@ -123,6 +173,17 @@ class Auction(Base):
     highest_bidder = relationship('User')
     product = relationship('Product')
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.auction_id,
+            "product_id": self.product_id,
+            "highest_bidder_id": self.highest_bidder_id,
+            "current_price": self.current_price,
+            "highest_bid": self.highest_bid,
+            "minimal_bump": self.minimal_bump,
+            "end_date": self.end_date
+        }
+
 
 class ProductCategory(Base):
     __tablename__ = 'product_category'
@@ -133,6 +194,12 @@ class ProductCategory(Base):
 
     category = relationship('Category')
     product = relationship('Product')
+
+    def serialize(self) -> dict:
+        return {
+            "category_id": self.category_id,
+            "product_id": self.product_id
+        }
 
 
 class ProductColor(Base):
@@ -159,6 +226,15 @@ class SaleOrder(Base):
     buyer = relationship('User', primaryjoin='SaleOrder.buyer_id == User.user_id')
     seller = relationship('User', primaryjoin='SaleOrder.seller_id == User.user_id')
 
+    def serialize(self) -> dict:
+        return {
+            "order_id": self.order_id,
+            "buyer_id": self.buyer_id,
+            "seller_id": self.seller_id,
+            "order_date": self.order_date,
+            "total_price": self.total_price
+        }
+
 
 class OrderProduct(Base):
     __tablename__ = 'order_product'
@@ -171,6 +247,13 @@ class OrderProduct(Base):
     order = relationship('SaleOrder')
     product = relationship('Product')
 
+    def serialize(self) -> dict:
+        return {
+            "order_id": self.order_id,
+            "product_id": self.product_id,
+            "quantity": self.quantity
+        }
+
 
 class Role(Base):
     __tablename__ = 'role'
@@ -178,6 +261,12 @@ class Role(Base):
 
     role_id = Column(Integer, primary_key=True, server_default=text("nextval('role_role_id_seq'::regclass)"))
     name = Column(String(255), nullable=False)
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.role_id,
+            "name": self.name
+        }
 
 
 class Address(Base):
@@ -194,3 +283,17 @@ class Address(Base):
     flat = Column(String(3), nullable=True)
     latitude = Column(String(10), nullable=True)
     longitude = Column(String(10), nullable=True)
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.address_id,
+            "country": self.country,
+            "region": self.region,
+            "city": self.city,
+            "postal_code": self.postal_code,
+            "street": self.street,
+            "building": self.building,
+            "flat": self.flat,
+            "latitude": self.latitude,
+            "longitude": self.longitude
+        }

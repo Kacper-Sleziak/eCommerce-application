@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
-class UserSignUp(BaseModel):
+
+class UserSignUpSchema(BaseModel):
     username: str
     email: EmailStr
     password: str
@@ -8,6 +9,6 @@ class UserSignUp(BaseModel):
     address_id: int
 
 
-class UserLogin(BaseModel):
+class UserLoginSchema(BaseModel):
     email: EmailStr
     password: str

@@ -5,7 +5,7 @@ from app.models import CreateEngine, Product, ProductCategory, Category, Photo, 
 from app.utils import query_to_dict, product_to_json, category_to_json, photo_to_json, color_to_json
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.models import ProductCreate, ProductParams
+from app.product.schema import ProductCreateSchema, ProductParams
 from fastapi import UploadFile
 
 
@@ -16,7 +16,6 @@ class ProductService:
 
     def get_products_filter(self, params: ProductParams) -> dict:
         result = dict()
-        count = 0
 
         Session = self.engine.create_session()
         with Session() as session:
@@ -47,23 +46,20 @@ class ProductService:
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).filter(and_(*filters))
             products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
-            for product in products:
+            for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
-                count += 1
         Session.remove()
 
         return result
 
     def get_products_all(self) -> dict:
         result = dict()
-        count = 0
 
         Session = self.engine.create_session()
         with Session() as session:
             products = session.query(Product).order_by(asc("product_id")).limit(20).all()
-            for product in products:
+            for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
-                count += 1
         Session.remove()
 
         return result
@@ -122,7 +118,7 @@ class ProductService:
         photos = self.get_product_photos(product.product_id)
         return product_to_json(product, categories, photos, colors)
 
-    async def create_product(self, product: ProductCreate, photos: List[UploadFile]) -> dict:
+    async def create_product(self, product: ProductCreateSchema, photos: List[UploadFile]) -> dict:
 
         Session = self.engine.create_session()
         with Session() as session:
@@ -134,7 +130,7 @@ class ProductService:
 
         return self.get_product(product_id)
 
-    def create_product_info(self, product: ProductCreate) -> int:
+    def create_product_info(self, product: ProductCreateSchema) -> int:
         new_product = Product(
             seller_id=product.seller_id,
             name=product.name,

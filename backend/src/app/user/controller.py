@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.user.service import UserService
-from app.user.model import User, UserUpdate
+from app.user.schema import UserSchema, UserUpdateSchema
 
 router = APIRouter(
     prefix="/users",
@@ -9,9 +9,10 @@ router = APIRouter(
 )
 user_service = UserService()
 
+
 @router.get("/{user_id}")
 def get_user(user_id: int) -> dict:
-    #todo: call to service
+    # todo: call to service
     return {"user_id": 1,
             "role_id": 2,
             "address_id": 1,
@@ -20,8 +21,8 @@ def get_user(user_id: int) -> dict:
 
 
 @router.put("/")
-def update_user(user: UserUpdate) -> dict:
-    #todo: call to service
+def update_user(user: UserUpdateSchema) -> dict:
+    # todo: call to service
     return {"user_id": 1,
             "role_id": 2,
             "address_id": 1,
