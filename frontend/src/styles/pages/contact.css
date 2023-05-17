@@ -1,0 +1,29 @@
+.marginAll {
+  margin: 1rem 1rem;
+}
+
+.formFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.formFlex div {
+  min-width: 100%;
+  margin: 0.5rem 0;
+  border-radius: 4px !important;
+}
+
+.formFlex div fieldset {
+  border-color: #000 !important;
+}
+
+.formFlex label {
+  color: #000 !important;
+}
+
+.formFlex button {
+  width: 30%;
+  margin-bottom: 1rem;
+}
