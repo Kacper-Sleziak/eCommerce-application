@@ -12,10 +12,9 @@ class AuthService:
         Session = self.engine.create_session()
 
         with Session() as session:
-            try:
-                user = session.query(User).filter(User.email == user.email).one()
-                result = None
-            except:
+            user = session.query(User).filter(User.email == user.email).first()
+            result = None
+            if not user:
                 new_user = User(
                     role_id=user.role_id,
                     address_id=user.address_id,

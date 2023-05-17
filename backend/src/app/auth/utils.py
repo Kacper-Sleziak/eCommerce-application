@@ -4,8 +4,8 @@ from decouple import config
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-JWT_SECRET = config("secret")
-JWT_ALGORITHM = config("algorithm")
+JWT_SECRET = config("SECRET")
+JWT_ALGORITHM = config("ALGORITHM")
 roles = {
     "admin": 1,
     "user": 2
@@ -13,11 +13,11 @@ roles = {
 
 def token_response(token: str) -> dict:
     return {
-        "access token": token
+        "access_token": token
         }
 
 
-def sign_JWT(userEmail: str, userRole: int) -> dict:
+def sign_jwt(userEmail: str, userRole: int) -> dict:
     payload = {
         "user_email": userEmail,
         "user_role": userRole,
@@ -27,19 +27,19 @@ def sign_JWT(userEmail: str, userRole: int) -> dict:
     return token_response(token)
 
 
-def decode_JWT(token: str):
+def decode_jwt(token: str):
     try:
       decode_token = jwt.decode(token, JWT_SECRET, algorithm=JWT_ALGORITHM)
       return decode_token if decode_token["expiration"] >= time.time() else None
     except:
        return {}
     
-class jwtAdminBearer(HTTPBearer):
+class JwtAdminBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
-       super(jwtAdminBearer, self).__init__(auto_error=auto_error)
+       super(JwtAdminBearer, self).__init__(auto_error=auto_error)
     
     async def __call__(self, request: Request):
-        credentials: HTTPAuthorizationCredentials = await super(jwtAdminBearer, self).__call__(request)
+        credentials: HTTPAuthorizationCredentials = await super(JwtAdminBearer, self).__call__(request)
         try:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
@@ -52,7 +52,7 @@ class jwtAdminBearer(HTTPBearer):
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid = False
         try:
-            payload = decode_JWT(jwtoken)
+            payload = decode_jwt(jwtoken)
         except:
             payload = None
         if payload:
@@ -60,12 +60,12 @@ class jwtAdminBearer(HTTPBearer):
                 is_token_valid = True
         return is_token_valid
     
-class jwtUserBearer(HTTPBearer):
+class JwtUserBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
-       super(jwtUserBearer, self).__init__(auto_error=auto_error)
+       super(JwtUserBearer, self).__init__(auto_error=auto_error)
     
     async def __call__(self, request: Request):
-        credentials: HTTPAuthorizationCredentials = await super(jwtUserBearer, self).__call__(request)
+        credentials: HTTPAuthorizationCredentials = await super(JwtUserBearer, self).__call__(request)
         try:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
@@ -78,7 +78,7 @@ class jwtUserBearer(HTTPBearer):
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid: bool = False
         try:
-            payload = decode_JWT(jwtoken)
+            payload = decode_jwt(jwtoken)
         except:
             payload = None
         if payload:
@@ -86,12 +86,12 @@ class jwtUserBearer(HTTPBearer):
                 is_token_valid = True
         return is_token_valid
     
-class jwtBearer(HTTPBearer):
+class JwtBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
-       super(jwtBearer, self).__init__(auto_error=auto_error)
+       super(JwtBearer, self).__init__(auto_error=auto_error)
     
     async def __call__(self, request: Request):
-        credentials: HTTPAuthorizationCredentials = await super(jwtBearer, self).__call__(request)
+        credentials: HTTPAuthorizationCredentials = await super(JwtBearer, self).__call__(request)
         try:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
@@ -104,7 +104,7 @@ class jwtBearer(HTTPBearer):
     def verify_jwt(self, jwtoken: str) -> bool:
         is_token_valid: bool = False
         try:
-            payload = decode_JWT(jwtoken)
+            payload = decode_jwt(jwtoken)
         except:
             payload = None
         if payload:
