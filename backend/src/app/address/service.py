@@ -19,7 +19,8 @@ class AddressService:
                 building=address.building,
                 flat=address.flat,
                 latitude=address.latitude,
-                longitude=address.longitude)
+                longitude=address.longitude,
+            )
             session.add(new_address)
             session.commit()
             result = session.query(Address).get(new_address.address_id)

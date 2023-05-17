@@ -1,8 +1,17 @@
 import os
 from typing import List
 import uuid
-from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction, User
-from sqlalchemy.dialects import postgresql
+from app.models import (
+    CreateEngine,
+    Product,
+    ProductCategory,
+    Category,
+    Photo,
+    Color,
+    ProductColor,
+    Auction,
+    User,
+)
 from sqlalchemy import or_, and_, desc, asc, text
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
@@ -13,7 +22,6 @@ sale_types = ["Regular", "Auction"]
 
 
 class ProductService:
-
     def __init__(self):
         self.engine = CreateEngine()
 
@@ -54,17 +62,30 @@ class ProductService:
                 auction_type = "Auction" if params.auction else "Regular"
                 filters.append(Product.sale_type == auction_type)
             if params.has_auction_active():
-                today = datetime.today().strftime('%Y-%m-%d')
+                today = datetime.today().strftime("%Y-%m-%d")
                 if params.auction_active:
                     filters.append(Auction.end_date >= today)
                 else:
                     filters.append(Auction.end_date < today)
-            sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
+            sort = (
+                asc(text(params.order_by))
+                if params.order == "ASC"
+                else desc(text(params.order_by))
+            )
 
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = (
+                session.query(Product)
+                .join(ProductCategory)
+                .join(ProductColor)
+                .join(Color)
+            )
             query = query.join(Auction, isouter=True).filter(and_(*filters))
 
-            products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
+            products = (
+                query.order_by(sort)
+                .limit(params.limit)
+                .offset(params.page * params.limit)
+            )
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
         Session.remove()
@@ -76,7 +97,9 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            products = session.query(Product).order_by(asc("product_id")).limit(20).all()
+            products = (
+                session.query(Product).order_by(asc("product_id")).limit(20).all()
+            )
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
         Session.remove()
@@ -84,7 +107,6 @@ class ProductService:
         return result
 
     def get_product(self, product_id: int) -> dict:
-
         Session = self.engine.create_session()
         with Session() as session:
             product = session.query(Product).get(product_id)
@@ -99,8 +121,12 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            categories = session.query(Category).join(ProductCategory).filter(
-                ProductCategory.product_id == product_id).all()
+            categories = (
+                session.query(Category)
+                .join(ProductCategory)
+                .filter(ProductCategory.product_id == product_id)
+                .all()
+            )
             for i, category in enumerate(categories):
                 result[i] = category.serialize()
         Session.remove()
@@ -112,8 +138,12 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            colors = session.query(Color).join(ProductColor).filter(
-                ProductColor.product_id == product_id).all()
+            colors = (
+                session.query(Color)
+                .join(ProductColor)
+                .filter(ProductColor.product_id == product_id)
+                .all()
+            )
             for i, color in enumerate(colors):
                 result[i] = color.serialize()
         Session.remove()
@@ -133,10 +163,11 @@ class ProductService:
         return result
 
     def get_product_auction(self, product_id: int) -> dict:
-
         Session = self.engine.create_session()
         with Session() as session:
-            auction = session.query(Auction).filter(Auction.product_id == product_id).first()
+            auction = (
+                session.query(Auction).filter(Auction.product_id == product_id).first()
+            )
             if auction is None:
                 raise HTTPException(status_code=422, detail="No auction for given product id")
             result = auction.serialize()
@@ -145,7 +176,6 @@ class ProductService:
         return result
 
     def get_product_info(self, product: Product) -> dict:
-
         result = product.serialize()
         result["photos"] = self.get_product_photos(product.product_id)
         result["colors"] = self.get_product_colors(product.product_id)
@@ -156,15 +186,17 @@ class ProductService:
         return result
 
     def create_product(self, product: ProductCreateSchema) -> dict:
-
         product_id = self.create_product_info(product)
         self.create_product_categories(product_id, product.categories)
         self.create_product_colors(product_id, product.colors)
         self.create_product_photos(product_id, product.photos)
         return self.get_product(product_id)
 
-    def create_product_auction(self, product: ProductCreateSchema, auction: AuctionCreateSchema) -> dict:
-
+    def create_product_auction(
+        self,
+        product: ProductCreateSchema,
+        auction: AuctionCreateSchema,
+    ) -> dict:
         product_id = self.create_product_info(product)
         self.create_auction(auction, product_id)
         self.create_product_categories(product_id, product.categories)
@@ -186,7 +218,8 @@ class ProductService:
             current_price=auction.starting_price,
             highest_bid=auction.highest_bid,
             minimal_bump=auction.minimal_bump,
-            end_date=auction.end_date)
+            end_date=auction.end_date,
+        )
 
         Session = self.engine.create_session()
         with Session() as session:
@@ -195,7 +228,6 @@ class ProductService:
         Session.remove()
 
     def create_product_info(self, product: ProductCreateSchema) -> int:
-
         Session = self.engine.create_session()
         with Session() as session:
 
@@ -217,7 +249,7 @@ class ProductService:
                 product_description=product.description,
                 quantity=product.quantity,
                 total_price=product.total_price,
-                sale_type=product.sale_type
+                sale_type=product.sale_type,
             )
             session.add(new_product)
             session.commit()
@@ -227,32 +259,30 @@ class ProductService:
         return new_id
 
     def create_product_colors(self, product_id: int, colors: List[int]) -> None:
-
         Session = self.engine.create_session()
         with Session() as session:
             for color_id in colors:
                 new_product_color = ProductColor(
-                    product_id=product_id,
-                    color_id=color_id
+                    product_id=product_id, color_id=color_id
                 )
                 session.add(new_product_color)
             session.commit()
         Session.remove()
 
     def create_product_categories(self, product_id: int, categories: List[int]) -> None:
-
         Session = self.engine.create_session()
         with Session() as session:
             for category_id in categories:
                 new_product_category = ProductCategory(
-                    product_id=product_id,
-                    category_id=category_id
+                    product_id=product_id, category_id=category_id
                 )
                 session.add(new_product_category)
             session.commit()
         Session.remove()
 
-    def create_product_photos(self, product_id: int, photos: List[str]) -> None:
+    def create_product_photos(
+            self, product_id: int, photos: List[str]
+    ) -> None:
         Session = self.engine.create_session()
         with Session() as session:
             for photo in photos:
@@ -274,15 +304,25 @@ class ProductService:
                 raise HTTPException(status_code=422, detail="No user with given id")
 
             reference_value = bid
-            auction = session.query(Auction).filter(Auction.product_id == product_id).first()
+            auction = (
+                session.query(Auction).filter(Auction.product_id == product_id).first()
+            )
+
             if auction is not None:
                 if auction.highest_bid < bid:
                     auction.highest_bidder_id = user_id
                     auction.highest_bid = bid
                     reference_value = auction.current_price
-                auction.current_price = min(auction.highest_bid, reference_value + auction.minimal_bump)
+                auction.current_price = min(
+                    auction.highest_bid, reference_value + auction.minimal_bump
+                )
                 session.commit()
-                result = session.query(Auction).filter(Auction.product_id == product_id).first().serialize()
+                result = (
+                    session.query(Auction)
+                    .filter(Auction.product_id == product_id)
+                    .first()
+                    .serialize()
+                )
             else:
                 raise HTTPException(status_code=422, detail="No auction for given id")
 

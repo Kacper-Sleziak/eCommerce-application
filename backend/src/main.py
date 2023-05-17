@@ -17,6 +17,7 @@ app.add_middleware(
 
 app.include_router(api_router)
 
+
 @app.get("/adminTest", dependencies=[Depends(JwtAdminBearer())])
 async def welcome_admin() -> dict:
     return {"message": "You are admin!"}

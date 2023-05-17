@@ -25,21 +25,20 @@ class AuctionCreateSchema(BaseModel):
 
 
 class ProductParams:
-
     def __init__(
-            self,
-            search: str | None,
-            quantity: int | None,
-            categories: list[int] | None,
-            brands: list[str] | None,
-            colors: list[str] | None,
-            price: int | None,
-            order: str | None,
-            order_by: str | None,
-            page: int | None,
-            limit: int | None,
-            auction: bool | None,
-            auction_active: bool | None
+        self,
+        search: str | None,
+        quantity: int | None,
+        categories: list[int] | None,
+        brands: list[str] | None,
+        colors: list[str] | None,
+        price: int | None,
+        order: str | None,
+        order_by: str | None,
+        page: int | None,
+        limit: int | None,
+        auction: bool | None,
+        auction_active: bool | None,
     ):
         self.search: str = search
         self.quantity: int = quantity
@@ -84,15 +83,17 @@ class ProductParams:
         return self.auction_active is not None
 
     def has_data(self) -> bool:
-        return (self.page != 0
-                or self.limit != 20
-                or self.order_by != "Product.product_id"
-                or self.order != "ASC"
-                or self.has_search()
-                or self.has_quantity()
-                or self.has_categories()
-                or self.has_brands()
-                or self.has_colors()
-                or self.has_price()
-                or self.has_auction()
-                or self.has_auction_active())
+        return (
+            self.page != 0
+            or self.limit != 20
+            or self.order_by != "Product.product_id"
+            or self.order != "ASC"
+            or self.has_search()
+            or self.has_quantity()
+            or self.has_categories()
+            or self.has_brands()
+            or self.has_colors()
+            or self.has_price()
+            or self.has_auction()
+            or self.has_auction_active()
+        )

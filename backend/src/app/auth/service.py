@@ -20,7 +20,8 @@ class AuthService:
                     address_id=user.address_id,
                     username=user.username,
                     email=user.email,
-                    password=self.ph.hash(user.password))
+                    password=self.ph.hash(user.password),
+                )
                 session.add(new_user)
                 session.commit()
                 new_user_data = session.query(User).get(new_user.user_id)

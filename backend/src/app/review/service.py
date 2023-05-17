@@ -1,6 +1,5 @@
 from app.models import CreateEngine, Review, User
 from fastapi import HTTPException
-from sqlalchemy.dialects import postgresql
 from app.review.schema import ReviewSchema
 
 
@@ -18,8 +17,11 @@ class ReviewService:
             if user is None:
                 raise HTTPException(status_code=422, detail="No user with given id")
 
-            reviews = session.query(Review).filter(Review.seller_id == user_id) if for_seller \
+            reviews = (
+                session.query(Review).filter(Review.seller_id == user_id)
+                if for_seller
                 else session.query(Review).filter(Review.reviewer_id == user_id)
+            )
             for count, review in enumerate(reviews):
                 result[count] = review.serialize()
         Session.remove()
@@ -52,7 +54,7 @@ class ReviewService:
                 seller_id=review.seller_id,
                 reviewer_id=review.reviewer_id,
                 review=review.review,
-                review_description=review.review_description
+                review_description=review.review_description,
             )
             session.add(new_review)
             session.commit()

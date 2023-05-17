@@ -12,7 +12,9 @@ class QAService:
         Session = self.engine.create_session()
 
         with Session() as session:
-            qas = session.query(QuestionAnswer).filter(QuestionAnswer.product_id == product_id)
+            qas = session.query(QuestionAnswer).filter(
+                QuestionAnswer.product_id == product_id
+            )
             for count, qa in enumerate(qas):
                 result[count] = qa.serialize()
         Session.remove()
@@ -38,9 +40,7 @@ class QAService:
                 raise HTTPException(status_code=400, detail="No product with given id")
 
             new_question = QuestionAnswer(
-                product_id=question.product_id,
-                question=question.question,
-                answer=""
+                product_id=question.product_id, question=question.question, answer=""
             )
             session.add(new_question)
             session.commit()
