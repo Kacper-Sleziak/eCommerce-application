@@ -1,49 +1,23 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { BACKEND_BASE_URL } from '../../config/backend'
 
-// TO TYLKO PRZYKLAD
 
 export const userAccountApi = createApi({
   reducerPath: 'userAccountApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://official-joke-api.appspot.com',
-    // prepareHeaders: (headers, { getState }) => {
-    //   headers.set('Authorization', `Bearer ${(getState()).usersData.accessToken}`)
-    //   return headers
-    // }
+    baseUrl: `${BACKEND_BASE_URL}/auth`,
   }),
 
   endpoints: (builder) => ({
-    getRandomJoke: builder.mutation({
-      query: () => ({
-        url: 'random_joke',
+    signUp: builder.mutation({
+      query: (params) => ({
+        url: 'signup',
+        method: 'POST',
+        body: params.body
       }),
     }),
 
-    // tutaj poglądowe definicje innych endpointów
-
-    // updateDroneById: builder.mutation({
-    //   query: (params) => ({
-    //     url: `add/drone/?_id=${params.id}`,
-    //     method: 'PUT',
-    //     body: params.body,https://official-joke-api.appspot.com/random_joke
-    //   })
-    // }),
-
-    // deleteDroneById: builder.mutation({
-    //   query: (params) => ({
-    //     url: `add/drone/?_id=${params.id}`,
-    //     method: 'DELETE',
-    //   })
-    // }),
-
-    // addDrone: builder.mutation({
-    //   query: (params) => ({
-    //     url: `add/drone/`,
-    //     method: 'POST',
-    //     body: params.body,
-    //   })
-    // })
   }),
 })
 
-export const { useGetRandomJokeMutation } = userAccountApi
+export const { useSignUpMutation } = userAccountApi

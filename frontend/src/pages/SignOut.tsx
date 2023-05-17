@@ -1,36 +1,40 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { useDispatch, useSelector } from 'react-redux';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import theme from '../utils/materialUI/colorScheme';
-import { ThemeProvider } from '@mui/material/styles';
+import * as React from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import Link from '@mui/material/Link'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { useDispatch, useSelector } from 'react-redux'
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from '../utils/materialUI/colorScheme'
 
-function Copyright(props: any) {
+const Copyright = (props: any) => {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         ItApps
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {new Date().getFullYear()}.
     </Typography>
-  );
+  )
 }
 
 export default function LogOut() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [email, setEmail] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>('')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
   }
 
   return (
@@ -51,7 +55,12 @@ export default function LogOut() {
           <Typography component="h1" variant="h5">
             Welcome {email}
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <Button
               type="submit"
               fullWidth
@@ -65,5 +74,5 @@ export default function LogOut() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
+  )
 }

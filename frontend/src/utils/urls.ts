@@ -1,7 +1,7 @@
 export const searchParamsToStringQuery = (
   searchParams: URLSearchParams,
 ): string => {
-  var searchParamsString = ''
+  let searchParamsString = ''
 
   const params = new URLSearchParams(searchParams)
   const paramArray = Array.from(params)

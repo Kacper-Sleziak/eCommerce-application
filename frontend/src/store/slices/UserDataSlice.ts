@@ -18,6 +18,10 @@ export interface IUserInfo {
   roles: Role[]
 }
 
+export interface IUserAuth {
+  accessToken: string
+}
+
 export interface IUserPreferences {
   theme: Theme
   fontSize: number
@@ -26,6 +30,7 @@ export interface IUserPreferences {
 export interface IUserDataState {
   userInfo: IUserInfo | null
   userPreferences: IUserPreferences
+  userAuth: IUserAuth | null
 }
 
 const initialState: IUserDataState = {
@@ -36,6 +41,7 @@ const initialState: IUserDataState = {
     roles: [Role.ADMIN, Role.CLIENT],
   },
   userPreferences: { theme: Theme.CONTRAST, fontSize: 10 },
+  userAuth: null
 }
 
 export const UserDataSlice = createSlice({
@@ -49,15 +55,20 @@ export const UserDataSlice = createSlice({
     updateUserPreferences: (state, action: PayloadAction<IUserPreferences>) => {
       state.userPreferences = action.payload
     },
+
+    updateUserAuth: (state, action: PayloadAction<IUserAuth>) => {
+      state.userAuth = action.payload;
+    },
   },
 })
 
-export const { updateUserInfo, updateUserPreferences } = UserDataSlice.actions
+export const { updateUserInfo, updateUserPreferences, updateUserAuth } = UserDataSlice.actions
 
 export const selectUserInfo = (state: { userData: { userInfo: IUserInfo } }) =>
   state.userData.userInfo
 export const selectPreferencesInfo = (state: {
   userData: { userPreferences: IUserPreferences }
 }) => state.userData.userPreferences
+export const selectUserAuth = (state: { userData: { userAuth: IUserAuth } }) => state.userData.userAuth
 
 export default UserDataSlice.reducer
