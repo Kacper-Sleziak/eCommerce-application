@@ -2,19 +2,15 @@ import * as React from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
-import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import { useDispatch, useSelector } from 'react-redux'
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../utils/materialUI/colorScheme'
 
-export default function LogOut() {
-  const dispatch = useDispatch()
-
-  const [email, setEmail] = React.useState<string>('')
+const LogOut = () => {
+  const [email] = React.useState<string>('')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -58,3 +54,5 @@ export default function LogOut() {
     </ThemeProvider>
   )
 }
+
+export default LogOut

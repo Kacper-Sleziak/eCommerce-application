@@ -21,14 +21,14 @@ import { useSignInMutation } from '../store/services/UserDataApi'
 import { updateUserAuth } from '../store/slices/UserDataSlice'
 
 const isSignInDataValid = (email: string, password: string) => {
-  if (email && password && isEmailValid(email)) {
+  if (email !== '' && password !== '' && isEmailValid(email)) {
     return true
   }
   return false
 }
 
 const SignIn = () => {
-  const [signInText, setSignInText] = useState<string>('Sign in')
+  const [signInText] = useState<string>('Sign in')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [userMessage, setUserMessage] = useState<string>('')
@@ -130,13 +130,13 @@ const SignIn = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2" color="secondary">
-                  Don't have an account? Sign Up
+                  Do not have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
