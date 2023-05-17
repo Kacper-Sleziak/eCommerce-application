@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { BACKEND_BASE_URL } from '../../config/backend'
 
-
 export const userAccountApi = createApi({
   reducerPath: 'userAccountApi',
   baseQuery: fetchBaseQuery({
@@ -13,11 +12,18 @@ export const userAccountApi = createApi({
       query: (params) => ({
         url: 'signup',
         method: 'POST',
-        body: params.body
+        body: params.body,
       }),
     }),
 
+    signIn: builder.mutation({
+      query: (params) => ({
+        url: 'login',
+        method: 'POST',
+        body: params.body,
+      })
+    })
   }),
 })
 
-export const { useSignUpMutation } = userAccountApi
+export const { useSignUpMutation, useSignInMutation } = userAccountApi

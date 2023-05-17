@@ -41,7 +41,7 @@ const initialState: IUserDataState = {
     roles: [Role.ADMIN, Role.CLIENT],
   },
   userPreferences: { theme: Theme.CONTRAST, fontSize: 10 },
-  userAuth: null
+  userAuth: null,
 }
 
 export const UserDataSlice = createSlice({
@@ -57,18 +57,20 @@ export const UserDataSlice = createSlice({
     },
 
     updateUserAuth: (state, action: PayloadAction<IUserAuth>) => {
-      state.userAuth = action.payload;
+      state.userAuth = action.payload
     },
   },
 })
 
-export const { updateUserInfo, updateUserPreferences, updateUserAuth } = UserDataSlice.actions
+export const { updateUserInfo, updateUserPreferences, updateUserAuth } =
+  UserDataSlice.actions
 
 export const selectUserInfo = (state: { userData: { userInfo: IUserInfo } }) =>
   state.userData.userInfo
 export const selectPreferencesInfo = (state: {
   userData: { userPreferences: IUserPreferences }
 }) => state.userData.userPreferences
-export const selectUserAuth = (state: { userData: { userAuth: IUserAuth } }) => state.userData.userAuth
+export const selectUserAuth = (state: { userData: { userAuth: IUserAuth } }) =>
+  state.userData.userAuth
 
 export default UserDataSlice.reducer
