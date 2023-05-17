@@ -1,5 +1,5 @@
 from sqlalchemy.dialects import postgresql
-from app.address.models import CreateAddress
+from app.address.schema import CreateAddressSchema
 from app.models import CreateEngine, Address
 from app.utils import address_to_json
 
@@ -8,7 +8,7 @@ class AddressService:
     def __init__(self):
         self.engine = CreateEngine()
 
-    def add_address(self, address: CreateAddress) -> dict:
+    def add_address(self, address: CreateAddressSchema) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
             new_address = Address(
