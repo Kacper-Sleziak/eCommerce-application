@@ -15,30 +15,52 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../utils/materialUI/colorScheme'
+import { isEmailValid } from './SignUp'
+import ConfirmationMessageSnackbar from '../components/sharedComponents/ConfirmationMessageSnackbar'
+import { useSignInMutation } from '../store/services/UserDataApi'
+import { updateUserAuth } from '../store/slices/UserDataSlice'
 
-const Copyright = (props: any) => {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        ItApps
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  )
+const isSignInDataValid = (email: string, password: string) => {
+  if (email && password && isEmailValid(email)) {
+    return true
+  }
+  return false
 }
 
-export default function SignIn() {
+const SignIn = () => {
   const [signInText, setSignInText] = useState<string>('Sign in')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [userMessage, setUserMessage] = useState<string>('');
+
+  const [signIn, signInResult] = useSignInMutation();
 
   const dispatch = useDispatch()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {}
+  useEffect(() => {
+    console.log({ signInResult })
+    if (signInResult.isSuccess) {
+      console.log(signInResult.data["access token"])
+      dispatch(updateUserAuth({ accessToken: signInResult.data["access token"] }))
+    }
+  }, [signInResult])
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!isSignInDataValid(email, password)) {
+      setUserMessage('Something is wrong man')
+      return
+    }
+    signIn({
+      body: {
+        email,
+        password
+      }
+    }
+    )
+
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,6 +95,9 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              color='secondary'
+              value={email}
+              onChange={(e) => { setEmail(e.target.value) }}
             />
             <TextField
               margin="normal"
@@ -83,6 +108,10 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              color='secondary'
+              value={password}
+              onChange={(e) => { setPassword(e.target.value) }}
+
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -110,8 +139,10 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <ConfirmationMessageSnackbar message={userMessage} severity="error" />
       </Container>
     </ThemeProvider>
   )
 }
+
+export default SignIn

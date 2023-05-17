@@ -12,90 +12,61 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { ThemeProvider } from '@mui/material/styles'
+import { useEffect, useState } from 'react'
 import theme from '../utils/materialUI/colorScheme'
 import { useSignUpMutation } from '../store/services/UserDataApi'
-import { useEffect, useState } from 'react'
 import ConfirmationMessageSnackbar from '../components/sharedComponents/ConfirmationMessageSnackbar'
+import PasswordStrengthBar from 'react-password-strength-bar';
 
-const Copyright = (props: any) => {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color="inherit" href="http://127.0.0.1/">
-        ItApps
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  )
+const isEmailValid = (email: string) => {
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return email ? emailRegex.test(email) : true
+
+}
+
+const isSignUpFormValid = (username: string, password: string, email: string) => {
+  if (username && password && email && isEmailValid(email)) {
+    return true
+  }
+  return false
 }
 
 const SignUp = () => {
   const [signUp, signUpResult] = useSignUpMutation()
-  const [userMessage, setUserMessage] = useState<string>("")
+  const [userMessage, setUserMessage] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
   useEffect(() => {
-    console.log(signUpResult);
-
     if (signUpResult.isSuccess && !userMessage) {
-      setUserMessage("Logged in successfully")
-
+      setUserMessage('Signed up successfully')
     }
 
     if (signUpResult.isError && !userMessage) {
-      setUserMessage(`Something went wrong: ${signUpResult.error?.data?.detail}`);
+      // @ts-ignore
+      const errorDetail = signUpResult.error?.data?.detail
+      const errorMessage = Array.isArray(errorDetail) ? errorDetail[0] : errorDetail
+
+      setUserMessage(
+        `Something went wrong: ${errorMessage}`,
+      )
     }
 
     if (signUpResult.isLoading) {
-      setUserMessage("")
+      setUserMessage('')
     }
   }, [signUpResult])
-  // const [signUpData, updateSignUpData] = React.useReducer(
-  //   (state, action) => {
-  //     const updateData = { ...state }
-
-  //     switch (action.type) {
-  //       case "username": 
-  //       break
-  //       case "email":
-  //       break
-  //       case "password":
-  //       break
-  //       case "role_id":
-  //       break
-  //       case "address_id":
-  //       break
-  //       default:
-  //         return updateData
-  //     }
-  //     return updateData
-  //   },
-  //   {
-  //     username: "",
-  //     email: "",
-  //     password: "",
-
-  //   }
-  // )
-
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email');
-    const password = data.get('password');
-    const username = data.get('username');
-    const role_id = 1;
-    const address_id = 1;
+    event.preventDefault()
+    const role_id = 1
+    const address_id = 1
 
-    console.log(data.get('email'));
-    console.log(data.get('password'));
-    console.log(data.get('username'));
+    if (!isSignUpFormValid(username, password, email)) {
+      setUserMessage("Fill properly form")
+      return
+    }
 
     signUp({
       body: {
@@ -103,8 +74,8 @@ const SignUp = () => {
         email,
         password,
         role_id,
-        address_id
-      }
+        address_id,
+      },
     })
   }
 
@@ -142,7 +113,9 @@ const SignUp = () => {
                   id="name-textfield"
                   label="name"
                   autoFocus
-                  color="error"
+                  color="secondary"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </Grid>
 
@@ -154,7 +127,10 @@ const SignUp = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  color="error"
+                  color="secondary"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={!isEmailValid(email)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -166,14 +142,15 @@ const SignUp = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  color="error"
+                  color="secondary"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
+                <PasswordStrengthBar password={password} />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="error" />
-                  }
+                  control={<Checkbox value="allowExtraEmails" color="secondary" />}
                   label="I agree to terms and conditions*"
                 />
               </Grid>
@@ -188,19 +165,19 @@ const SignUp = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link href="/signin" variant="body2" color="secondary">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
         <ConfirmationMessageSnackbar message={userMessage} severity="error" />
       </Container>
-
-    </ThemeProvider >
+    </ThemeProvider>
   )
 }
 
 export default SignUp
+
+export { isEmailValid }
