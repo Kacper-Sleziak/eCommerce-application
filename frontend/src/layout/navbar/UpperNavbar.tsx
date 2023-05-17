@@ -45,6 +45,7 @@ const UpperNavbar: React.FC = () => {
         </Button>
         <Button
           variant="outlined"
+          href="/"
           startIcon={<ShoppingBagIcon />}
           sx={{
             color: '#000',

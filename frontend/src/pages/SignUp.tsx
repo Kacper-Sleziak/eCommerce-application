@@ -13,18 +13,21 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { ThemeProvider } from '@mui/material/styles'
 import { useEffect, useState } from 'react'
+import PasswordStrengthBar from 'react-password-strength-bar'
 import theme from '../utils/materialUI/colorScheme'
 import { useSignUpMutation } from '../store/services/UserDataApi'
 import ConfirmationMessageSnackbar from '../components/sharedComponents/ConfirmationMessageSnackbar'
-import PasswordStrengthBar from 'react-password-strength-bar';
 
 const isEmailValid = (email: string) => {
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
   return email ? emailRegex.test(email) : true
-
 }
 
-const isSignUpFormValid = (username: string, password: string, email: string) => {
+const isSignUpFormValid = (
+  username: string,
+  password: string,
+  email: string,
+) => {
   if (username && password && email && isEmailValid(email)) {
     return true
   }
@@ -44,13 +47,13 @@ const SignUp = () => {
     }
 
     if (signUpResult.isError && !userMessage) {
-      // @ts-ignore
+      // @ts-expect-error
       const errorDetail = signUpResult.error?.data?.detail
-      const errorMessage = Array.isArray(errorDetail) ? errorDetail[0] : errorDetail
+      const errorMessage = Array.isArray(errorDetail)
+        ? errorDetail[0]
+        : errorDetail
 
-      setUserMessage(
-        `Something went wrong: ${errorMessage}`,
-      )
+      setUserMessage(`Something went wrong: ${errorMessage}`)
     }
 
     if (signUpResult.isLoading) {
@@ -64,7 +67,7 @@ const SignUp = () => {
     const address_id = 1
 
     if (!isSignUpFormValid(username, password, email)) {
-      setUserMessage("Fill properly form")
+      setUserMessage('Fill properly form')
       return
     }
 
@@ -115,7 +118,9 @@ const SignUp = () => {
                   autoFocus
                   color="secondary"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    setUsername(e.target.value)
+                  }}
                 />
               </Grid>
 
@@ -129,7 +134,9 @@ const SignUp = () => {
                   autoComplete="email"
                   color="secondary"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
                   error={!isEmailValid(email)}
                 />
               </Grid>
@@ -144,13 +151,17 @@ const SignUp = () => {
                   autoComplete="new-password"
                   color="secondary"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                  }}
                 />
                 <PasswordStrengthBar password={password} />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="secondary" />}
+                  control={
+                    <Checkbox value="allowExtraEmails" color="secondary" />
+                  }
                   label="I agree to terms and conditions*"
                 />
               </Grid>

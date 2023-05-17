@@ -11,7 +11,6 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../utils/materialUI/colorScheme'
 
-
 export default function LogOut() {
   const dispatch = useDispatch()
 
