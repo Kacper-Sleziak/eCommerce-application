@@ -31,17 +31,19 @@ const SignIn = () => {
   const [signInText, setSignInText] = useState<string>('Sign in')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [userMessage, setUserMessage] = useState<string>('');
+  const [userMessage, setUserMessage] = useState<string>('')
 
-  const [signIn, signInResult] = useSignInMutation();
+  const [signIn, signInResult] = useSignInMutation()
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     console.log({ signInResult })
     if (signInResult.isSuccess) {
-      console.log(signInResult.data["access token"])
-      dispatch(updateUserAuth({ accessToken: signInResult.data["access token"] }))
+      console.log(signInResult.data['access token'])
+      dispatch(
+        updateUserAuth({ accessToken: signInResult.data['access token'] }),
+      )
     }
   }, [signInResult])
 
@@ -55,11 +57,9 @@ const SignIn = () => {
     signIn({
       body: {
         email,
-        password
-      }
-    }
-    )
-
+        password,
+      },
+    })
   }
 
   return (
@@ -95,9 +95,11 @@ const SignIn = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              color='secondary'
+              color="secondary"
               value={email}
-              onChange={(e) => { setEmail(e.target.value) }}
+              onChange={(e) => {
+                setEmail(e.target.value)
+              }}
             />
             <TextField
               margin="normal"
@@ -108,10 +110,11 @@ const SignIn = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-              color='secondary'
+              color="secondary"
               value={password}
-              onChange={(e) => { setPassword(e.target.value) }}
-
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

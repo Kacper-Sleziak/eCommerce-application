@@ -21,8 +21,8 @@ export const userAccountApi = createApi({
         url: 'login',
         method: 'POST',
         body: params.body,
-      })
-    })
+      }),
+    }),
   }),
 })
 
