@@ -96,6 +96,7 @@ class Product(Base):
             "id": self.product_id,
             "seller_id": self.seller_id,
             "name": self.name,
+            "brand": self.brand,
             "product_description": self.product_description,
             "quantity": self.quantity,
             "total_price": self.total_price,

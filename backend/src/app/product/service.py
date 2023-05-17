@@ -1,11 +1,10 @@
-import decimal
 import os
 from typing import List
 import uuid
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreate
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
 from fastapi import UploadFile
 from decimal import Decimal
@@ -24,7 +23,12 @@ class ProductService:
             filters = list()
 
             if params.has_search():
-                filters.append(Product.name.ilike("%{}%".format(params.search)))
+                search_query = "%"+params.search+"%"
+                searches = list()
+                searches.append(Product.name.ilike(search_query))
+                searches.append(Product.brand.ilike(search_query))
+                searches.append(Product.product_description.ilike(search_query))
+                filters.append(or_(*searches))
             if params.has_quantity():
                 filters.append(Product.quantity > params.quantity)
             if params.has_categories():
@@ -53,9 +57,11 @@ class ProductService:
                     filters.append(Auction.end_date >= today)
                 else:
                     filters.append(Auction.end_date < today)
-
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Auction)
+
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = query.join(Auction, isouter=True)
+
             products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(params.page * params.limit)
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
@@ -156,7 +162,7 @@ class ProductService:
 
         return self.get_product(product_id)
 
-    def create_product_auction(self, product: ProductCreate, auction: AuctionCreate, photos: List[UploadFile]) -> dict:
+    def create_product_auction(self, product: ProductCreateSchema, auction: AuctionCreateSchema, photos: List[UploadFile]) -> dict:
 
         product_id = self.create_product_info(product)
         self.create_auction(auction, product_id)
@@ -166,7 +172,7 @@ class ProductService:
 
         return self.get_product(product_id)
 
-    def create_auction(self, auction: AuctionCreate, product_id: int) -> None:
+    def create_auction(self, auction: AuctionCreateSchema, product_id: int) -> None:
 
         new_auction = Auction(
             product_id=product_id,
