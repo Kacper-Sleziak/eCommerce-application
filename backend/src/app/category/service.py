@@ -10,11 +10,9 @@ class CategoryService:
     def get_categories(self) -> dict:
         result = dict()
         Session = self.engine.create_session()
-        count = 0
         with Session() as session:
             categories = session.query(Category).all()
-            for category in categories:
+            for count, category in enumerate(categories):
                 result[count] = category_to_json(category)
-                count += 1
         Session.remove()
         return result

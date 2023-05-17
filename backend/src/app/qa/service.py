@@ -10,13 +10,11 @@ class QAService:
     def get_qas_product(self, product_id: int) -> dict:
         result = dict()
         Session = self.engine.create_session()
-        count = 0
 
         with Session() as session:
             qas = session.query(QuestionAnswer).filter(QuestionAnswer.product_id == product_id)
-            for qa in qas:
+            for count, qa in enumerate(qas):
                 result[count] = qa.serialize()
-                count += 1
         Session.remove()
         return result
 

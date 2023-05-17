@@ -16,7 +16,6 @@ class ProductService:
 
     def get_products_filter(self, params: ProductParams) -> dict:
         result = dict()
-        count = 0
 
         Session = self.engine.create_session()
         with Session() as session:
@@ -47,23 +46,20 @@ class ProductService:
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).filter(and_(*filters))
             products = query.order_by(sort).limit(params.limit).offset(params.page * params.limit)
-            for product in products:
+            for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
-                count += 1
         Session.remove()
 
         return result
 
     def get_products_all(self) -> dict:
         result = dict()
-        count = 0
 
         Session = self.engine.create_session()
         with Session() as session:
             products = session.query(Product).order_by(asc("product_id")).limit(20).all()
-            for product in products:
+            for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
-                count += 1
         Session.remove()
 
         return result

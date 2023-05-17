@@ -10,14 +10,12 @@ class ReviewService:
     def get_reviews(self, user_id: int, for_seller: bool) -> dict:
         result = dict()
         Session = self.engine.create_session()
-        count = 0
 
         with Session() as session:
             reviews = session.query(Review).filter(Review.seller_id == user_id) if for_seller \
                 else session.query(Review).filter(Review.reviewer_id == user_id)
-            for review in reviews:
+            for count, review in enumerate(reviews):
                 result[count] = review.serialize()
-                count += 1
         Session.remove()
         return result
 
