@@ -69,6 +69,12 @@ class Color(Base):
                       server_default=text("nextval('color_color_id_seq'::regclass)"))
     name = Column(String(255), nullable=False)
 
+    def serialize(self) -> dict:
+        return {
+            "id": self.color_id,
+            "name": self.name
+        }
+
 
 class Product(Base):
     __tablename__ = 'product'
@@ -90,6 +96,7 @@ class Product(Base):
             "id": self.product_id,
             "seller_id": self.seller_id,
             "name": self.name,
+            "brand": self.brand,
             "product_description": self.product_description,
             "quantity": self.quantity,
             "total_price": self.total_price,
@@ -211,6 +218,12 @@ class ProductColor(Base):
 
     color = relationship('Color')
     product = relationship('Product')
+
+    def serialize(self) -> dict:
+        return {
+            "color_id": self.color_id,
+            "product_id": self.product_id
+        }
 
 
 class SaleOrder(Base):

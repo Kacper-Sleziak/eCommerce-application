@@ -1,6 +1,5 @@
 from app.auth.schema import UserSignUpSchema, UserLoginSchema
 from app.models import CreateEngine, User
-from app.utils import user_to_json
 from argon2 import PasswordHasher
 
 
@@ -25,7 +24,8 @@ class AuthService:
                     password=self.ph.hash(user.password))
                 session.add(new_user)
                 session.commit()
-                result = user_to_json(session.query(User).filter(User.user_id == new_user.user_id).one())
+                new_user_data = session.query(User).get(new_user.user_id)
+                result = new_user_data.serialize()
         Session.remove()
         return result
 
@@ -34,4 +34,4 @@ class AuthService:
         with Session() as session:
             user = session.query(User).filter(User.email == email).one()
         Session.remove()
-        return user_to_json(user)
+        return user.serialize()

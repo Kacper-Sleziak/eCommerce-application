@@ -11,7 +11,7 @@ qa_service = QAService()
 
 
 @router.post("/")
-def create_review(qa: QuestionSchema) -> dict:
+def create_question(qa: QuestionSchema) -> dict:
     return qa_service.post_question(qa)
 
 
