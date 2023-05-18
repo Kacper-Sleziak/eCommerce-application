@@ -9,6 +9,8 @@ import Navbar from '../layout/navbar/Navbar'
 import Profile from '../pages/Profile'
 import AuthRoute from './protection_factors/ProtectedRoute'
 import theme from '../utils/materialUI/colorScheme'
+import SignIn from '../pages/SignIn'
+import SignUp from '../pages/SignUp'
 
 const RouterRoot = () => {
   const user = {
@@ -38,8 +40,18 @@ const RouterRoot = () => {
               <Route path="/" element={<Home />} />
               <Route path="/offers" element={<OfferList />} />
               <Route path="/offerdetails" element={<Offer />} />
+              <Route
+                element={<AuthRoute user={user} protectionType="noAuth" />}
+              >
+                <Route path="/signup" element={<SignUp />} />
+              </Route>
               <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route
+                element={<AuthRoute user={user} protectionType="noAuth" />}
+              >
+                <Route path="/signin" element={<SignIn />} />
               </Route>
             </Routes>
           </Router>

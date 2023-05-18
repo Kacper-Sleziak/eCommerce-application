@@ -16,7 +16,7 @@ const theme = createTheme({
     },
     error: {
       // black
-      main: '#000000',
+      main: '#ff0000',
     },
     warning: {
       // darker grey

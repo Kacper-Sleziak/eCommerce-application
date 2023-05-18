@@ -31,7 +31,7 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
     useImperativeHandle(ref, () => ({
       pushFiltersToStore() {
         const data = value.map((filter) => filter.title)
-        dispatch(updateFilters({ filterName: filterlabel, data: data }))
+        dispatch(updateFilters({ filterName: filterlabel, data }))
       },
     }))
 
