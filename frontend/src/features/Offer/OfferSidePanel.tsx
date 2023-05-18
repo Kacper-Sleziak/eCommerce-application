@@ -1,9 +1,14 @@
+import PropTypes from 'prop-types'
 import { Box, Button, Card, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import PlaceIcon from '@mui/icons-material/Place'
 import QuantityControl from './PlusMinus'
 
-const OfferSidePanel: React.FC = () => {
+interface OfferSidePanelProps {
+  quantity: number
+}
+
+const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
   return (
     <Card
       sx={{
@@ -137,6 +142,7 @@ const OfferSidePanel: React.FC = () => {
           quantity:{' '}
         </Typography>
         <QuantityControl initialQuantity={1} />
+        <Typography sx={{ display: 'flex' }}> / {quantity} </Typography>
         <Button
           sx={{
             width: '173px',
@@ -168,6 +174,10 @@ const OfferSidePanel: React.FC = () => {
       </Card>
     </Card>
   )
+}
+
+OfferSidePanel.propTypes = {
+  quantity: PropTypes.number.isRequired,
 }
 
 export default OfferSidePanel

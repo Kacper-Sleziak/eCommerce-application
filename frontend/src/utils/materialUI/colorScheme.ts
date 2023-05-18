@@ -20,7 +20,7 @@ const theme = createTheme({
     },
     warning: {
       // darker grey
-      main: '#e5e5e5',
+      main: '#adadad',
     },
     info: {
       // lighter grey
