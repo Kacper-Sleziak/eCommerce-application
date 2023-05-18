@@ -40,13 +40,16 @@ const RouterRoot = () => {
               <Route path="/" element={<Home />} />
               <Route path="/offers" element={<OfferList />} />
               <Route path="/offerdetails" element={<Offer />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
+              <Route
+                element={<AuthRoute user={user} protectionType="noAuth" />}
+              >
+                <Route path="/signup" element={<SignUp />} />
+              </Route>
               <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route
-                element={<AuthRoute user={user} protectionType="noAuthOnly" />}
+                element={<AuthRoute user={user} protectionType="noAuth" />}
               >
                 <Route path="/signin" element={<SignIn />} />
               </Route>

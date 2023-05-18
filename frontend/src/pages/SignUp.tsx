@@ -47,11 +47,11 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>('')
 
   useEffect(() => {
-    if (signUpResult.isSuccess && userMessage !== '') {
+    if (signUpResult.isSuccess && userMessage === '') {
       setUserMessage('Signed up successfully')
     }
 
-    if (signUpResult.isError && userMessage !== '') {
+    if (signUpResult.isError && userMessage === '') {
       // @ts-expect-error
       const errorDetail = signUpResult.error?.data?.detail
       const errorMessage: string = Array.isArray(errorDetail)

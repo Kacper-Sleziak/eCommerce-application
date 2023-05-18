@@ -33,40 +33,6 @@ const store = configureStore({
 })
 
 export default store
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// };
-
-// const persistedReducer = persistReducer(persistConfig, {
-//   // userData: UserDataReducer,
-//   offerFiltersData: OfferFiltersReducer,
-//   [userAccountApi.reducerPath]: userAccountApi.reducer,
-//   [offerListDataApi.reducerPath]: offerListDataApi.reducer,
-// });
-
-// const store = configureStore({
-//   reducer: persistedReducer,
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware()
-//       .concat(userAccountApi.middleware)
-//       .concat(offerListDataApi.middleware),
-// });
 
 const persistor = persistStore(store)
 export { persistor }
-
-// const store = configureStore({
-//   reducer: {
-//     userData: UserDataReducer,
-//     offerFiltersData: OfferFiltersReducer,
-//     [userAccountApi.reducerPath]: userAccountApi.reducer,
-//     [offerListDataApi.reducerPath]: offerListDataApi.reducer,
-//   },
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware()
-//       .concat(userAccountApi.middleware)
-//       .concat(offerListDataApi.middleware),
-// })
-
-// export default store
