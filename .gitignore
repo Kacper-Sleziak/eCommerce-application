@@ -1,5 +1,5 @@
 #docker
-backend/docker/db-data
+db/db-data
 ftp/docker/data
 
 # IDE
