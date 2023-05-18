@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
-import { Button, Grid, IconButton, Typography } from '@mui/material'
+import { Button, Grid, IconButton } from '@mui/material'
 import { PhotoCamera } from '@mui/icons-material'
 
 interface Photo {
@@ -23,39 +23,48 @@ const AddPhoto: React.FC = () => {
   }
 
   return (
-    <Grid container direction="column" spacing={2}>
+    <Grid
+      container
+      direction="column"
+      spacing={2}
+      alignItems="center"
+      justifyContent="center"
+    >
       <Grid item>
-        <Typography variant="h6">Photos:</Typography>
+        <label htmlFor="upload-photo">
+          <input
+            style={{ display: 'none' }}
+            id="upload-photo"
+            name="upload-photo"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleAddPhoto}
+          />
+          <Button
+            variant="contained"
+            component="span"
+            color="primary"
+            startIcon={<PhotoCamera />}
+          >
+            Add Photo
+          </Button>
+        </label>
       </Grid>
-      <Grid item container alignItems="center" spacing={1}>
+      <Grid
+        item
+        container
+        alignItems="center"
+        justifyContent="center"
+        spacing={1}
+      >
         {photos.map(({ id, url }) => (
           <Grid item key={id}>
             <IconButton edge="start" size="medium">
-              <img src={url} alt="uploaded" height={40} width={40} />
+              <img src={url} alt="uploaded" height={70} width={70} />
             </IconButton>
           </Grid>
         ))}
-        <Grid item>
-          <label htmlFor="upload-photo">
-            <input
-              style={{ display: 'none' }}
-              id="upload-photo"
-              name="upload-photo"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleAddPhoto}
-            />
-            <Button
-              variant="contained"
-              component="span"
-              color="primary"
-              startIcon={<PhotoCamera />}
-            >
-              Add Photo
-            </Button>
-          </label>
-        </Grid>
       </Grid>
     </Grid>
   )

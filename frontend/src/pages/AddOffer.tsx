@@ -41,24 +41,6 @@ const AddOffer = () => {
       </div>
       <div className="formFlexAddOffer">
         <AddPhoto />
-        {/* <Button
-          variant="outlined"
-          sx={{
-            width: '400px',
-            height: '300px',
-            color: '#000',
-            background: '#fff',
-            border: '2px solid #000 !important',
-            fontWeight: '500',
-            fontStyle: 'normal',
-            fontSize: '20px',
-            lineHeight: '23px',
-            textTransform: 'none',
-            padding: '0.5rem 1rem',
-          }}
-        >
-          + Add photo
-        </Button> */}
       </div>
       <div className="formFlexAddOfferInputs">
         <FormControl>
