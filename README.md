@@ -5,7 +5,11 @@
 1. Install docker https://docs.docker.com/engine/install/
 2. Install docker compose plugin https://docs.docker.com/compose/install/
 3. Open root folder of project
-4. Paste this comand
+4. Create .env file in root project
+5. Copy everything from .env_template to .env
+6. Change data in .env such a username and password if you want
+7. Open terminal in root project 
+8. Paste this command
 
 ```
 docker compose up -d --build
