@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 from app.address.service import AddressService
-from app.address.models import CreateAddress
+from app.address.schema import CreateAddressSchema
 from app.models import Address
-
 
 router = APIRouter(
     prefix="/addresses",
@@ -11,14 +10,16 @@ router = APIRouter(
 )
 address_service = AddressService()
 
+
 @router.post("/")
-def create_address(address: CreateAddress) -> dict:
+def create_address(address: CreateAddressSchema) -> dict:
     return address_service.add_address(address)
 
 
 @router.get("/")
 def get_addressess() -> dict:
     return address_service.get_addresses()
+
 
 @router.get("/{address_id}")
 def get_address(address_id: int) -> dict:

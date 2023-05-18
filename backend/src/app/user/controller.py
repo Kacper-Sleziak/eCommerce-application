@@ -9,6 +9,7 @@ router = APIRouter(
 )
 user_service = UserService()
 
+
 @router.get("/{user_id}")
 def get_user(user_id: int) -> dict:
     # todo: call to service
