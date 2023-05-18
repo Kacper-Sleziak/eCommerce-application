@@ -76,6 +76,15 @@ class Color(Base):
         }
 
 
+class Color(Base):
+    __tablename__ = 'color'
+    __table_args__ = {'extend_existing': True}
+
+    color_id = Column(Integer, primary_key=True,
+                      server_default=text("nextval('color_color_id_seq'::regclass)"))
+    name = Column(String(255), nullable=False)
+
+
 class Product(Base):
     __tablename__ = 'product'
     __table_args__ = {'extend_existing': True}
@@ -226,6 +235,17 @@ class ProductColor(Base):
         }
 
 
+class ProductColor(Base):
+    __tablename__ = 'product_color'
+    __table_args__ = {'extend_existing': True}
+
+    color_id = Column(ForeignKey('color.color_id'), primary_key=True, nullable=False)
+    product_id = Column(ForeignKey('product.product_id'), primary_key=True, nullable=False)
+
+    color = relationship('Color')
+    product = relationship('Product')
+
+
 class SaleOrder(Base):
     __tablename__ = 'sale_order'
     __table_args__ = {'extend_existing': True}
@@ -296,17 +316,3 @@ class Address(Base):
     flat = Column(String(3), nullable=True)
     latitude = Column(String(10), nullable=True)
     longitude = Column(String(10), nullable=True)
-
-    def serialize(self) -> dict:
-        return {
-            "id": self.address_id,
-            "country": self.country,
-            "region": self.region,
-            "city": self.city,
-            "postal_code": self.postal_code,
-            "street": self.street,
-            "building": self.building,
-            "flat": self.flat,
-            "latitude": self.latitude,
-            "longitude": self.longitude
-        }

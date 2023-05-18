@@ -9,9 +9,11 @@ class BrandService:
     def get_brands(self) -> dict:
         result = dict()
         Session = self.engine.create_session()
+        count = 0
         with Session() as session:
             brands = session.query(Product.brand).distinct(Product.brand)
-            for count, brand in enumerate(brands):
+            for brand in brands:
                 result[count] = brand
+                count += 1
         Session.remove()
         return result
