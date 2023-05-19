@@ -31,7 +31,6 @@ export const OfferFiltersSLice = createSlice({
   reducers: {
     updateFilters: (state, action: PayloadAction<IUpdateFiltersPayload>) => {
       const { filterName, data } = action.payload
-
       switch (filterName) {
         case 'brand':
           state.filters.brand = data
@@ -59,6 +58,7 @@ export const { updateFilters, updatePagination } = OfferFiltersSLice.actions
 export const selectOfferFilters = (state: {
   offerFiltersData: IFiltersState
 }) => {
+  console.log(state.offerFiltersData.filters)
   return state.offerFiltersData.filters
 }
 
