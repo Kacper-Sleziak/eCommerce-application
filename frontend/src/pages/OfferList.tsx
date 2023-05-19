@@ -6,15 +6,27 @@ import Stack from '@mui/material/Stack'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
-// import MappedOffers from '../features/OfferList/MappedOffers'
+import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
 import YearRangeSlider from '../features/OfferList/YearRangeSlider'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
-const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
-const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
-const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
+const brandList = [
+  { title: 'Basic' },
+  { title: 'Bentley' },
+  { title: 'Tesla' },
+  { title: 'Volvo' },
+]
+const colorList = [
+  { title: 'Black' },
+  { title: 'Red' },
+  { title: 'Blue' },
+  { title: 'Yellow' },
+  { title: 'White' },
+  { title: 'Green' },
+]
+const categoryList = [{ title: 'Chair' }, { title: 'Desk' }, { title: 'Car' }]
 
 const OfferList: React.FC = () => {
   const brandFilterRef = useRef<FilterRefInterface | null>(null)
@@ -122,7 +134,7 @@ const OfferList: React.FC = () => {
       </div>
       <div className="offers">
         <Typography variant="h3">Offers</Typography>
-        {/* <MappedOffers /> */}
+        <MappedOffers />
       </div>
 
       <Stack spacing={2}>
