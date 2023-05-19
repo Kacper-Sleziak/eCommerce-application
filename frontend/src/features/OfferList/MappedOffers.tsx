@@ -16,6 +16,7 @@ const MappedOffers = () => {
   const storeFilters = useSelector(selectOfferFilters)
 
   useEffect(() => {
+    console.log({ storeFilters })
     const storeFiltersVar: any = storeFilters
     setSearchParams(storeFiltersVar)
   }, [storeFilters])
