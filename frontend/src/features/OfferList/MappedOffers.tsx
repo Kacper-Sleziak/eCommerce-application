@@ -7,6 +7,7 @@ import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
 import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
 import { selectOfferFilters } from '../../store/slices/OfferFiltersSlice'
+import Stack from '@mui/material/Stack'
 
 const MappedOffers = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -42,7 +43,7 @@ const MappedOffers = () => {
 
     if (data !== undefined) {
       return (
-        <>
+        <Stack spacing={3} direction='column'>
           {Object.keys(data).map((key) => (
             <Offer
               key={key}
@@ -54,7 +55,7 @@ const MappedOffers = () => {
               rating={4}
             />
           ))}
-        </>
+        </Stack >
       )
     }
     return <h1>No data to show</h1>
