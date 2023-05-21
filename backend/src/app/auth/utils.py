@@ -4,8 +4,8 @@ from decouple import config
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-JWT_SECRET = config("SECRET")
-JWT_ALGORITHM = config("ALGORITHM")
+JWT_SECRET = config("JWT_SECRET_KEY")
+JWT_ALGORITHM = config("JWT_ALGORITHM")
 roles = {
     "admin": 1,
     "user": 2

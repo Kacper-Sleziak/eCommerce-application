@@ -14,7 +14,7 @@ class AuthService:
         with Session() as session:
             user = session.query(User).filter(User.email == user.email).first()
             result = None
-            if not user:
+            if user is not None:
                 new_user = User(
                     role_id=user.role_id,
                     address_id=user.address_id,
