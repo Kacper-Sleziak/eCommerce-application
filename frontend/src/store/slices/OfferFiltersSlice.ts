@@ -6,19 +6,23 @@ interface IUpdateFiltersPayload {
 }
 
 export interface IFiltersState {
-  brand: string[]
-  year: string[]
-  color: string[]
-  category: string[]
-  pagination: number
+  filters: {
+    brand: string[]
+    year: string[]
+    color: string[]
+    category: string[]
+    pagination: number
+  }
 }
 
 const initialState: IFiltersState = {
-  brand: [],
-  year: [],
-  color: [],
-  category: [],
-  pagination: 1,
+  filters: {
+    brand: [],
+    year: [],
+    color: [],
+    category: [],
+    pagination: 1,
+  },
 }
 
 export const OfferFiltersSLice = createSlice({
@@ -30,22 +34,22 @@ export const OfferFiltersSLice = createSlice({
 
       switch (filterName) {
         case 'brand':
-          state.brand = data
+          state.filters.brand = data
           break
         case 'year':
-          state.year = data
+          state.filters.year = data
           break
         case 'color':
-          state.color = data
+          state.filters.color = data
           break
         case 'category':
-          state.category = data
+          state.filters.category = data
           break
         default:
       }
     },
     updatePagination: (state, action: PayloadAction<number>) => {
-      state.pagination = action.payload
+      state.filters.pagination = action.payload
     },
   },
 })
@@ -55,7 +59,7 @@ export const { updateFilters, updatePagination } = OfferFiltersSLice.actions
 export const selectOfferFilters = (state: {
   offerFiltersData: IFiltersState
 }) => {
-  return state.offerFiltersData
+  return state.offerFiltersData.filters
 }
 
 export default OfferFiltersSLice.reducer

@@ -1,15 +1,19 @@
 import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
-import MappedOffers from '../features/OfferList/MappedOffers'
+// import MappedOffers from '../features/OfferList/MappedOffers'
+import OrderedBy from '../features/OfferList/OrderedBy'
+import PaginationBar from '../features/OfferList/PaginationBar'
+import YearRangeSlider from '../features/OfferList/YearRangeSlider'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
 const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
-const yearList = [{ title: '2000' }, { title: '2006' }, { title: '2020' }]
 const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
 
 const OfferList: React.FC = () => {
@@ -98,11 +102,7 @@ const OfferList: React.FC = () => {
               filterlabel="brand"
               ref={brandFilterRef}
             />
-            <CheckboxCategories
-              categories={yearList}
-              filterlabel="year"
-              ref={yearFilterRef}
-            />
+            <YearRangeSlider />
             <CheckboxCategories
               categories={colorList}
               filterlabel="color"
@@ -122,8 +122,14 @@ const OfferList: React.FC = () => {
       </div>
       <div className="offers">
         <Typography variant="h3">Offers</Typography>
-        <MappedOffers />
+        {/* <MappedOffers /> */}
       </div>
+
+      <Stack spacing={2}>
+        <Pagination count={10} shape="rounded" />
+      </Stack>
+      <PaginationBar />
+      <OrderedBy />
     </div>
   )
 }

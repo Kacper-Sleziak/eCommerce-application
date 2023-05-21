@@ -26,6 +26,7 @@ const UpperNavbar: React.FC = () => {
       <InputSearchBar label="Search..." />
       <div className="upperNavbarButtons">
         <Button
+          href="/signin"
           className="signInButton"
           variant="outlined"
           sx={{
@@ -40,10 +41,11 @@ const UpperNavbar: React.FC = () => {
             padding: '0.5rem 1rem',
           }}
         >
-          Sign up
+          Sign in
         </Button>
         <Button
           variant="outlined"
+          href="/"
           startIcon={<ShoppingBagIcon />}
           sx={{
             color: '#000',

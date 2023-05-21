@@ -1,0 +1,41 @@
+.marginAddOfferTitle {
+  margin: 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formFlexAddOffer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.formFlexAddOfferInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5rem;
+  padding-bottom: 1rem;
+}
+
+.formFlexAddOfferInputs div {
+  min-width: 95%;
+  margin: 0.5rem 0;
+  border-radius: 4px !important;
+}
+
+.formFlexAddOfferInputs div fieldset {
+  border-color: #000 !important;
+}
+
+.formFlexAddOfferInputs label {
+  color: #000 !important;
+}
+
+.addOfferButton {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center !important;
+}

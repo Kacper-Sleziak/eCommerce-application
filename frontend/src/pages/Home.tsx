@@ -9,10 +9,19 @@ import {
   CardContent,
   Typography,
 } from '@mui/material'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import OfferShortcut from '../features/Home/OfferShortcut'
 import TabCard from '../features/Home/TabCard'
+import { selectUserAuth } from '../store/slices/UserDataSlice'
 
 const Home: React.FC = () => {
+  const userAuth = useSelector(selectUserAuth)
+
+  useEffect(() => {
+    console.log({ userAuth })
+  })
+
   return (
     <div
       className="home"

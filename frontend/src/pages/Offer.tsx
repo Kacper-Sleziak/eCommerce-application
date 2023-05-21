@@ -32,7 +32,7 @@ const Offer: React.FC = () => {
             }}
           />
         </Card>
-        <OfferSidePanel />
+        <OfferSidePanel quantity={230} />
       </div>
       <SimpleAccordion />
     </div>
