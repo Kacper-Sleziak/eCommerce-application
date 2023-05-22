@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.router import router as api_router
-from app.auth.utils import jwtAdminBearer, jwtUserBearer, jwtBearer
+from app.auth.utils import JwtAdminBearer, JwtUserBearer, JwtBearer
 
 app = FastAPI()
 
@@ -17,19 +17,16 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-@app.get("/adminTest", dependencies=[Depends(jwtAdminBearer())])
+@app.get("/adminTest", dependencies=[Depends(JwtAdminBearer())])
 async def welcome_admin() -> dict:
     return {"message": "You are admin!"}
 
 
-@app.get("/userTest", dependencies=[Depends(jwtUserBearer())])
+@app.get("/userTest", dependencies=[Depends(JwtUserBearer())])
 async def welcome_user() -> dict:
     return {"message": "You are user!"}
 
 
-@app.get("/bothTest", dependencies=[Depends(jwtBearer())])
+@app.get("/bothTest", dependencies=[Depends(JwtBearer())])
 async def welcome_both() -> dict:
     return {"message": "You are admin or user!"}
-
-
-

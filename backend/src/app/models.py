@@ -38,7 +38,7 @@ class User(Base):
 
     def serialize(self) -> dict:
         return {
-            "id": self.product_id,
+            "id": self.user_id,
             "role_id": self.role_id,
             "address_id": self.address_id,
             "username": self.username,

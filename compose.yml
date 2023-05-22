@@ -36,6 +36,9 @@ services:
       - ./backend/src:/backend
     ports:
       - 9999:9999
+    environment:
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM}
   pg_admin:
     container_name: pg_admin
     image: dpage/pgadmin4
