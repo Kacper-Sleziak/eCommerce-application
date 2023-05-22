@@ -17,7 +17,7 @@ ph = PasswordHasher()
 def signup(user: UserSignUpSchema) -> dict:
     user = auth_service.add_user(user)
     if user:
-        return sign_jwt(user["email"], user["role"])
+        return sign_jwt(user["email"], user["role_id"])
     raise HTTPException(status_code=400, detail="User already exists")
 
 
@@ -30,7 +30,7 @@ def login(userCredentials: UserLoginSchema) -> dict:
 
     try:
         if ph.verify(user["password"], userCredentials.password):
-            return sign_jwt(user["email"], user["role"])
+            return sign_jwt(user["email"], user["role_id"])
     except:
         raise HTTPException(status_code=400, detail="Invalid credentials")
     raise HTTPException(status_code=400, detail="Invalid credentials")

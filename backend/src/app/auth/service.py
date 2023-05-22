@@ -12,9 +12,9 @@ class AuthService:
         Session = self.engine.create_session()
 
         with Session() as session:
-            user = session.query(User).filter(User.email == user.email).first()
+            user_in_db = session.query(User).filter(User.email == user.email).first()
             result = None
-            if user is not None:
+            if user_in_db is None:
                 new_user = User(
                     role_id=user.role_id,
                     address_id=user.address_id,
@@ -33,4 +33,6 @@ class AuthService:
         with Session() as session:
             user = session.query(User).filter(User.email == email).one()
         Session.remove()
-        return user.serialize()
+        result = user.serialize()
+        result["password"] = user.password
+        return result
