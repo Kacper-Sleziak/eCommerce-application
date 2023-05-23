@@ -12,6 +12,7 @@ class ProductCreateSchema(BaseModel):
     sale_type: str
     categories: List[int]
     colors: List[int]
+    photos: List[str]
 
 
 class AuctionCreateSchema(BaseModel):

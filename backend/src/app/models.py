@@ -152,7 +152,7 @@ class Photo(Base):
     __table_args__ = {'extend_existing': True}
 
     photo_id = Column(Integer, primary_key=True, server_default=text("nextval('photo_photo_id_seq'::regclass)"))
-    photo_url = Column(String(255), nullable=False)
+    content = Column(String, nullable=False)
     product_id = Column(ForeignKey('product.product_id'), nullable=False)
 
     product = relationship('Product')
@@ -160,7 +160,7 @@ class Photo(Base):
     def serialize(self) -> dict:
         return {
             "id": self.photo_id,
-            "photo_url": self.photo_url,
+            "content": self.content,
             "product_id": self.product_id
         }
 

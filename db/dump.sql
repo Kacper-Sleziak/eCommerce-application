@@ -79,7 +79,7 @@ CREATE TABLE question_answer (
 
 CREATE TABLE photo (
     photo_id serial PRIMARY KEY,
-    photo_url varchar(255) NOT NULL,
+    content varchar NOT NULL,
     product_id int NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
@@ -139,7 +139,11 @@ INSERT INTO product(seller_id, name, brand, product_description, quantity, total
 
 INSERT INTO question_answer(product_id, question, answer) VALUES (4, 'Is it red?', 'It is white');
 
-INSERT INTO photo(photo_url, product_id) VALUES ('/backend/static/1/6ab79ff3-2eb8-46e7-b6e8-0a29fc3396a2.jpg', 1), ('/backend/static/2/volvo.webp', 2), ('/backend/static/3/tesla.webp', 3), ('/backend/static/4/bentlus.jpg', 4);
+INSERT INTO photo(content, product_id) VALUES 
+('aaa', 1), 
+('bbb', 2), 
+('ccc', 3), 
+('ddd', 4);
 
 INSERT INTO product_category(category_id, product_id) VALUES (3, 1), (1, 2), (1, 3), (1, 4);
 
