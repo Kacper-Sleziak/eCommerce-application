@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Query
+from fastapi import APIRouter, Query
 from app.product.service import ProductService
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from typing import List, Annotated
@@ -49,7 +49,7 @@ def get_product_id(product_id: int) -> dict:
 
 
 @router.post("/")
-async def create_product(seller_id: int,
+def create_product(seller_id: int,
                          name: str,
                          brand: str,
                          description: str,
@@ -57,7 +57,7 @@ async def create_product(seller_id: int,
                          total_price: float,
                          categories: List[int],
                          colors: List[int],
-                         photos: list[UploadFile]) -> dict:
+                         photos: List[str]) -> dict:
     product = ProductCreateSchema(seller_id=seller_id,
                                   name=name,
                                   brand=brand,
@@ -66,8 +66,9 @@ async def create_product(seller_id: int,
                                   total_price=total_price,
                                   sale_type="Regular",
                                   categories=categories,
-                                  colors=colors)
-    return await product_service.create_product(product, photos)
+                                  colors=colors,
+                                  photos=photos)
+    return product_service.create_product(product)
 
 
 @router.post("/auction")
@@ -78,7 +79,7 @@ def create_auction(seller_id: int,
                    quantity: int,
                    categories: List[int],
                    colors: List[int],
-                   photos: list[UploadFile],
+                   photos: List[str],
                    starting_price: float,
                    minimal_bump: float,
                    end_date: str
@@ -91,13 +92,14 @@ def create_auction(seller_id: int,
                                   total_price=starting_price,
                                   sale_type="Auction",
                                   categories=categories,
-                                  colors=colors)
+                                  colors=colors,
+                                  photos=photos)
     auction = AuctionCreateSchema(highest_bidder_id=seller_id,
                                   starting_price=starting_price,
                                   highest_bid=starting_price,
                                   minimal_bump=minimal_bump,
                                   end_date=end_date)
-    return product_service.create_product_auction(product, auction, photos)
+    return product_service.create_product_auction(product, auction)
 
 
 @router.put("/auction")
