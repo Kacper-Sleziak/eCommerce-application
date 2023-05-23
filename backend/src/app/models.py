@@ -372,8 +372,8 @@ class Chat(Base):
     buyer_id = Column(ForeignKey("user_.user_id"), nullable=False)
     blocked = Column(Boolean, nullable=False)
 
-    seller = relationship("User")
-    buyer = relationship("User")
+    seller = relationship("User", primaryjoin="Chat.seller_id == User.user_id")
+    buyer = relationship("User", primaryjoin="Chat.buyer_id == User.user_id")
 
     def serialize(self) -> dict:
         return {
