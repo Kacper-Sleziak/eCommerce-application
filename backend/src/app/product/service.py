@@ -152,13 +152,9 @@ class ProductService:
 
     async def create_product(self, product: ProductCreateSchema, photos: List[UploadFile]) -> dict:
 
-        Session = self.engine.create_session()
-        with Session() as session:
-            product_id = self.create_product_info(session, product)
-            self.create_product_categories(session, product_id, product.categories)
-            await self.create_product_photos(session, product_id, photos)
-        Session.commit()
-        Session.remove()
+        product_id = self.create_product_info(product)
+        self.create_product_categories(product_id, product.categories)
+        await self.create_product_photos(product_id, photos)
 
         return self.get_product(product_id)
 
@@ -187,8 +183,6 @@ class ProductService:
             session.add(new_auction)
             session.commit()
         Session.remove()
-
-        return self.get_product(product_id)
 
     def create_product_info(self, product: ProductCreateSchema) -> int:
 
