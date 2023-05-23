@@ -85,10 +85,9 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            product = session.query(Product).get(product_id)
-            result = self.get_product_info(product)
+            product = session.query(Product).get(product_id)  
         Session.remove()
-
+        result = self.get_product_info(product)
         return result
 
     def get_product_categories(self, product_id: int) -> dict:
@@ -150,21 +149,21 @@ class ProductService:
             result["auction"] = self.get_product_auction(product.product_id)
         return result
 
-    async def create_product(self, product: ProductCreateSchema, photos: List[UploadFile]) -> dict:
+    def create_product(self, product: ProductCreateSchema) -> dict:
 
         product_id = self.create_product_info(product)
         self.create_product_categories(product_id, product.categories)
-        await self.create_product_photos(product_id, photos)
-
+        self.create_product_colors(product_id, product.colors)
+        self.create_product_photos(product_id, product.photos)
         return self.get_product(product_id)
 
-    def create_product_auction(self, product: ProductCreateSchema, auction: AuctionCreateSchema, photos: List[UploadFile]) -> dict:
+    def create_product_auction(self, product: ProductCreateSchema, auction: AuctionCreateSchema) -> dict:
 
         product_id = self.create_product_info(product)
         self.create_auction(auction, product_id)
         self.create_product_categories(product_id, product.categories)
         self.create_product_colors(product_id, product.colors)
-        self.create_product_photos(product_id, photos)
+        self.create_product_photos(product_id, product.photos)
 
         return self.get_product(product_id)
 
@@ -230,21 +229,13 @@ class ProductService:
             session.commit()
         Session.remove()
 
-    async def create_product_photos(self, product_id: int, photos: List[UploadFile]) -> None:
-        if not os.path.exists(f"/backend/static/{product_id}"):
-            os.mkdir(f"/backend/static/{product_id}")
-
+    def create_product_photos(self, product_id: int, photos: List[str]) -> None:
         Session = self.engine.create_session()
         with Session() as session:
             for photo in photos:
-                photo_url = f"/backend/static/{product_id}/{uuid.uuid4()}.{photo.filename.split('.')[-1]}"
-                with open(photo_url, "wb") as image:
-                    content = await photo.read()
-                    image.write(content)
-                    image.close()
                 new_photo = Photo(
                     product_id=product_id,
-                    photo_url=photo_url
+                    content=photo
                 )
                 session.add(new_photo)
             session.commit()
