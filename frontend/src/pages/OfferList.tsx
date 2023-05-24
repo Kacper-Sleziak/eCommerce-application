@@ -11,6 +11,7 @@ import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
 import YearRangeSlider from '../features/OfferList/YearRangeSlider'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
+import Grid from '@mui/material/Grid'
 
 const brandList = [
   { title: 'Basic' },
@@ -50,12 +51,23 @@ const OfferList: React.FC = () => {
   }
 
   return (
-    <div className="offerListClass">
-      <div>
+    <Grid container alignItems="center" spacing={10}>
+      <Grid item xs={6}>
+        <Pagination count={10} shape="rounded" />
+      </Grid>
+
+      <Grid item xs={3}>
+        <PaginationBar />
+      </Grid>
+
+      <Grid item xs={3}>
+        <OrderedBy />
+      </Grid>
+      <Grid item xs={5}>
         <Card
           sx={{
             padding: 2,
-            position: 'absolute',
+            // position: 'absolute',
             width: '398px',
             height: '806px',
             background: '#E6E6E6',
@@ -77,11 +89,9 @@ const OfferList: React.FC = () => {
             Used filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <UsedFilter filtername="Price" filterdetail="from lowest" />
-            <UsedFilter filtername="Brand" filterdetail="BMW" />
-            <UsedFilter filtername="Localization" filterdetail="Wrocław" />
-          </div>
+          <UsedFilter filtername="Price" filterdetail="from lowest" />
+          <UsedFilter filtername="Brand" filterdetail="BMW" />
+          <UsedFilter filtername="Localization" filterdetail="Wrocław" />
           <Typography
             sx={{
               paddingTop: 2,
@@ -98,51 +108,33 @@ const OfferList: React.FC = () => {
             Filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: 20,
-              height: '450px',
-              width: '300px',
-            }}
-          >
-            <CheckboxCategories
-              categories={brandList}
-              filterlabel="brand"
-              ref={brandFilterRef}
-            />
-            <YearRangeSlider />
-            <CheckboxCategories
-              categories={colorList}
-              filterlabel="color"
-              ref={colorFilterRef}
-            />
-            <CheckboxCategories
-              categories={categoryList}
-              filterlabel="category"
-              ref={categoryFilterRef}
-            />
+          <CheckboxCategories
+            categories={brandList}
+            filterlabel="brand"
+            ref={brandFilterRef}
+          />
+          <YearRangeSlider />
+          <CheckboxCategories
+            categories={colorList}
+            filterlabel="color"
+            ref={colorFilterRef}
+          />
+          <CheckboxCategories
+            categories={categoryList}
+            filterlabel="category"
+            ref={categoryFilterRef}
+          />
 
-            <Button variant="contained" onClick={filterOnClick}>
-              Filter
-            </Button>
-          </div>
+          <Button variant="contained" onClick={filterOnClick}>
+            Filter
+          </Button>
         </Card>
-      </div>
-      <div className="offers">
-        <Typography variant="h3">Offers</Typography>
+        </Grid>
+      <Grid item xs={7}>
         <MappedOffers />
-      </div>
+      </Grid>
+    </Grid >
 
-      <Stack spacing={2}>
-        <Pagination count={10} shape="rounded" />
-      </Stack>
-      <PaginationBar />
-      <OrderedBy />
-    </div>
   )
 }
 
