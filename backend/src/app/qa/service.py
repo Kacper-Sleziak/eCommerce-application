@@ -1,6 +1,6 @@
-from app.models import CreateEngine, QuestionAnswer, Product
 from fastapi import HTTPException
-from app.qa.schema import QuestionSchema
+from src.app.models import CreateEngine, QuestionAnswer, Product
+from src.app.qa.schema import QuestionSchema
 
 
 class QAService:

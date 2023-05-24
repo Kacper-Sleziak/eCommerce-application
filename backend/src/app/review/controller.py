@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.review.service import ReviewService
-from app.review.schema import ReviewSchema
+from src.app.review.service import ReviewService
+from src.app.review.schema import ReviewSchema
 
 router = APIRouter(
     prefix="/reviews",

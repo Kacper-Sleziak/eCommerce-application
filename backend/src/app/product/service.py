@@ -1,7 +1,5 @@
-import os
 from typing import List
-import uuid
-from app.models import (
+from src.app.models import (
     CreateEngine,
     Product,
     ProductCategory,
@@ -13,9 +11,9 @@ from app.models import (
     User,
 )
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
+from src.app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
-from fastapi import UploadFile, HTTPException
+from fastapi import HTTPException
 from decimal import Decimal
 
 sale_types = ["Regular", "Auction"]

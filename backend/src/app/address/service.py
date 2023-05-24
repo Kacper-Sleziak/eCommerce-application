@@ -1,6 +1,6 @@
-from app.address.schema import CreateAddressSchema
+from src.app.address.schema import CreateAddressSchema
+from src.app.models import CreateEngine, Address
 from fastapi import HTTPException
-from app.models import CreateEngine, Address
 
 
 class AddressService:

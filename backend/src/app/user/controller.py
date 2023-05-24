@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.user.service import UserService
-from app.user.schema import UserUpdateSchema
+from src.app.user.service import UserService
+from src.app.user.schema import UserUpdateSchema
 
 router = APIRouter(
     prefix="/users",

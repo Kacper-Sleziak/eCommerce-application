@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.category.service import CategoryService
+from src.app.category.service import CategoryService
 
 router = APIRouter(
     prefix="/categories",

@@ -1,3 +1,4 @@
+from src.app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
 from fastapi import APIRouter, Query, HTTPException
 from app.product.service import ProductService

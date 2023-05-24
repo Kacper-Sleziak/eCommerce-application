@@ -1,5 +1,5 @@
-from app.auth.schema import UserSignUpSchema, UserLoginSchema
-from app.models import CreateEngine, User
+from src.app.auth.schema import UserSignUpSchema, UserLoginSchema
+from src.app.models import CreateEngine, User
 from argon2 import PasswordHasher
 
 
