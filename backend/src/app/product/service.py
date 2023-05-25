@@ -1,13 +1,15 @@
 import os
 from typing import List
 import uuid
-from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction
+from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction, User
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
-from fastapi import UploadFile
+from fastapi import UploadFile, HTTPException
 from decimal import Decimal
+
+sale_types = ["Regular", "Auction"]
 
 
 class ProductService:
@@ -23,7 +25,7 @@ class ProductService:
             filters = list()
 
             if params.has_search():
-                search_query = "%"+params.search+"%"
+                search_query = "%" + params.search + "%"
                 searches = list()
                 searches.append(Product.name.ilike(search_query))
                 searches.append(Product.brand.ilike(search_query))
@@ -62,7 +64,8 @@ class ProductService:
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
             query = query.join(Auction, isouter=True)
 
-            products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(params.page * params.limit)
+            products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(
+                params.page * params.limit)
             for count, product in enumerate(products):
                 result[count] = self.get_product_info(product)
         Session.remove()
@@ -85,7 +88,9 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            product = session.query(Product).get(product_id)  
+            product = session.query(Product).get(product_id)
+            if product is None:
+                raise HTTPException(status_code=422, detail="No product with such id")
         Session.remove()
         result = self.get_product_info(product)
         return result
@@ -132,7 +137,9 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            auction = session.query(Auction).filter(Auction.product_id == product_id).one()
+            auction = session.query(Auction).filter(Auction.product_id == product_id).first()
+            if auction is None:
+                raise HTTPException(status_code=422, detail="No auction for given product id")
             result = auction.serialize()
         Session.remove()
 
@@ -169,6 +176,11 @@ class ProductService:
 
     def create_auction(self, auction: AuctionCreateSchema, product_id: int) -> None:
 
+        if auction.minimal_bump < 1:
+            raise HTTPException(status_code=422, detail="Minimal bump must be greater or equal to 1")
+        if auction.end_date < datetime.today().date():
+            raise HTTPException(status_code=422, detail="Date cannot be less than today")
+
         new_auction = Auction(
             product_id=product_id,
             highest_bidder_id=auction.highest_bidder_id,
@@ -187,6 +199,18 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
+
+            seller = session.query(User).get(product.seller_id)
+            if seller is None:
+                raise HTTPException(status_code=422, detail="No seller with given id")
+            if product.sale_type not in sale_types:
+                message = "{} is not a valid sale type ({})".format(product.sale_type, sale_types)
+                raise HTTPException(status_code=422, detail=message)
+            if product.quantity < 1:
+                raise HTTPException(status_code=422, detail="Quantity cannot be smaller than 1")
+            if product.total_price < 0:
+                raise HTTPException(status_code=422, detail="Price cannot be negative")
+
             new_product = Product(
                 seller_id=product.seller_id,
                 name=product.name,
@@ -245,15 +269,23 @@ class ProductService:
         bid = Decimal(bid)
         Session = self.engine.create_session()
         with Session() as session:
+
+            bidder = session.query(User).get(user_id)
+            if bidder is None:
+                raise HTTPException(status_code=422, detail="No user with given id")
+
             reference_value = bid
-            auction = session.query(Auction).filter(Auction.product_id == product_id).one()
-            if auction.highest_bid < bid:
-                auction.highest_bidder_id = user_id
-                auction.highest_bid = bid
-                reference_value = auction.current_price
-            auction.current_price = min(auction.highest_bid, reference_value + auction.minimal_bump)
-            session.commit()
-            result = session.query(Auction).filter(Auction.product_id == product_id).one().serialize()
+            auction = session.query(Auction).filter(Auction.product_id == product_id).first()
+            if auction is not None:
+                if auction.highest_bid < bid:
+                    auction.highest_bidder_id = user_id
+                    auction.highest_bid = bid
+                    reference_value = auction.current_price
+                auction.current_price = min(auction.highest_bid, reference_value + auction.minimal_bump)
+                session.commit()
+                result = session.query(Auction).filter(Auction.product_id == product_id).first().serialize()
+            else:
+                raise HTTPException(status_code=422, detail="No auction for given id")
 
         Session.remove()
 

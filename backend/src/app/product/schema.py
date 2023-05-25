@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+from datetime import date
 
 
 class ProductCreateSchema(BaseModel):
@@ -20,7 +21,7 @@ class AuctionCreateSchema(BaseModel):
     starting_price: float
     highest_bid: float
     minimal_bump: float
-    end_date: str
+    end_date: date
 
 
 class ProductParams:
@@ -53,7 +54,7 @@ class ProductParams:
         if self.order_by == "price":
             self.order_by = "total_price"
         self.order_by = "Product." + self.order_by
-        self.page: int = page if page is not None else 0
+        self.page: int = page - 1 if page is not None else 0
         self.limit: int = limit if limit is not None else 20
         self.auction: bool = auction
         self.auction_active: bool = auction_active

@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.dialects import postgresql
 from app.address.schema import CreateAddressSchema
 from app.models import CreateEngine, Address
@@ -30,6 +31,8 @@ class AddressService:
         Session = self.engine.create_session()
         with Session() as session:
             address = session.query(Address).get(address_id)
+            if address is None:
+                raise HTTPException(status_code=422, detail="No address with given id")
         Session.remove()
         return address.serialize()
 
