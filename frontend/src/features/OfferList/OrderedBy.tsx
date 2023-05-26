@@ -12,12 +12,9 @@ const OrderedBy: React.FC = () => {
   const [value, setValue] = React.useState('0')
   const dispatch = useDispatch()
 
-  const orderingTable: {
-    [key: string]: {
-      orderBy: string
-      order: string
-    }
-  } = {
+  type OrderingTableType = Record<string, { orderBy: string; order: string }>
+
+  const orderingTable: OrderingTableType = {
     '0': { orderBy: 'total_price', order: 'ASC' },
     '1': { orderBy: 'total_price', order: 'DESC' },
   }

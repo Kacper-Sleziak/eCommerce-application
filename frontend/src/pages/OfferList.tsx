@@ -10,8 +10,11 @@ import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
-import { selectPagination, updatePage } from '../store/slices/OfferFiltersSlice'
-import YearRangeSlider from '../features/OfferList/YearRangeSlider'
+import {
+  selectPagination,
+  updatePage,
+  clearFilters,
+} from '../store/slices/OfferFiltersSlice'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
 
 const brandList = [
@@ -56,11 +59,21 @@ const OfferList: React.FC = () => {
     })
   }
 
+  const clearOnClick = () => {
+    dispatch(clearFilters())
+
+    refArray.forEach((ref) => {
+      if (ref.current !== null) {
+        ref.current.clearFilter()
+      }
+    })
+  }
+
   const handlePaginationChange = (
     event: React.ChangeEvent<unknown>,
     newPage: number,
   ) => {
-    dispatch(updatePage(newPage))
+    dispatch(updatePage(newPage - 1))
   }
 
   return (
@@ -130,7 +143,6 @@ const OfferList: React.FC = () => {
             filterlabel="brand"
             ref={brandFilterRef}
           />
-          <YearRangeSlider />
           <CheckboxCategories
             categories={colorList}
             filterlabel="color"
@@ -144,6 +156,9 @@ const OfferList: React.FC = () => {
 
           <Button variant="contained" onClick={filterOnClick}>
             Filter
+          </Button>
+          <Button variant="contained" onClick={clearOnClick}>
+            Clear
           </Button>
         </Card>
       </Grid>

@@ -89,6 +89,9 @@ export const OfferFiltersSLice = createSlice({
       state.ordering.order_by = orderBy
       state.ordering.order = order
     },
+    clearFilters: (state: any) => {
+      state.filters = initialState.filters
+    },
   },
 })
 
@@ -97,6 +100,7 @@ export const {
   updatePage,
   updatePaginationLimit,
   updateOrdering,
+  clearFilters,
 } = OfferFiltersSLice.actions
 
 export const selectOffersData = (state: { offerFiltersData: IState }) => {

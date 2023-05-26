@@ -33,6 +33,9 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
         const data = value.map((filter) => filter.title)
         dispatch(updateFilters({ filterName: filterlabel, data }))
       },
+      clearFilter() {
+        setValue([])
+      },
     }))
 
     return (
