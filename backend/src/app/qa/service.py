@@ -1,4 +1,5 @@
-from app.models import CreateEngine, QuestionAnswer
+from app.models import CreateEngine, QuestionAnswer, Product
+from fastapi import HTTPException
 from sqlalchemy.dialects import postgresql
 from app.qa.schema import QuestionSchema
 
@@ -21,8 +22,10 @@ class QAService:
     def get_qa(self, qa_id: int) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            review = session.query(QuestionAnswer).get(qa_id)
-            result = review.serialize()
+            qa = session.query(QuestionAnswer).get(qa_id)
+            if qa is None:
+                raise HTTPException(status_code=422, detail="No Q&A with given id")
+            result = qa.serialize()
         Session.remove()
         return result
 
@@ -30,6 +33,11 @@ class QAService:
         Session = self.engine.create_session()
 
         with Session() as session:
+
+            product = session.query(Product).get(question.product_id)
+            if product is None:
+                raise HTTPException(status_code=400, detail="No product with given id")
+
             new_question = QuestionAnswer(
                 product_id=question.product_id,
                 question=question.question,
@@ -47,6 +55,8 @@ class QAService:
 
         with Session() as session:
             update_qa = session.query(QuestionAnswer).get(qa_id)
+            if update_qa is None:
+                raise HTTPException(status_code=422, detail="No Q&A with given id")
             update_qa.answer = answer
             session.commit()
         Session.remove()

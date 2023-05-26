@@ -31,7 +31,7 @@ class AuthService:
     def get_user_by_email(self, email: str) -> dict:
         Session = self.engine.create_session()
         with Session() as session:
-            user = session.query(User).filter(User.email == email).one()
+            user = session.query(User).filter(User.email == email).first()
         Session.remove()
         result = user.serialize()
         result["password"] = user.password

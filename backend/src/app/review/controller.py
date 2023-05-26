@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.review.service import ReviewService
 from app.review.schema import ReviewSchema
 
@@ -17,9 +17,19 @@ def create_review(review: ReviewSchema) -> dict:
 
 @router.get("/seller/{seller_id}")
 def get_reviews_seller(seller_id: int) -> dict:
-    return review_service.get_reviews(seller_id, True)
+    result = review_service.get_reviews(seller_id, True)
+
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Not found")
 
 
 @router.get("/buyer/{buyer_id}")
 def get_reviews_buyer(buyer_id: int) -> dict:
-    return review_service.get_reviews(buyer_id, False)
+    result = review_service.get_reviews(buyer_id, False)
+
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Not found")
