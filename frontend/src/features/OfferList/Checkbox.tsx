@@ -6,7 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
-import type { FilterRefInterface } from './utils/filterCallInterface'
+import type { FilterRefInterface } from './interface/filterCallInterface'
 import { updateFilters } from '../../store/slices/OfferFiltersSlice'
 
 interface Category {

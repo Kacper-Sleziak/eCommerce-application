@@ -15,7 +15,7 @@ import {
   updatePage,
   clearFilters,
 } from '../store/slices/OfferFiltersSlice'
-import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
+import type { FilterRefInterface } from '../features/OfferList/interface/filterCallInterface'
 
 const brandList = [
   { title: 'Basic' },
