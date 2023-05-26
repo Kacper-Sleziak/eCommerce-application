@@ -1,6 +1,8 @@
 import os
 from typing import List
 import uuid
+
+import sqlalchemy.exc
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction, User
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
@@ -263,7 +265,10 @@ class ProductService:
                     color_id=color_id
                 )
                 session.add(new_product_color)
-            session.commit()
+            try:
+                session.commit()
+            except sqlalchemy.exc.IntegrityError:
+                raise HTTPException(status_code=422, detail="Color IDs are incorrect")
         Session.remove()
 
     def create_product_categories(self, product_id: int, categories: List[int]) -> None:
@@ -276,7 +281,10 @@ class ProductService:
                     category_id=category_id
                 )
                 session.add(new_product_category)
-            session.commit()
+            try:
+                session.commit()
+            except sqlalchemy.exc.IntegrityError:
+                raise HTTPException(status_code=422, detail="Category IDs are incorrect")
         Session.remove()
 
     def create_product_photos(self, product_id: int, photos: List[str]) -> None:
