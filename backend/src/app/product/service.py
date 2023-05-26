@@ -12,6 +12,47 @@ from decimal import Decimal
 sale_types = ["Regular", "Auction"]
 
 
+def process_filters(params: ProductParams) -> list:
+    filters = list()
+
+    if params.has_search():
+        search_query = "%" + params.search + "%"
+        searches = list()
+        searches.append(Product.name.ilike(search_query))
+        searches.append(Product.brand.ilike(search_query))
+        searches.append(Product.product_description.ilike(search_query))
+        filters.append(or_(*searches))
+    if params.has_quantity():
+        filters.append(Product.quantity > params.quantity)
+    if params.has_categories():
+        categories = list()
+        for category in params.categories:
+            categories.append(ProductCategory.category_id == category)
+        filters.append(or_(*categories))
+    if params.has_brands():
+        brands = list()
+        for brand in params.brands:
+            brands.append(Product.brand == brand)
+        filters.append(or_(*brands))
+    if params.has_colors():
+        colors = list()
+        for color in params.colors:
+            colors.append(Color.name == color)
+        filters.append(or_(*colors))
+    if params.has_price():
+        filters.append(Product.total_price < params.price)
+    if params.has_auction():
+        auction_type = "Auction" if params.auction else "Regular"
+        filters.append(Product.sale_type == auction_type)
+    if params.has_auction_active():
+        today = datetime.today().strftime('%Y-%m-%d')
+        if params.auction_active:
+            filters.append(Auction.end_date >= today)
+        else:
+            filters.append(Auction.end_date < today)
+    return filters
+
+
 class ProductService:
 
     def __init__(self):
@@ -22,43 +63,7 @@ class ProductService:
 
         Session = self.engine.create_session()
         with Session() as session:
-            filters = list()
-
-            if params.has_search():
-                search_query = "%" + params.search + "%"
-                searches = list()
-                searches.append(Product.name.ilike(search_query))
-                searches.append(Product.brand.ilike(search_query))
-                searches.append(Product.product_description.ilike(search_query))
-                filters.append(or_(*searches))
-            if params.has_quantity():
-                filters.append(Product.quantity > params.quantity)
-            if params.has_categories():
-                categories = list()
-                for category in params.categories:
-                    categories.append(ProductCategory.category_id == category)
-                filters.append(or_(*categories))
-            if params.has_brands():
-                brands = list()
-                for brand in params.brands:
-                    brands.append(Product.brand == brand)
-                filters.append(or_(*brands))
-            if params.has_colors():
-                colors = list()
-                for color in params.colors:
-                    colors.append(Color.name == color)
-                filters.append(or_(*colors))
-            if params.has_price():
-                filters.append(Product.total_price < params.price)
-            if params.has_auction():
-                auction_type = "Auction" if params.auction else "Regular"
-                filters.append(Product.sale_type == auction_type)
-            if params.has_auction_active():
-                today = datetime.today().strftime('%Y-%m-%d')
-                if params.auction_active:
-                    filters.append(Auction.end_date >= today)
-                else:
-                    filters.append(Auction.end_date < today)
+            filters = process_filters(params)
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
 
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
@@ -83,6 +88,27 @@ class ProductService:
         Session.remove()
 
         return result
+
+    def get_product_all_count(self) -> dict:
+        Session = self.engine.create_session()
+        with Session() as session:
+            total_count = session.query(Product.product_id).count()
+        Session.remove()
+        return {"count": total_count}
+
+    def get_product_filter_count(self, params: ProductParams) -> dict:
+
+        Session = self.engine.create_session()
+        with Session() as session:
+            filters = process_filters(params)
+
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = query.join(Auction, isouter=True)
+
+            total_count = query.filter(and_(*filters)).count()
+        Session.remove()
+
+        return {"count": total_count}
 
     def get_product(self, product_id: int) -> dict:
 
