@@ -2,19 +2,19 @@ import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
+import Stack from '@mui/material/Stack'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
 import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
-import { selectOfferFilters } from '../../store/slices/OfferFiltersSlice'
-import Stack from '@mui/material/Stack'
+import { selectOffersData } from '../../store/slices/OfferFiltersSlice'
 
 const MappedOffers = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const paramsString = searchParamsToStringQuery(searchParams)
 
   const { data, error, isLoading } = useGetOfferListQuery(paramsString)
-  const storeFilters = useSelector(selectOfferFilters)
+  const storeFilters = useSelector(selectOffersData)
 
   useEffect(() => {
     const storeFiltersVar: any = storeFilters
@@ -43,7 +43,7 @@ const MappedOffers = () => {
 
     if (data !== undefined) {
       return (
-        <Stack spacing={3} direction='column'>
+        <Stack spacing={3} direction="column">
           {Object.keys(data).map((key) => (
             <Offer
               key={key}
@@ -55,7 +55,7 @@ const MappedOffers = () => {
               rating={4}
             />
           ))}
-        </Stack >
+        </Stack>
       )
     }
     return <h1>No data to show</h1>

@@ -1,17 +1,24 @@
 import * as React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-// import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Select from '@mui/material/Select'
+import {
+  selectPagination,
+  updatePaginationLimit,
+} from '../../store/slices/OfferFiltersSlice'
 
 const PaginationBar: React.FC = () => {
-  // const [itemsPerPage, setItemsPerPage] = React.useState('')
+  const pagination = useSelector(selectPagination)
+  const { limit } = pagination
 
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   setItemsPerPage(event.target.value as string)
-  // }
+  const dispatch = useDispatch()
+
+  const handleSelectChange = (event: any) => {
+    dispatch(updatePaginationLimit(event.target.value))
+  }
 
   return (
     <Box sx={{ minWidth: 100 }}>
@@ -20,9 +27,9 @@ const PaginationBar: React.FC = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          // value={itemsPerPage}
+          onChange={handleSelectChange}
+          value={limit}
           label="Items"
-          // onChange={handleChange}
         >
           <MenuItem value={10}>10</MenuItem>
           <MenuItem value={25}>25</MenuItem>

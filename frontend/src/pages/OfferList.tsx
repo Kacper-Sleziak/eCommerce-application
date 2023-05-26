@@ -2,16 +2,17 @@ import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Grid'
+import { useDispatch, useSelector } from 'react-redux'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
 import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
+import { selectPagination, updatePage } from '../store/slices/OfferFiltersSlice'
 import YearRangeSlider from '../features/OfferList/YearRangeSlider'
 import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
-import Grid from '@mui/material/Grid'
 
 const brandList = [
   { title: 'Basic' },
@@ -42,6 +43,11 @@ const OfferList: React.FC = () => {
     categoryFilterRef,
   ]
 
+  const pagination = useSelector(selectPagination)
+  const { page } = pagination
+
+  const dispatch = useDispatch()
+
   const filterOnClick = () => {
     refArray.forEach((ref) => {
       if (ref.current !== null) {
@@ -50,10 +56,22 @@ const OfferList: React.FC = () => {
     })
   }
 
+  const handlePaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number,
+  ) => {
+    dispatch(updatePage(newPage))
+  }
+
   return (
     <Grid container alignItems="center" spacing={10}>
       <Grid item xs={6}>
-        <Pagination count={10} shape="rounded" />
+        <Pagination
+          page={page}
+          count={2}
+          shape="rounded"
+          onChange={handlePaginationChange}
+        />
       </Grid>
 
       <Grid item xs={3}>
@@ -67,7 +85,6 @@ const OfferList: React.FC = () => {
         <Card
           sx={{
             padding: 2,
-            // position: 'absolute',
             width: '398px',
             height: '806px',
             background: '#E6E6E6',
@@ -129,12 +146,11 @@ const OfferList: React.FC = () => {
             Filter
           </Button>
         </Card>
-        </Grid>
+      </Grid>
       <Grid item xs={7}>
         <MappedOffers />
       </Grid>
-    </Grid >
-
+    </Grid>
   )
 }
 
