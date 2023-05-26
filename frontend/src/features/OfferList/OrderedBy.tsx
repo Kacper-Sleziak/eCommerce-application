@@ -41,8 +41,8 @@ const OrderedBy: React.FC = () => {
           value={value}
           onChange={handleChange}
         >
-          <MenuItem value="1">Price from lowest</MenuItem>
-          <MenuItem value="2">Price from highest</MenuItem>
+          <MenuItem value="0">Price from lowest</MenuItem>
+          <MenuItem value="1">Price from highest</MenuItem>
         </Select>
       </FormControl>
     </Box>
