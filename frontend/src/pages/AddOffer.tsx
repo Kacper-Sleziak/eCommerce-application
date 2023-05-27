@@ -8,10 +8,14 @@ import {
   FormHelperText,
   Typography,
 } from '@mui/material'
-import AddPhoto, { Photo } from '../features/AddOffer/AddPhoto'
-import Categories from '../features/AddOffer/Categories'
 import { useEffect, useState, useReducer } from 'react'
-import { useAddProductMutation, useGetCategoriesQuery, useGetColorsQuery } from '../store/services/OfferListDataApi'
+import AddPhoto, { type Photo } from '../features/AddOffer/AddPhoto'
+import Categories from '../features/AddOffer/Categories'
+import {
+  useAddProductMutation,
+  useGetCategoriesQuery,
+  useGetColorsQuery,
+} from '../store/services/OfferListDataApi'
 
 interface IFormData {
   name: string
@@ -23,30 +27,29 @@ interface IFormData {
   colors: number[]
 }
 
-
 const getBase64FromUrl = async (url: string) => {
-  const data = await fetch(url);
-  const blob = await data.blob();
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
+  const data = await fetch(url)
+  const blob = await data.blob()
+  return await new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(blob)
     reader.onloadend = () => {
-      const base64data = reader.result;
-      resolve(base64data);
+      const base64data = reader.result
+      resolve(base64data)
     }
-  });
+  })
 }
 
 const savePhotosAsBase64 = async (photos: Photo[]) => {
-  const promises = photos.map((photo: Photo) => {
-    return getBase64FromUrl(photo.url);
-  });
+  const promises = photos.map(async (photo: Photo) => {
+    return await getBase64FromUrl(photo.url)
+  })
 
-  return await Promise.all(promises);
+  return await Promise.all(promises)
 }
 
 const AddOffer = () => {
-  const [addProduct, addProductResult] = useAddProductMutation();
+  const [addProduct] = useAddProductMutation()
 
   const [photos, setPhotos] = useState<Photo[]>([])
   const [categories, setCategories] = useState<string[]>([])
@@ -55,52 +58,46 @@ const AddOffer = () => {
   const { data: colorsData } = useGetColorsQuery({})
   const { data: categoriesData } = useGetCategoriesQuery({})
 
-
   const addPhotos = (newPhotos: Photo[]) => {
     setPhotos([...photos, ...newPhotos])
   }
 
   useEffect(() => {
-    if (categoriesData) {
-      const newCategories = Object.values(categoriesData).map((category) => (category.name))
+    if (categoriesData !== undefined) {
+      const newCategories = Object.values(categoriesData).map(
+        // @ts-expect-error
+        (category) => category.name,
+      )
       setCategories(newCategories)
     }
   }, [categoriesData])
 
   useEffect(() => {
-    if (colorsData) {
-      const newColors = Object.values(colorsData).map((color) => (color.name))
+    if (colorsData !== undefined) {
+      // @ts-expect-error
+      const newColors = Object.values(colorsData).map((color) => color.name)
       setColors(newColors)
     }
-  })
-
-  useEffect(() => {
-    console.log({ addProductResult });
-
-    console.log({ colorsData });
-    console.log({ categoriesData });
-
-  }, [addProductResult])
+  }, [colorsData])
 
   const handleSubmit = () => {
-
     savePhotosAsBase64(photos).then((photosAsBase64) => {
-
       const body = {
-        "categories": data.categories,
-        "colors": data.colors,
-        "photos": photosAsBase64
+        categories: data.categories,
+        colors: data.colors,
+        photos: photosAsBase64,
       }
 
       addProduct({
         ...data,
-        body
+        // @ts-expect-error
+        body,
       })
-
     })
   }
 
   const [data, updateData] = useReducer(
+    // @ts-expect-error
     (state: IFormData, action) => {
       const updateData = { ...state }
 
@@ -112,7 +109,7 @@ const AddOffer = () => {
           updateData.description = action.payload
           break
         case 'quantity':
-          updateData.quantity = parseInt(action.payload)
+          updateData.quantity = parseInt(action.payload, 10)
           break
         case 'totalPrice':
           updateData.totalPrice = parseFloat(action.payload)
@@ -136,10 +133,8 @@ const AddOffer = () => {
       brand: 'xd',
       categories: [2],
       colors: [2],
-    }
+    },
   )
-
-
 
   return (
     <Card sx={{ maxWidth: '60%' }}>
@@ -155,7 +150,9 @@ const AddOffer = () => {
           <Input
             color="warning"
             value={data.name}
-            onChange={(e) => { updateData({ type: 'name', payload: e.target.value }) }}
+            onChange={(e) => {
+              updateData({ type: 'name', payload: e.target.value })
+            }}
           />
           <FormHelperText>Enter the title of the product</FormHelperText>
         </FormControl>
@@ -165,7 +162,9 @@ const AddOffer = () => {
             color="warning"
             multiline
             value={data.description}
-            onChange={(e) => { updateData({ type: 'description', payload: e.target.value }) }}
+            onChange={(e) => {
+              updateData({ type: 'description', payload: e.target.value })
+            }}
           />
           <FormHelperText>Enter the description of the product</FormHelperText>
         </FormControl>
@@ -174,7 +173,9 @@ const AddOffer = () => {
           <Input
             color="warning"
             value={data.quantity}
-            onChange={(e) => { updateData({ type: 'quantity', payload: e.target.value }) }}
+            onChange={(e) => {
+              updateData({ type: 'quantity', payload: e.target.value })
+            }}
           />
           <FormHelperText>Enter the quantity of the product</FormHelperText>
         </FormControl>
@@ -183,7 +184,9 @@ const AddOffer = () => {
           <Input
             color="warning"
             value={data.totalPrice}
-            onChange={(e) => { updateData({ type: 'totalPrice', payload: e.target.value }) }}
+            onChange={(e) => {
+              updateData({ type: 'totalPrice', payload: e.target.value })
+            }}
           />
           <FormHelperText>Enter the total price of the product</FormHelperText>
         </FormControl>
@@ -192,12 +195,14 @@ const AddOffer = () => {
           <Input
             color="warning"
             value={data.brand}
-            onChange={(e) => { updateData({ type: 'brand', payload: e.target.value }) }}
+            onChange={(e) => {
+              updateData({ type: 'brand', payload: e.target.value })
+            }}
           />
           <FormHelperText>Enter the brand of the product</FormHelperText>
         </FormControl>
-        <Categories categories={categories} categoriesName='Categories' />
-        <Categories categories={colors} categoriesName='Colors' />
+        <Categories categories={categories} categoriesName="Categories" />
+        <Categories categories={colors} categoriesName="Colors" />
       </div>
       <div className="addOfferButton">
         <Button

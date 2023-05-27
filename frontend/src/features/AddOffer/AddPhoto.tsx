@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import { Button, Grid, IconButton } from '@mui/material'
 import { PhotoCamera } from '@mui/icons-material'
@@ -14,7 +13,6 @@ interface IAddPhotoProps {
 }
 
 const AddPhoto = ({ addPhotos, photos }: IAddPhotoProps) => {
-
   const handleAddPhoto = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { files } = target
     if (files != null) {
