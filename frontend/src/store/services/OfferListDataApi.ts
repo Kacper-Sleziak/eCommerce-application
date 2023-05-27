@@ -29,10 +29,23 @@ export const offerListDataApi = createApi({
         method: 'POST',
         body: params.body
       })
+    }),
+
+    getCategories: builder.query({
+      query: () => `categories/`,
+    }),
+
+    getColors: builder.query({
+      query: () => `colors/`,
     })
   }),
 
 
 })
 
-export const { useGetOfferListQuery, useAddProductMutation } = offerListDataApi
+export const {
+  useGetOfferListQuery,
+  useAddProductMutation,
+  useGetColorsQuery,
+  useGetCategoriesQuery
+} = offerListDataApi

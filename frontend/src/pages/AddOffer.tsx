@@ -11,7 +11,7 @@ import {
 import AddPhoto, { Photo } from '../features/AddOffer/AddPhoto'
 import Categories from '../features/AddOffer/Categories'
 import { useEffect, useState, useReducer } from 'react'
-import { useAddProductMutation } from '../store/services/OfferListDataApi'
+import { useAddProductMutation, useGetCategoriesQuery, useGetColorsQuery } from '../store/services/OfferListDataApi'
 
 interface IFormData {
   name: string
@@ -23,8 +23,6 @@ interface IFormData {
   colors: number[]
 }
 
-
-const categories = ['car', 'sports', 'automotive']
 
 const getBase64FromUrl = async (url: string) => {
   const data = await fetch(url);
@@ -49,14 +47,38 @@ const savePhotosAsBase64 = async (photos: Photo[]) => {
 
 const AddOffer = () => {
   const [addProduct, addProductResult] = useAddProductMutation();
+
   const [photos, setPhotos] = useState<Photo[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+  const [colors, setColors] = useState<string[]>([])
+
+  const { data: colorsData } = useGetColorsQuery({})
+  const { data: categoriesData } = useGetCategoriesQuery({})
+
 
   const addPhotos = (newPhotos: Photo[]) => {
     setPhotos([...photos, ...newPhotos])
   }
 
   useEffect(() => {
+    if (categoriesData) {
+      const newCategories = Object.values(categoriesData).map((category) => (category.name))
+      setCategories(newCategories)
+    }
+  }, [categoriesData])
+
+  useEffect(() => {
+    if (colorsData) {
+      const newColors = Object.values(colorsData).map((color) => (color.name))
+      setColors(newColors)
+    }
+  })
+
+  useEffect(() => {
     console.log({ addProductResult });
+
+    console.log({ colorsData });
+    console.log({ categoriesData });
 
   }, [addProductResult])
 
@@ -174,7 +196,8 @@ const AddOffer = () => {
           />
           <FormHelperText>Enter the brand of the product</FormHelperText>
         </FormControl>
-        <Categories categories={categories} />
+        <Categories categories={categories} categoriesName='Categories' />
+        <Categories categories={colors} categoriesName='Colors' />
       </div>
       <div className="addOfferButton">
         <Button

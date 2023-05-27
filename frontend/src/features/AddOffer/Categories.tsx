@@ -12,6 +12,7 @@ import Chip from '@mui/material/Chip'
 
 interface CategoriesProps {
   categories: string[]
+  categoriesName: string
 }
 
 const ITEM_HEIGHT = 48
@@ -33,7 +34,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
-const Categories: React.FC<CategoriesProps> = ({ categories }) => {
+const Categories: React.FC<CategoriesProps> = ({ categories, categoriesName }) => {
   const theme = useTheme()
   const [categoryName, setCategoryName] = React.useState<string[]>([])
 
@@ -50,7 +51,7 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">{categoriesName}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
