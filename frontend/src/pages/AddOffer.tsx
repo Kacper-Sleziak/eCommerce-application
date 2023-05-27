@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, useState, useReducer } from 'react'
-import AddPhoto, { type Photo } from '../features/AddOffer/AddPhoto'
+// import AddPhoto, { type Photo } from '../features/AddOffer/AddPhoto'
 import Categories from '../features/AddOffer/Categories'
 import {
   useAddProductMutation,
@@ -40,27 +40,27 @@ const getBase64FromUrl = async (url: string) => {
   })
 }
 
-const savePhotosAsBase64 = async (photos: Photo[]) => {
-  const promises = photos.map(async (photo: Photo) => {
-    return await getBase64FromUrl(photo.url)
-  })
+// const savePhotosAsBase64 = async (photos: Photo[]) => {
+//   const promises = photos.map(async (photo: Photo) => {
+//     return await getBase64FromUrl(photo.url)
+//   })
 
-  return await Promise.all(promises)
-}
+//   return await Promise.all(promises)
+// }
 
 const AddOffer = () => {
   const [addProduct] = useAddProductMutation()
 
-  const [photos, setPhotos] = useState<Photo[]>([])
+  // const [photos, setPhotos] = useState<Photo[]>([])
   const [categories, setCategories] = useState<string[]>([])
   const [colors, setColors] = useState<string[]>([])
 
   const { data: colorsData } = useGetColorsQuery({})
   const { data: categoriesData } = useGetCategoriesQuery({})
 
-  const addPhotos = (newPhotos: Photo[]) => {
-    setPhotos([...photos, ...newPhotos])
-  }
+  // const addPhotos = (newPhotos: Photo[]) => {
+  //   setPhotos([...photos, ...newPhotos])
+  // }
 
   useEffect(() => {
     if (categoriesData !== undefined) {
@@ -81,19 +81,19 @@ const AddOffer = () => {
   }, [colorsData])
 
   const handleSubmit = () => {
-    savePhotosAsBase64(photos).then((photosAsBase64) => {
-      const body = {
-        categories: data.categories,
-        colors: data.colors,
-        photos: photosAsBase64,
-      }
+    // savePhotosAsBase64(photos).then((photosAsBase64) => {
+    const body = {
+      categories: data.categories,
+      colors: data.colors,
+      // photos: photosAsBase64,
+    }
 
-      addProduct({
-        ...data,
-        // @ts-expect-error
-        body,
-      })
+    addProduct({
+      ...data,
+      // @ts-expect-error
+      body,
     })
+    // })
   }
 
   const [data, updateData] = useReducer(
@@ -142,7 +142,7 @@ const AddOffer = () => {
         <Typography variant="h3">Add offer</Typography>
       </div>
       <div className="formFlexAddOffer">
-        <AddPhoto addPhotos={addPhotos} photos={photos} />
+        {/* <AddPhoto addPhotos={addPhotos} photos={photos} /> */}
       </div>
       <div className="formFlexAddOfferInputs">
         <FormControl>
