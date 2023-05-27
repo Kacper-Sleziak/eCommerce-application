@@ -2,32 +2,48 @@ import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Grid'
+import { useDispatch, useSelector } from 'react-redux'
 import CheckboxCategories from '../features/OfferList/Checkbox'
 import UsedFilter from '../features/OfferList/UsedFilter'
 import '../styles/pages/offerlistpage.css'
-// import MappedOffers from '../features/OfferList/MappedOffers'
+import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
-import YearRangeSlider from '../features/OfferList/YearRangeSlider'
-import type { FilterRefInterface } from '../features/OfferList/utils/filterCallInterface'
+import {
+  selectPagination,
+  updatePage,
+  clearFilters,
+} from '../store/slices/OfferFiltersSlice'
+import type { FilterRefInterface } from '../features/OfferList/interface/filterCallInterface'
 
-const brandList = [{ title: 'BMW' }, { title: 'Audi' }, { title: 'Fiat' }]
-const colorList = [{ title: 'black' }, { title: 'red' }, { title: 'blue' }]
-const categoryList = [{ title: 'sports car' }, { title: 'jeep' }]
+const brandList = [
+  { title: 'Basic' },
+  { title: 'Bentley' },
+  { title: 'Tesla' },
+  { title: 'Volvo' },
+]
+const colorList = [
+  { title: 'Black' },
+  { title: 'Red' },
+  { title: 'Blue' },
+  { title: 'Yellow' },
+  { title: 'White' },
+  { title: 'Green' },
+]
+const categoryList = [{ title: 'Chair' }, { title: 'Desk' }, { title: 'Car' }]
 
 const OfferList: React.FC = () => {
   const brandFilterRef = useRef<FilterRefInterface | null>(null)
   const colorFilterRef = useRef<FilterRefInterface | null>(null)
-  const yearFilterRef = useRef<FilterRefInterface | null>(null)
   const categoryFilterRef = useRef<FilterRefInterface | null>(null)
 
-  const refArray = [
-    brandFilterRef,
-    colorFilterRef,
-    yearFilterRef,
-    categoryFilterRef,
-  ]
+  const refArray = [brandFilterRef, colorFilterRef, categoryFilterRef]
+
+  const pagination = useSelector(selectPagination)
+  const { page } = pagination
+
+  const dispatch = useDispatch()
 
   const filterOnClick = () => {
     refArray.forEach((ref) => {
@@ -37,13 +53,45 @@ const OfferList: React.FC = () => {
     })
   }
 
+  const clearOnClick = () => {
+    dispatch(clearFilters())
+
+    refArray.forEach((ref) => {
+      if (ref.current !== null) {
+        ref.current.clearFilter()
+      }
+    })
+  }
+
+  const handlePaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number,
+  ) => {
+    dispatch(updatePage(newPage))
+  }
+
   return (
-    <div className="offerListClass">
-      <div>
+    <Grid container alignItems="center" spacing={10}>
+      <Grid item xs={6}>
+        <Pagination
+          page={page}
+          count={2}
+          shape="rounded"
+          onChange={handlePaginationChange}
+        />
+      </Grid>
+
+      <Grid item xs={3}>
+        <PaginationBar />
+      </Grid>
+
+      <Grid item xs={3}>
+        <OrderedBy />
+      </Grid>
+      <Grid item xs={5}>
         <Card
           sx={{
             padding: 2,
-            position: 'absolute',
             width: '398px',
             height: '806px',
             background: '#E6E6E6',
@@ -65,11 +113,9 @@ const OfferList: React.FC = () => {
             Used filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <UsedFilter filtername="Price" filterdetail="from lowest" />
-            <UsedFilter filtername="Brand" filterdetail="BMW" />
-            <UsedFilter filtername="Localization" filterdetail="Wrocław" />
-          </div>
+          <UsedFilter filtername="Price" filterdetail="from lowest" />
+          <UsedFilter filtername="Brand" filterdetail="BMW" />
+          <UsedFilter filtername="Localization" filterdetail="Wrocław" />
           <Typography
             sx={{
               paddingTop: 2,
@@ -86,51 +132,34 @@ const OfferList: React.FC = () => {
             Filters
           </Typography>
           <Divider sx={{ border: '2px solid #A09D9D' }} />
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              padding: 20,
-              height: '450px',
-              width: '300px',
-            }}
-          >
-            <CheckboxCategories
-              categories={brandList}
-              filterlabel="brand"
-              ref={brandFilterRef}
-            />
-            <YearRangeSlider />
-            <CheckboxCategories
-              categories={colorList}
-              filterlabel="color"
-              ref={colorFilterRef}
-            />
-            <CheckboxCategories
-              categories={categoryList}
-              filterlabel="category"
-              ref={categoryFilterRef}
-            />
+          <CheckboxCategories
+            categories={brandList}
+            filterlabel="brand"
+            ref={brandFilterRef}
+          />
+          <CheckboxCategories
+            categories={colorList}
+            filterlabel="color"
+            ref={colorFilterRef}
+          />
+          <CheckboxCategories
+            categories={categoryList}
+            filterlabel="category"
+            ref={categoryFilterRef}
+          />
 
-            <Button variant="contained" onClick={filterOnClick}>
-              Filter
-            </Button>
-          </div>
+          <Button variant="contained" onClick={filterOnClick}>
+            Filter
+          </Button>
+          <Button variant="contained" onClick={clearOnClick}>
+            Clear
+          </Button>
         </Card>
-      </div>
-      <div className="offers">
-        <Typography variant="h3">Offers</Typography>
-        {/* <MappedOffers /> */}
-      </div>
-
-      <Stack spacing={2}>
-        <Pagination count={10} shape="rounded" />
-      </Stack>
-      <PaginationBar />
-      <OrderedBy />
-    </div>
+      </Grid>
+      <Grid item xs={7}>
+        <MappedOffers />
+      </Grid>
+    </Grid>
   )
 }
 

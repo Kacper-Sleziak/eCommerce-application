@@ -95,4 +95,4 @@ python -m main
 ## Openapi documentation
 
 Openapi documentation is available localy under
-http://localhost:8000/docs#/
+http://localhost:9999/docs#/
