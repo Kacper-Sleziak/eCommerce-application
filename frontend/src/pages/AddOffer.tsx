@@ -27,18 +27,18 @@ interface IFormData {
   colors: number[]
 }
 
-const getBase64FromUrl = async (url: string) => {
-  const data = await fetch(url)
-  const blob = await data.blob()
-  return await new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(blob)
-    reader.onloadend = () => {
-      const base64data = reader.result
-      resolve(base64data)
-    }
-  })
-}
+// const getBase64FromUrl = async (url: string) => {
+//   const data = await fetch(url)
+//   const blob = await data.blob()
+//   return await new Promise((resolve) => {
+//     const reader = new FileReader()
+//     reader.readAsDataURL(blob)
+//     reader.onloadend = () => {
+//       const base64data = reader.result
+//       resolve(base64data)
+//     }
+//   })
+// }
 
 // const savePhotosAsBase64 = async (photos: Photo[]) => {
 //   const promises = photos.map(async (photo: Photo) => {
