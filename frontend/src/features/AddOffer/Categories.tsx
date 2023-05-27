@@ -34,7 +34,10 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   }
 }
 
-const Categories: React.FC<CategoriesProps> = ({ categories, categoriesName }) => {
+const Categories: React.FC<CategoriesProps> = ({
+  categories,
+  categoriesName,
+}) => {
   const theme = useTheme()
   const [categoryName, setCategoryName] = React.useState<string[]>([])
 
