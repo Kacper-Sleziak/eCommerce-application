@@ -8,9 +8,10 @@ import {
   FormHelperText,
   Typography,
 } from '@mui/material'
-import AddPhoto from '../features/AddOffer/AddPhoto'
+import AddPhoto, { Photo } from '../features/AddOffer/AddPhoto'
 import Categories from '../features/AddOffer/Categories'
-import { useReducer } from 'react'
+import { useEffect, useState, useReducer } from 'react'
+import { useAddProductMutation } from '../store/services/OfferListDataApi'
 
 // interface FormData {
 //   image: string
@@ -34,10 +35,56 @@ import { useReducer } from 'react'
 
 const categories = ['car', 'sports', 'automotive']
 
+const getBase64FromUrl = async (url: string) => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      resolve(base64data);
+    }
+  });
+}
+
+const savePhotosAsBase64 = async (photos: Photo[]) => {
+  const promises = photos.map((photo: Photo) => {
+    return getBase64FromUrl(photo.url);
+  });
+
+  return await Promise.all(promises);
+}
+
 const AddOffer = () => {
+  const [addProduct, addProductResult] = useAddProductMutation();
+  const [photos, setPhotos] = useState<Photo[]>([])
+
+  const addPhotos = (newPhotos: Photo[]) => {
+    setPhotos([...photos, ...newPhotos])
+  }
+
+  useEffect(() => {
+    console.log({ addProductResult });
+
+  }, [addProductResult])
 
   const handleSubmit = () => {
-    console.log({ data })
+
+    savePhotosAsBase64(photos).then((photosAsBase64) => {
+
+      const body = {
+        "categories": data.categories,
+        "colors": data.colors,
+        "photos": photosAsBase64
+      }
+
+      addProduct({
+        ...data,
+        body
+      })
+
+    })
   }
 
   const [data, updateData] = useReducer(
@@ -60,8 +107,6 @@ const AddOffer = () => {
         case 'brand':
           updateData.brand = action.payload
           break
-        // case 'sellerId':
-        // break
         case 'categories':
           break
         default:
@@ -71,13 +116,13 @@ const AddOffer = () => {
     },
 
     {
-      name: '',
-      description: '',
-      quantity: 0,
-      totalPrice: 0,
+      name: 'olga',
+      description: 'xd',
+      quantity: 3,
+      totalPrice: 50,
       brand: 'xd',
-      sellerId: 2, // hardcoded, dont touch!
-      categories: [],
+      categories: [2],
+      colors: [2],
     }
   )
 
@@ -89,7 +134,7 @@ const AddOffer = () => {
         <Typography variant="h3">Add offer</Typography>
       </div>
       <div className="formFlexAddOffer">
-        <AddPhoto />
+        <AddPhoto addPhotos={addPhotos} photos={photos} />
       </div>
       <div className="formFlexAddOfferInputs">
         <FormControl>
@@ -138,11 +183,6 @@ const AddOffer = () => {
           />
           <FormHelperText>Enter the brand of the product</FormHelperText>
         </FormControl>
-        {/* <FormControl> */}
-        {/*   <InputLabel>Seller id</InputLabel> */}
-        {/*   <Input color="warning" /> */}
-        {/*   <FormHelperText>Enter the seller id of the product</FormHelperText> */}
-        {/* </FormControl> */}
         <Categories categories={categories} />
       </div>
       <div className="addOfferButton">
