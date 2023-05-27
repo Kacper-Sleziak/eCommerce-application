@@ -258,10 +258,7 @@ class ProductService:
                     color_id=color_id
                 )
                 session.add(new_product_color)
-            try:
-                session.commit()
-            except sqlalchemy.exc.IntegrityError:
-                raise HTTPException(status_code=422, detail="Color IDs are incorrect")
+            session.commit()
         Session.remove()
 
     def create_product_categories(self, product_id: int, categories: List[int]) -> None:
@@ -274,10 +271,7 @@ class ProductService:
                     category_id=category_id
                 )
                 session.add(new_product_category)
-            try:
-                session.commit()
-            except sqlalchemy.exc.IntegrityError:
-                raise HTTPException(status_code=422, detail="Category IDs are incorrect")
+            session.commit()
         Session.remove()
 
     def create_product_photos(self, product_id: int, photos: List[str]) -> None:
