@@ -143,6 +143,7 @@ def create_auction(seller_id: int,
                                   highest_bid=starting_price,
                                   minimal_bump=minimal_bump,
                                   end_date=datetime.strptime(end_date, '%d-%m-%Y').date())
+
     return product_service.create_product_auction(product, auction)
 
 

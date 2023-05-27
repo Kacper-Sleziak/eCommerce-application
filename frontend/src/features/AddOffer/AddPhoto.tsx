@@ -3,13 +3,17 @@ import type { ChangeEvent } from 'react'
 import { Button, Grid, IconButton } from '@mui/material'
 import { PhotoCamera } from '@mui/icons-material'
 
-interface Photo {
+export interface Photo {
   id: number
   url: string
 }
 
-const AddPhoto: React.FC = () => {
-  const [photos, setPhotos] = useState<Photo[]>([])
+interface IAddPhotoProps {
+  addPhotos(newPhotos: Photo[]): void
+  photos: Photo[]
+}
+
+const AddPhoto = ({ addPhotos, photos }: IAddPhotoProps) => {
 
   const handleAddPhoto = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { files } = target
@@ -18,7 +22,7 @@ const AddPhoto: React.FC = () => {
         id: index,
         url: URL.createObjectURL(file),
       }))
-      setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos])
+      addPhotos(newPhotos)
     }
   }
 
