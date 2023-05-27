@@ -107,7 +107,6 @@ class ProductService:
         Session = self.engine.create_session()
         with Session() as session:
             filters = process_filters(params)
-            print(filters)
 
             query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
             query = query.join(Auction, isouter=True)
