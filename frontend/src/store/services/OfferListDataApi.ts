@@ -11,6 +11,10 @@ export const offerListDataApi = createApi({
     getOfferList: builder.query({
       query: (params: string) => `products?${params}`,
     }),
+    
+    getOffersCount: builder.query({
+      query: () => 'products/count',
+    }),
 
     addProduct: builder.mutation({
       query: (params: {
@@ -42,9 +46,9 @@ export const offerListDataApi = createApi({
 
 
 })
-
 export const {
   useGetOfferListQuery,
+  useGetOffersCountQuery,
   useAddProductMutation,
   useGetColorsQuery,
   useGetCategoriesQuery

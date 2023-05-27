@@ -16,6 +16,7 @@ import {
   clearFilters,
 } from '../store/slices/OfferFiltersSlice'
 import type { FilterRefInterface } from '../features/OfferList/interface/filterCallInterface'
+import { useGetOffersCountQuery } from '../store/services/OfferListDataApi'
 
 const brandList = [
   { title: 'Basic' },
@@ -40,8 +41,10 @@ const OfferList: React.FC = () => {
 
   const refArray = [brandFilterRef, colorFilterRef, categoryFilterRef]
 
+  const { data, isLoading } = useGetOffersCountQuery({})
+
   const pagination = useSelector(selectPagination)
-  const { page } = pagination
+  const { page, limit } = pagination
 
   const dispatch = useDispatch()
 
@@ -70,15 +73,29 @@ const OfferList: React.FC = () => {
     dispatch(updatePage(newPage))
   }
 
-  return (
-    <Grid container alignItems="center" spacing={10}>
-      <Grid item xs={6}>
+  const renderPagination = () => {
+    if (isLoading) {
+      return <h3>loading...</h3>
+    }
+    if (data !== undefined) {
+      const dataCount = data.count
+      const pagesCount = Math.ceil(dataCount / limit)
+      return (
         <Pagination
           page={page}
-          count={2}
+          count={pagesCount}
           shape="rounded"
           onChange={handlePaginationChange}
         />
+      )
+    }
+    return <h3>loading...</h3>
+  }
+
+  return (
+    <Grid container alignItems="center" spacing={10}>
+      <Grid item xs={6}>
+        {renderPagination()}
       </Grid>
 
       <Grid item xs={3}>
