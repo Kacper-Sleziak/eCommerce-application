@@ -20,13 +20,6 @@ const MappedOffers = () => {
     setSearchParams(storeFiltersVar)
   }, [storeFilters])
 
-  useEffect(() => {
-    if (data !== undefined) {
-      console.log({ data });
-      console.log(data[6].photos[0].content);
-
-    }
-  }, [data])
   const returnOffers: () => JSX.Element = () => {
     if (isLoading) {
       return <CircularProgress />
@@ -50,10 +43,9 @@ const MappedOffers = () => {
     if (data !== undefined) {
       return (
         <Stack spacing={3} direction="column">
-          {Object.values(data).map((offer: any, idx) => (
-
+          {Object.values(data).map((offer: any) => (
             <Offer
-              key={`offer-${idx}`}
+              key={`offer-${offer.id}`}
               image={offer.photos[0].content}
               title={offer.name}
               localization="Wrocław"

@@ -11,45 +11,43 @@ export const offerListDataApi = createApi({
     getOfferList: builder.query({
       query: (params: string) => `products?${params}`,
     }),
-    
+
     getOffersCount: builder.query({
       query: () => 'products/count',
     }),
 
     addProduct: builder.mutation({
       query: (params: {
-        name: string,
-        brand: string,
-        description: string,
-        quantity: number,
-        totalPrice: number,
+        name: string
+        brand: string
+        description: string
+        quantity: number
+        totalPrice: number
         body: {
-          categories: number[],
-          colors: number[],
+          categories: number[]
+          colors: number[]
           photos: string[]
         }
       }) => ({
         url: `products/?seller_id=1&name=${params.name}&brand=${params.brand}&description=${params.description}&quantity=${params.quantity}&total_price=${params.totalPrice}`,
         method: 'POST',
-        body: params.body
-      })
+        body: params.body,
+      }),
     }),
 
     getCategories: builder.query({
-      query: () => `categories/`,
+      query: () => 'categories/',
     }),
 
     getColors: builder.query({
-      query: () => `colors/`,
-    })
+      query: () => 'colors/',
+    }),
   }),
-
-
 })
 export const {
   useGetOfferListQuery,
   useGetOffersCountQuery,
   useAddProductMutation,
   useGetColorsQuery,
-  useGetCategoriesQuery
+  useGetCategoriesQuery,
 } = offerListDataApi

@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack'
 
 const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
   event.preventDefault()
-  console.info('You clicked a breadcrumb.')
 }
 
 const Breadcrumb: React.FC = () => {
