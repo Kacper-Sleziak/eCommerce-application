@@ -36,15 +36,9 @@ const categoryList = [{ title: 'Chair' }, { title: 'Desk' }, { title: 'Car' }]
 const OfferList: React.FC = () => {
   const brandFilterRef = useRef<FilterRefInterface | null>(null)
   const colorFilterRef = useRef<FilterRefInterface | null>(null)
-  const yearFilterRef = useRef<FilterRefInterface | null>(null)
   const categoryFilterRef = useRef<FilterRefInterface | null>(null)
 
-  const refArray = [
-    brandFilterRef,
-    colorFilterRef,
-    yearFilterRef,
-    categoryFilterRef,
-  ]
+  const refArray = [brandFilterRef, colorFilterRef, categoryFilterRef]
 
   const pagination = useSelector(selectPagination)
   const { page } = pagination
@@ -73,7 +67,7 @@ const OfferList: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     newPage: number,
   ) => {
-    dispatch(updatePage(newPage - 1))
+    dispatch(updatePage(newPage))
   }
 
   return (
