@@ -50,6 +50,43 @@ def get_products_filter(search: str | None = None,
         raise HTTPException(status_code=404, detail="Not found")
 
 
+@router.get("/count")
+def get_products_filter_count(search: str | None = None,
+                              quantity: int | None = None,
+                              category: Annotated[list[int] | None, Query()] = None,
+                              brand: Annotated[list[str] | None, Query()] = None,
+                              color: Annotated[list[str] | None, Query()] = None,
+                              price: int | None = None,
+                              order: str | None = None,
+                              order_by: str | None = None,
+                              page: int | None = None,
+                              limit: int | None = None,
+                              auction: bool | None = None,
+                              auction_active: bool | None = None) -> dict:
+    params = ProductParams(
+        search=search,
+        quantity=quantity,
+        categories=category,
+        brands=brand,
+        colors=color,
+        price=price,
+        order=order,
+        order_by=order_by,
+        page=page,
+        limit=limit,
+        auction=auction,
+        auction_active=auction_active
+    )
+    if params.has_data():
+        result = product_service.get_product_filter_count(params)
+    else:
+        result = product_service.get_product_all_count()
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Not found")
+
+
 @router.get("/{product_id}")
 def get_product_id(product_id: int) -> dict:
     return product_service.get_product(product_id)
