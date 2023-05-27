@@ -11,7 +11,10 @@ export const offerListDataApi = createApi({
     getOfferList: builder.query({
       query: (params: string) => `products?${params}`,
     }),
+    getOffersCount: builder.query({
+      query: () => 'products/count',
+    }),
   }),
 })
 
-export const { useGetOfferListQuery } = offerListDataApi
+export const { useGetOfferListQuery, useGetOffersCountQuery } = offerListDataApi
