@@ -13,25 +13,16 @@ import Categories from '../features/AddOffer/Categories'
 import { useEffect, useState, useReducer } from 'react'
 import { useAddProductMutation } from '../store/services/OfferListDataApi'
 
-// interface FormData {
-//   image: string
-//   price: number
-//   details: string
-//   title: string
-// }
+interface IFormData {
+  name: string
+  description: string
+  quantity: number
+  totalPrice: number
+  brand: string
+  categories: number[]
+  colors: number[]
+}
 
-// const initialFormData: FormData = {
-//   image: '',
-//   price: 0,
-//   details: '',
-//   title: '',
-// }
-
-// const categoryList = [
-//   { title: 'car' },
-//   { title: 'automotive' },
-//   { title: 'sports' },
-// ]
 
 const categories = ['car', 'sports', 'automotive']
 
@@ -88,7 +79,7 @@ const AddOffer = () => {
   }
 
   const [data, updateData] = useReducer(
-    (state, action) => {
+    (state: IFormData, action) => {
       const updateData = { ...state }
 
       switch (action.type) {
