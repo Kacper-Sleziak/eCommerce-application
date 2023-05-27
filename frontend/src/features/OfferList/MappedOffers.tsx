@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
-import { getPhotoFromAPI } from '../../utils/getPhotoFromAPI'
 import { selectOffersData } from '../../store/slices/OfferFiltersSlice'
 
 const MappedOffers = () => {
@@ -21,6 +20,13 @@ const MappedOffers = () => {
     setSearchParams(storeFiltersVar)
   }, [storeFilters])
 
+  useEffect(() => {
+    if (data !== undefined) {
+      console.log({ data });
+      console.log(data[6].photos[0].content);
+
+    }
+  }, [data])
   const returnOffers: () => JSX.Element = () => {
     if (isLoading) {
       return <CircularProgress />
@@ -44,14 +50,15 @@ const MappedOffers = () => {
     if (data !== undefined) {
       return (
         <Stack spacing={3} direction="column">
-          {Object.keys(data).map((key) => (
+          {Object.values(data).map((offer: any, idx) => (
+
             <Offer
-              key={key}
-              image={getPhotoFromAPI(data[key].photos)}
-              title={data[key].name}
+              key={`offer-${idx}`}
+              image={offer.photos[0].content}
+              title={offer.name}
               localization="Wrocław"
-              parameters={data[key].description}
-              price={data[key].total_price}
+              parameters={offer.description}
+              price={offer.total_price}
               rating={4}
             />
           ))}
