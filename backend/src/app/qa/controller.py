@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.qa.service import QAService
 from app.qa.schema import QuestionSchema
 
@@ -17,7 +17,12 @@ def create_question(qa: QuestionSchema) -> dict:
 
 @router.get("/{product_id}")
 def get_qas_product(product_id: int) -> dict:
-    return qa_service.get_qas_product(product_id)
+    result = qa_service.get_qas_product(product_id)
+
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Not found")
 
 
 @router.put("/{qa_id}")

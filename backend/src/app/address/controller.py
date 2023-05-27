@@ -17,7 +17,7 @@ def create_address(address: CreateAddressSchema) -> dict:
 
 
 @router.get("/")
-def get_addressess() -> dict:
+def get_addresses() -> dict:
     return address_service.get_addresses()
 
 

@@ -1,4 +1,5 @@
-from app.models import CreateEngine, Review
+from app.models import CreateEngine, Review, User
+from fastapi import HTTPException
 from sqlalchemy.dialects import postgresql
 from app.review.schema import ReviewSchema
 
@@ -12,6 +13,11 @@ class ReviewService:
         Session = self.engine.create_session()
 
         with Session() as session:
+
+            user = session.query(User).get(user_id)
+            if user is None:
+                raise HTTPException(status_code=422, detail="No user with given id")
+
             reviews = session.query(Review).filter(Review.seller_id == user_id) if for_seller \
                 else session.query(Review).filter(Review.reviewer_id == user_id)
             for count, review in enumerate(reviews):
@@ -23,6 +29,8 @@ class ReviewService:
         Session = self.engine.create_session()
         with Session() as session:
             review = session.query(Review).get(review_id)
+            if review is None:
+                raise HTTPException(status_code=422, detail="No review with given id")
             result = review.serialize()
         Session.remove()
         return result
@@ -31,6 +39,15 @@ class ReviewService:
         Session = self.engine.create_session()
 
         with Session() as session:
+
+            seller = session.query(User).get(review.seller_id)
+            if seller is None:
+                raise HTTPException(status_code=422, detail="No seller with given id")
+
+            reviewer = session.query(User).get(review.reviewer_id)
+            if reviewer is None:
+                raise HTTPException(status_code=422, detail="No user with given id")
+
             new_review = Review(
                 seller_id=review.seller_id,
                 reviewer_id=review.reviewer_id,
