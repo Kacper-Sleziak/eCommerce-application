@@ -51,9 +51,10 @@ const RouterRoot = () => {
               >
                 <Route path="/signup" element={<SignUp />} />
               </Route>
-              <Route element={<AuthRoute user={user} protectionType="admin" />}>
+              <Route path="/profile" element={<Profile />} />
+              {/* <Route element={<AuthRoute user={user} protectionType="admin" />}>
                 <Route path="/profile" element={<Profile />} />
-              </Route>
+              </Route> */}
               <Route
                 element={<AuthRoute user={user} protectionType="noAuth" />}
               >
