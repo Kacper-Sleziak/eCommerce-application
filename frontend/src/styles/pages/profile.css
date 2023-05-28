@@ -20,11 +20,33 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 700px;
+  height: 800px;
 }
 
 .editProfileCard {
   display: flex;
   flex-direction: column;
   max-width: 60%;
+}
+.editInputs {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  justify-content: space-evenly;
+}
+
+.changePasswordGrid {
+  display: flex;
+  margin-top: 1rem;
+  flex-direction: column !important;
+}
+
+.saveButton {
+  display: flex;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  justify-content: center !important;
+  align-items: center;
 }

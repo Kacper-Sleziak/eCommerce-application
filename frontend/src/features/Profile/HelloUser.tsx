@@ -30,6 +30,7 @@ const HelloUser: React.FC<IUserProps> = ({ username, useremail }) => {
             width: '160px',
             height: '60px',
             background: '#FCA311',
+            filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
             borderRadius: '10px',
             fontWeight: '600',
             textTransform: 'none',
