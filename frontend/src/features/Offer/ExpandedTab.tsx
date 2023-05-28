@@ -5,7 +5,13 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-const SimpleAccordion: React.FC = () => {
+interface ISimpleAccordion {
+  description: string
+  colors: string[]
+  categories: string[]
+}
+
+const SimpleAccordion: React.FC<ISimpleAccordion> = ({ description, colors, categories }) => {
   return (
     <div>
       <Accordion sx={{ backgroundColor: '#ECEBEB', marginBottom: '1rem' }}>
@@ -18,8 +24,9 @@ const SimpleAccordion: React.FC = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            Colors: {Array(colors).join(', ')}
+            <br />
+            Categories: {Array(categories).join(', ')}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -33,8 +40,7 @@ const SimpleAccordion: React.FC = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            {description}
           </Typography>
         </AccordionDetails>
       </Accordion>
