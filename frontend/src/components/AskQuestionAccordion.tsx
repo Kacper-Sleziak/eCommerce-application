@@ -4,16 +4,13 @@ import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
 
-interface IQuestionAnswerAccordionProps {
-  question: string
-  questionId: number
-  answer: string
-  addAnswer(answer: string, questionId: number): void
+interface IAskQuestionAccordionProps {
+  addQuestion(question: string): void
 }
 
-const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQuestionAnswerAccordionProps) => {
+const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [answerText, setAnswerText] = useState<string>('');
+  const [questionText, setQuestionText] = useState<string>('');
 
   const handleAccordionChange = () => {
     setExpanded(!expanded);
@@ -22,7 +19,7 @@ const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQ
   return (
     <Accordion expanded={expanded} onChange={handleAccordionChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6">Question: {question}</Typography>
+        <Typography variant="h6">Ask a question about this product:</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Stack
@@ -31,30 +28,29 @@ const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQ
           alignItems="flex-start"
           spacing={2}
         >
-          <Typography>Answer: {answer}</Typography>
           <TextField
-            autoComplete="given-answer"
-            name="answer"
+            autoComplete="given-question"
+            name="question"
             required
             fullWidth
-            id="answer-textfield"
-            label="Type your answer"
+            id="question-textfield"
+            label="Type your question"
             autoFocus
             color="secondary"
-            value={answerText}
+            value={questionText}
             onChange={(e) => {
-              setAnswerText(e.target.value)
+              setQuestionText(e.target.value)
             }}
           />
 
           <Button color='secondary'
             variant='outlined'
             onClick={() => {
-              addAnswer(answerText, questionId)
-              setAnswerText('')
+              addQuestion(questionText)
+              setQuestionText('')
             }}
           >
-            Answer
+            Post Question
           </Button>
         </Stack>
 
@@ -63,4 +59,4 @@ const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQ
   );
 };
 
-export default QuestionAnswerAccordion;
+export default AskQuestionAccordion
