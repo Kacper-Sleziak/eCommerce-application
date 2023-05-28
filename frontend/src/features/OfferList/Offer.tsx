@@ -21,10 +21,7 @@ const Offer = ({
   price,
   rating,
 }: OfferProps) => {
-
-
   const handleClick = () => {
-
     console.log(`Clicked ${id}`)
   }
 

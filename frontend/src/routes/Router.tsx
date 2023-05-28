@@ -23,7 +23,6 @@ const RouterRoot = () => {
 
   document.title = 'POST LEASE GOODS'
 
-
   return (
     <ThemeProvider theme={theme}>
       <Box

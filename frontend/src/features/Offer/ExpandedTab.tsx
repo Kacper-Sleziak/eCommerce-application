@@ -11,7 +11,11 @@ interface ISimpleAccordion {
   categories: string[]
 }
 
-const SimpleAccordion: React.FC<ISimpleAccordion> = ({ description, colors, categories }) => {
+const SimpleAccordion: React.FC<ISimpleAccordion> = ({
+  description,
+  colors,
+  categories,
+}) => {
   return (
     <div>
       <Accordion sx={{ backgroundColor: '#ECEBEB', marginBottom: '1rem' }}>
@@ -39,9 +43,7 @@ const SimpleAccordion: React.FC<ISimpleAccordion> = ({ description, colors, cate
           <Typography variant="h6">Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            {description}
-          </Typography>
+          <Typography>{description}</Typography>
         </AccordionDetails>
       </Accordion>
     </div>

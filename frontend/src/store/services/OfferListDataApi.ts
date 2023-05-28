@@ -36,7 +36,7 @@ export const offerListDataApi = createApi({
     }),
 
     getProductById: builder.query({
-      query: (productId: number) => `products/${productId}`
+      query: (productId: number) => `products/${productId}`,
     }),
 
     getCategories: builder.query({

@@ -132,7 +132,7 @@ const AddOffer = () => {
       totalPrice: 50,
       brand: 'xd',
       categories: [2, 3],
-      colors: [2,3,4],
+      colors: [2, 3, 4],
     },
   )
 

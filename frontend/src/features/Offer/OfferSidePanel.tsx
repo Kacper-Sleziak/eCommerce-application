@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Box, Button, Card, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import PlaceIcon from '@mui/icons-material/Place'
@@ -11,7 +10,12 @@ interface OfferSidePanelProps {
   sellerId: number // xddddd
 }
 
-const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity, price, brand, sellerId }) => {
+const OfferSidePanel = ({
+  quantity,
+  price,
+  brand,
+  sellerId,
+}: OfferSidePanelProps) => {
   return (
     <Card
       sx={{
@@ -144,7 +148,7 @@ const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity, price, brand,
         >
           quantity:{' '}
         </Typography>
-        <QuantityControl initialQuantity={1} maxQuantity={quantity}/>
+        <QuantityControl initialQuantity={1} maxQuantity={quantity} />
         <Typography sx={{ display: 'flex' }}> / {quantity} </Typography>
         <Button
           sx={{

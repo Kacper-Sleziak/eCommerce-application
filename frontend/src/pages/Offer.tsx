@@ -1,45 +1,30 @@
 import { Card, CardMedia, Typography } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
 import OfferSidePanel from '../features/Offer/OfferSidePanel'
 import SimpleAccordion from '../features/Offer/ExpandedTab'
 import '../styles/pages/offer.css'
-import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import { useGetProductByIdQuery } from '../store/services/OfferListDataApi'
 
+// @ts-expect-error
 const getListedValuesFromOvercomplicatedStructure = (items) => {
-  const itemsList = Object.values(items).map(value => value.name);
-
-  console.log(items);
+  // @ts-expect-error
+  const itemsList = Object.values(items).map((value) => value.name)
 
   return itemsList
-
 }
 
 const Offer: React.FC = () => {
   const [queryParameters] = useSearchParams()
 
-  const { data } = useGetProductByIdQuery(parseInt(queryParameters.get('product_id')));
-
-  useEffect(() => {
-    console.log({ queryParameters })
-    console.log(queryParameters.get('product_id'))
-    console.log({ data });
-
-    if (data !== undefined) {
-      console.log(Object.values(data.colors))
-      const ex = {}
-      const nameList = Object.values(ex).map(value => value.name);
-
-      console.log(nameList);
-    }
-  })
-
+  const { data } = useGetProductByIdQuery(
+    // @ts-expect-error
+    parseInt(queryParameters.get('product_id'), 10),
+  )
 
   const returnOffer = () => {
     if (data !== undefined) {
       return (
         <div>
-
           <Typography variant="h4" fontWeight="600">
             {data.name}
           </Typography>
@@ -63,24 +48,28 @@ const Offer: React.FC = () => {
                 }}
               />
             </Card>
-            <OfferSidePanel quantity={data.quantity} price={data.total_price} brand={data.brand} sellerId={data.seller_id} />
+            <OfferSidePanel
+              quantity={data.quantity}
+              price={data.total_price}
+              brand={data.brand}
+              sellerId={data.seller_id}
+            />
           </div>
           <SimpleAccordion
             description={data.product_description}
             colors={getListedValuesFromOvercomplicatedStructure(data.colors)}
-            categories={getListedValuesFromOvercomplicatedStructure(data.categories)} />
-
+            categories={getListedValuesFromOvercomplicatedStructure(
+              data.categories,
+            )}
+          />
         </div>
       )
     }
 
-    return <></>
+    return <Typography>Ups, no data </Typography>
   }
 
-  return (
-
-    <> {returnOffer()} </>
-  )
+  return <> {returnOffer()} </>
 }
 
 export default Offer
