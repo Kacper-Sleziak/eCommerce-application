@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Box, Button, Card, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import PlaceIcon from '@mui/icons-material/Place'
@@ -6,9 +5,17 @@ import QuantityControl from './PlusMinus'
 
 interface OfferSidePanelProps {
   quantity: number
+  price: number
+  brand: string
+  sellerId: number // xddddd
 }
 
-const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
+const OfferSidePanel = ({
+  quantity,
+  price,
+  brand,
+  sellerId,
+}: OfferSidePanelProps) => {
   return (
     <Card
       sx={{
@@ -19,18 +26,18 @@ const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
       }}
     >
       <Typography variant="h4" fontWeight={600}>
-        Price: 35 000zł
+        Price: {price} zł
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', margin: '0.5rem 0' }}>
-        <Typography variant="h5" fontWeight={500}>
-          2006
-        </Typography>
+        {/* <Typography variant="h5" fontWeight={500}> */}
+        {/*   2006 */}
+        {/* </Typography> */}
         <Box
           component={CircleIcon}
           sx={{ color: '#000', ml: 1, mr: 1, fontSize: 10 }}
         />
         <Typography variant="h5" fontWeight={500}>
-          Disel
+          {brand}
         </Typography>
       </Box>
       <Card
@@ -45,7 +52,7 @@ const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
         }}
       >
         <Typography variant="h5" fontWeight={600}>
-          Seller: xxx
+          Seller: {sellerId}
         </Typography>
         <div
           style={{
@@ -141,7 +148,7 @@ const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
         >
           quantity:{' '}
         </Typography>
-        <QuantityControl initialQuantity={1} />
+        <QuantityControl initialQuantity={1} maxQuantity={quantity} />
         <Typography sx={{ display: 'flex' }}> / {quantity} </Typography>
         <Button
           sx={{
@@ -174,10 +181,6 @@ const OfferSidePanel: React.FC<OfferSidePanelProps> = ({ quantity }) => {
       </Card>
     </Card>
   )
-}
-
-OfferSidePanel.propTypes = {
-  quantity: PropTypes.number.isRequired,
 }
 
 export default OfferSidePanel
