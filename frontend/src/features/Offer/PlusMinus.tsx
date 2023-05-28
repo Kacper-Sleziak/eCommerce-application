@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 
 interface QuantityControlProps {
   initialQuantity: number
+  maxQuantity: number
 }
 
-const QuantityControl = ({ initialQuantity = 1 }: QuantityControlProps) => {
+const QuantityControl = ({
+  initialQuantity = 1,
+  maxQuantity,
+}: QuantityControlProps) => {
   const [quantity, setQuantity] = useState(initialQuantity)
 
   const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1)
+    quantity !== maxQuantity ? setQuantity(quantity + 1) : setQuantity(quantity)
   }
 
   const handleDecrement = () => {
