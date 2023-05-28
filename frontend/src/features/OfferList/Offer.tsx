@@ -21,14 +21,9 @@ const Offer = ({
   price,
   rating,
 }: OfferProps) => {
-  const handleClick = () => {
-    console.log(`Clicked ${id}`)
-  }
-
   return (
     <Link to={`/offerdetails/?product_id=${id}`}>
       <Card
-        onClick={handleClick}
         sx={{
           display: 'flex',
           flexDirection: 'row',

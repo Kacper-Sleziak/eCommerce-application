@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material'
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Button,
+} from '@mui/material'
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
@@ -11,13 +17,18 @@ interface IQuestionAnswerAccordionProps {
   addAnswer(answer: string, questionId: number): void
 }
 
-const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQuestionAnswerAccordionProps) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const [answerText, setAnswerText] = useState<string>('');
+const QuestionAnswerAccordion = ({
+  question,
+  answer,
+  addAnswer,
+  questionId,
+}: IQuestionAnswerAccordionProps) => {
+  const [expanded, setExpanded] = useState<boolean>(false)
+  const [answerText, setAnswerText] = useState<string>('')
 
   const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+    setExpanded(!expanded)
+  }
 
   return (
     <Accordion expanded={expanded} onChange={handleAccordionChange}>
@@ -47,8 +58,9 @@ const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQ
             }}
           />
 
-          <Button color='secondary'
-            variant='outlined'
+          <Button
+            color="secondary"
+            variant="outlined"
             onClick={() => {
               addAnswer(answerText, questionId)
               setAnswerText('')
@@ -57,10 +69,9 @@ const QuestionAnswerAccordion = ({ question, answer, addAnswer, questionId }: IQ
             Answer
           </Button>
         </Stack>
-
       </AccordionDetails>
     </Accordion>
-  );
-};
+  )
+}
 
-export default QuestionAnswerAccordion;
+export default QuestionAnswerAccordion

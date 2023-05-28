@@ -48,24 +48,23 @@ export const offerListDataApi = createApi({
     }),
 
     getQA: builder.query({
-      query: (productId: number) => `qa/${productId}`
+      query: (productId: number) => `qa/${productId}`,
     }),
 
     addQuestion: builder.mutation({
-      query: (body: { product_id: number, question: string }) => ({
-        url: `qa/`,
+      query: (body: { product_id: number; question: string }) => ({
+        url: 'qa/',
         method: 'POST',
-        body
-      })
+        body,
+      }),
     }),
 
     addAnswer: builder.mutation({
-      query: (params: { questionId: number, answer: string }) => ({
+      query: (params: { questionId: number; answer: string }) => ({
         url: `qa/${params.questionId}?answer=${params.answer}`,
-        method: 'PUT'
-      })
+        method: 'PUT',
+      }),
     }),
-
   }),
 })
 

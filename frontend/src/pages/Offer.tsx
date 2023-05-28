@@ -66,7 +66,10 @@ const Offer: React.FC = () => {
           <br />
           <br />
           <Typography>Q&A Section:</Typography>
-          <FAQPage productId={parseInt(queryParameters.get('product_id'), 10)} />
+          <FAQPage
+            // @ts-expect-error
+            productId={parseInt(queryParameters.get('product_id'), 10)}
+          />
         </div>
       )
     }

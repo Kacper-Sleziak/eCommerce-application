@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material'
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Button,
+} from '@mui/material'
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
@@ -9,12 +15,12 @@ interface IAskQuestionAccordionProps {
 }
 
 const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const [questionText, setQuestionText] = useState<string>('');
+  const [expanded, setExpanded] = useState<boolean>(false)
+  const [questionText, setQuestionText] = useState<string>('')
 
   const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+    setExpanded(!expanded)
+  }
 
   return (
     <Accordion expanded={expanded} onChange={handleAccordionChange}>
@@ -43,8 +49,9 @@ const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
             }}
           />
 
-          <Button color='secondary'
-            variant='outlined'
+          <Button
+            color="secondary"
+            variant="outlined"
             onClick={() => {
               addQuestion(questionText)
               setQuestionText('')
@@ -53,10 +60,9 @@ const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
             Post Question
           </Button>
         </Stack>
-
       </AccordionDetails>
     </Accordion>
-  );
-};
+  )
+}
 
 export default AskQuestionAccordion
