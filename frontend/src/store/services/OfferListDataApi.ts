@@ -46,6 +46,26 @@ export const offerListDataApi = createApi({
     getColors: builder.query({
       query: () => 'colors/',
     }),
+
+    getQA: builder.query({
+      query: (productId: number) => `qa/${productId}`
+    }),
+
+    addQuestion: builder.mutation({
+      query: (body: { product_id: number, question: string }) => ({
+        url: `qa/`,
+        method: 'POST',
+        body
+      })
+    }),
+
+    addAnswer: builder.mutation({
+      query: (params: { questionId: number, answer: string }) => ({
+        url: `qa/${params.questionId}?answer=${params.answer}`,
+        method: 'PUT'
+      })
+    }),
+
   }),
 })
 
@@ -56,4 +76,7 @@ export const {
   useGetColorsQuery,
   useGetCategoriesQuery,
   useGetProductByIdQuery,
+  useGetQAQuery,
+  useAddQuestionMutation,
+  useAddAnswerMutation,
 } = offerListDataApi

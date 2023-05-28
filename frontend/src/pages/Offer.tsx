@@ -4,6 +4,7 @@ import OfferSidePanel from '../features/Offer/OfferSidePanel'
 import SimpleAccordion from '../features/Offer/ExpandedTab'
 import '../styles/pages/offer.css'
 import { useGetProductByIdQuery } from '../store/services/OfferListDataApi'
+import FAQPage from '../components/FAQPage'
 
 // @ts-expect-error
 const getListedValuesFromOvercomplicatedStructure = (items) => {
@@ -62,6 +63,10 @@ const Offer: React.FC = () => {
               data.categories,
             )}
           />
+          <br />
+          <br />
+          <Typography>Q&A Section:</Typography>
+          <FAQPage productId={parseInt(queryParameters.get('product_id'), 10)} />
         </div>
       )
     }
