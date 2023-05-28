@@ -119,7 +119,7 @@ const SignUp = () => {
                   required
                   fullWidth
                   id="name-textfield"
-                  label="name"
+                  label="Name"
                   autoFocus
                   color="secondary"
                   value={username}

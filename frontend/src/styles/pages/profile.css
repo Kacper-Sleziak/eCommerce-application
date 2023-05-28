@@ -1,0 +1,30 @@
+.textHelloUser {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+.cardHelloUser {
+  display: flex;
+  flex-direction: row;
+  max-width: 60%;
+  justify-content: space-between;
+}
+.buttonHelloUser {
+  margin-right: 1rem;
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+}
+
+.profileCards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 700px;
+}
+
+.editProfileCard {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+}
