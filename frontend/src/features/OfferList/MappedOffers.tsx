@@ -47,7 +47,7 @@ const MappedOffers = () => {
             <Offer
               key={`offer-${offer.id}`}
               id={offer.id}
-              image={offer.photos[0].content}
+              image={offer.photos[0]?.content}
               title={offer.name}
               localization="Wrocław"
               parameters={offer.description}
