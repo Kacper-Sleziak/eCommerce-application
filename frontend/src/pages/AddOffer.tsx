@@ -109,10 +109,10 @@ const AddOffer = () => {
           updateData.description = action.payload
           break
         case 'quantity':
-          updateData.quantity = parseInt(action.payload, 10)
+          updateData.quantity = parseInt(action.payload, 10) ? parseInt(action.payload, 10) : 0
           break
         case 'totalPrice':
-          updateData.totalPrice = parseFloat(action.payload)
+          updateData.totalPrice = parseFloat(action.payload) ? parseFloat(action.payload) : 0
           break
         case 'brand':
           updateData.brand = action.payload
