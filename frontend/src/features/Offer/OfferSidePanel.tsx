@@ -183,8 +183,4 @@ const OfferSidePanel = ({
   )
 }
 
-OfferSidePanel.propTypes = {
-  quantity: PropTypes.number.isRequired,
-}
-
 export default OfferSidePanel
