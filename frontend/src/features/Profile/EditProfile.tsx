@@ -17,29 +17,6 @@ const EditProfile = () => {
   return (
     <Card className="editProfileCard">
       <Typography variant="h4" sx={{ marginTop: '1rem', marginLeft: '1rem' }}>
-        Edit your profile
-      </Typography>
-      <div className="editInputs">
-        <FormControl>
-          <InputLabel>Email</InputLabel>
-          <Input
-            color="warning"
-            // value={data.name}
-            // onChange={(e) => { updateData({ type: 'name', payload: e.target.value }) }}
-          />
-          <FormHelperText>Enter the new email</FormHelperText>
-        </FormControl>
-        <FormControl>
-          <InputLabel>Username</InputLabel>
-          <Input
-            color="warning"
-            // value={data.name}
-            // onChange={(e) => { updateData({ type: 'name', payload: e.target.value }) }}
-          />
-          <FormHelperText>Enter the new username</FormHelperText>
-        </FormControl>
-      </div>
-      <Typography variant="h5" sx={{ marginTop: '2rem', marginLeft: '1rem' }}>
         Change your password
       </Typography>
       <div className="editInputs">
