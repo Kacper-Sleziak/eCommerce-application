@@ -4,6 +4,7 @@ import OfferSidePanel from '../features/Offer/OfferSidePanel'
 import SimpleAccordion from '../features/Offer/ExpandedTab'
 import '../styles/pages/offer.css'
 import { useGetProductByIdQuery } from '../store/services/OfferListDataApi'
+import FAQPage from '../components/FAQPage'
 
 // @ts-expect-error
 const getListedValuesFromOvercomplicatedStructure = (items) => {
@@ -38,7 +39,7 @@ const Offer: React.FC = () => {
               }}
             >
               <CardMedia
-                image={data.photos[0].content}
+                image={data.photos[0]?.content}
                 component="img"
                 alt="Image"
                 sx={{
@@ -61,6 +62,13 @@ const Offer: React.FC = () => {
             categories={getListedValuesFromOvercomplicatedStructure(
               data.categories,
             )}
+          />
+          <br />
+          <br />
+          <Typography>Q&A Section:</Typography>
+          <FAQPage
+            // @ts-expect-error
+            productId={parseInt(queryParameters.get('product_id'), 10)}
           />
         </div>
       )
