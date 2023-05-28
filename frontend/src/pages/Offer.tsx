@@ -38,7 +38,7 @@ const Offer: React.FC = () => {
               }}
             >
               <CardMedia
-                image={data.photos[0].content}
+                image={data.photos[0]?.content}
                 component="img"
                 alt="Image"
                 sx={{
