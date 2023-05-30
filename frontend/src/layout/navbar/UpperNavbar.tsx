@@ -4,10 +4,21 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import InputSearchBar from './InputMui'
+import ProfileBar from './ProfileBar'
 import bubbles from '../../imgs/bubbles.png'
 import '../../styles/layout/navbar.css'
 
 const UpperNavbar: React.FC = () => {
+  const handleLogout = () => {
+    // Your logout logic here
+    console.log('Logging out...')
+  }
+
+  const handleMyProfile = () => {
+    // Navigate to user's profile or perform other actions
+    console.log('Navigating to My Profile...')
+  }
+
   return (
     <div className="upperNavbar">
       <div className="logo">
@@ -25,6 +36,7 @@ const UpperNavbar: React.FC = () => {
       </div>
       <InputSearchBar label="Search..." />
       <div className="upperNavbarButtons">
+        <ProfileBar onLogout={handleLogout} onMyProfile={handleMyProfile} />
         <Button
           href="/signin"
           className="signInButton"
