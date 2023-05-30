@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import Footer from '../layout/footer/Footer'
 import AddOffer from '../pages/AddOffer'
+import Cart from '../pages/Cart'
 import Contact from '../pages/Contact'
 import Home from '../pages/Home'
 import OfferList from '../pages/OfferList'
@@ -53,6 +54,7 @@ const RouterRoot = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/offerdetails" element={<Offer />} />
               <Route path="/signout" element={<SignOut />} />
+              <Route path="/cart" element={<Cart />} />
               <Route
                 element={<AuthRoute user={user} protectionType="noAuth" />}
               >
