@@ -44,7 +44,18 @@ const LogOut = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: '3',
+                mb: '2',
+                background: '#FCA311',
+                color: '#FFF',
+                borderRadius: '10px',
+                boxSizing: 'border-box',
+                textTransform: 'none',
+                '&:hover': {
+                  background: '#121D35',
+                },
+              }}
             >
               Log out
             </Button>

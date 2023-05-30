@@ -1,3 +1,4 @@
+import '../styles/pages/home.css'
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
@@ -12,6 +13,7 @@ import Profile from '../pages/Profile'
 import AuthRoute from './protection_factors/ProtectedRoute'
 import theme from '../utils/materialUI/colorScheme'
 import SignIn from '../pages/SignIn'
+import SignOut from '../pages/SignOut'
 import SignUp from '../pages/SignUp'
 
 const RouterRoot = () => {
@@ -35,10 +37,14 @@ const RouterRoot = () => {
           minWidth: '800px',
           maxWidth: '1200px',
           margin: 'auto',
+          minHeight: '100vh',
         }}
       >
         <Navbar />
-        <Box style={{ width: '100%', marginBottom: '1rem' }}>
+        <Box
+          className="boxClass"
+          style={{ width: '100%', marginBottom: '1rem' }}
+        >
           <Router>
             <Routes>
               <Route path="/addoffer" element={<AddOffer />} />
@@ -46,6 +52,7 @@ const RouterRoot = () => {
               <Route path="/offers" element={<OfferList />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/offerdetails" element={<Offer />} />
+              <Route path="/signout" element={<SignOut />} />
               <Route
                 element={<AuthRoute user={user} protectionType="noAuth" />}
               >

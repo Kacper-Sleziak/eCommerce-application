@@ -3,7 +3,7 @@ import { Button, Card, Typography, TextField } from '@mui/material'
 
 const Contact = () => {
   return (
-    <Card sx={{ maxWidth: '50%' }}>
+    <Card sx={{ margin: '0 30%' }}>
       <div className="marginAll">
         <Typography variant="h4">If you have any questions,</Typography>
         <Typography variant="h4">feel free to contact us!</Typography>
