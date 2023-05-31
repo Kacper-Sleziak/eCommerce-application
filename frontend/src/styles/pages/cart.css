@@ -1,0 +1,44 @@
+.cartItems {
+  display: flex;
+  flex-direction: row;
+}
+.offerDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem;
+}
+
+.deleteItemsButton {
+  margin-left: 2rem;
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.firstRecipentData {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 40%;
+}
+
+.secondRecipentData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.thirdRecipentData {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 50%;
+}
+.orderAndPayButton {
+  display: flex;
+  justify-content: center;
+}

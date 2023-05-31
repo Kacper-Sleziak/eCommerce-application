@@ -28,7 +28,7 @@ const NumberedTypography: React.FC<NumberedTypographyProps> = ({
   text,
 }) => {
   return (
-    <Box display="flex" alignItems="center">
+    <Box display="flex" alignItems="center" sx={{ marginTop: '1rem' }}>
       {number}
       <Typography variant="h5" sx={{ marginLeft: '0.5rem', fontWeight: 600 }}>
         {text}
@@ -39,7 +39,14 @@ const NumberedTypography: React.FC<NumberedTypographyProps> = ({
 
 const Cart: React.FC = () => {
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', padding: '1rem' }}>
+    <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '1rem',
+        width: '80%',
+      }}
+    >
       <NumberedTypography
         number={<LooksOneIcon sx={{ fontSize: 40 }} />}
         text="Items"
@@ -68,27 +75,30 @@ const Cart: React.FC = () => {
       <FormControlLabel
         control={<Checkbox value="allowExtraEmails" color="secondary" />}
         label="I declare that I have read the terms and conditions and agree with them.*"
+        sx={{ marginTop: '1rem' }}
       />
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{
-          mt: 3,
-          mb: 2,
-          width: '15%',
-          background: '#FCA311',
-          color: '#FFF',
-          borderRadius: '10px',
-          boxSizing: 'border-box',
-          fontSize: '18px',
-          textTransform: 'none',
-          '&:hover': {
-            background: '#121D35',
-          },
-        }}
-      >
-        Order and Pay
-      </Button>
+      <div className="orderAndPayButton">
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            width: '20%',
+            background: '#FCA311',
+            color: '#FFF',
+            borderRadius: '10px',
+            boxSizing: 'border-box',
+            fontSize: '18px',
+            textTransform: 'none',
+            '&:hover': {
+              background: '#121D35',
+            },
+          }}
+        >
+          Order and Pay
+        </Button>
+      </div>
     </Card>
   )
 }
