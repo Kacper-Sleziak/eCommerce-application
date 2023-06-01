@@ -16,7 +16,7 @@ product_service = ProductService()
 @router.get("/")
 def get_products_filter(search: str | None = None,
                         quantity: int | None = None,
-                        category: Annotated[list[int] | None, Query()] = None,
+                        category: Annotated[list[str] | None, Query()] = None,
                         brand: Annotated[list[str] | None, Query()] = None,
                         color: Annotated[list[str] | None, Query()] = None,
                         price: int | None = None,
@@ -53,7 +53,7 @@ def get_products_filter(search: str | None = None,
 @router.get("/count")
 def get_products_filter_count(search: str | None = None,
                               quantity: int | None = None,
-                              category: Annotated[list[int] | None, Query()] = None,
+                              category: Annotated[list[str] | None, Query()] = None,
                               brand: Annotated[list[str] | None, Query()] = None,
                               color: Annotated[list[str] | None, Query()] = None,
                               price: int | None = None,

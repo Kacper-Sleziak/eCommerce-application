@@ -24,7 +24,7 @@ def process_filters(params: ProductParams) -> list:
     if params.has_categories():
         categories = list()
         for category in params.categories:
-            categories.append(ProductCategory.category_id == category)
+            categories.append(Category.name.ilike(category))
         filters.append(or_(*categories))
     if params.has_brands():
         brands = list()
@@ -34,7 +34,7 @@ def process_filters(params: ProductParams) -> list:
     if params.has_colors():
         colors = list()
         for color in params.colors:
-            colors.append(Color.name == color)
+            colors.append(Color.name.ilike(color))
         filters.append(or_(*colors))
     if params.has_price():
         filters.append(Product.total_price < params.price)
@@ -63,7 +63,7 @@ class ProductService:
             filters = process_filters(params)
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
 
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Category)
             query = query.join(Auction, isouter=True)
 
             products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(
@@ -103,7 +103,7 @@ class ProductService:
         with Session() as session:
             filters = process_filters(params)
 
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Category)
             query = query.join(Auction, isouter=True)
 
             total_count = query.filter(and_(*filters)).count()
