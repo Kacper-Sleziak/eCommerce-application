@@ -1,5 +1,7 @@
 # coding: utf-8
-from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, Table, text, create_engine
+import datetime
+
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, Table, text, create_engine, Boolean, DateTime
 from sqlalchemy.orm import relationship, sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -309,4 +311,58 @@ class Address(Base):
             "flat": self.flat,
             "latitude": self.latitude,
             "longitude": self.longitude
+        }
+
+
+class Chat(Base):
+    __tablename__ = "chat"
+    __table_args__ = {"extend_existing": True}
+
+    chat_id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('chat_chat_id_seq'::regclass)"),
+    )
+    first_user_id = Column(ForeignKey("user_.user_id"), nullable=False)
+    second_user_id = Column(ForeignKey("user_.user_id"), nullable=False)
+    blocked = Column(Boolean, nullable=False)
+
+    first_user = relationship("User", primaryjoin="Chat.first_user_id == User.user_id")
+    second_user = relationship("User", primaryjoin="Chat.second_user_id == User.user_id")
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.chat_id,
+            "first_user_id": self.first_user_id,
+            "second_user_id": self.second_user_id,
+            "blocked": self.blocked,
+        }
+
+
+class ChatMessage(Base):
+    __tablename__ = "chat_message"
+    __table_args__ = {"extend_existing": True}
+
+    message_id = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('chat_message_message_id_seq'::regclass)"),
+    )
+    chat_id = Column(ForeignKey("chat.chat_id"), nullable=False)
+    user_id = Column(ForeignKey("user_.user_id"), nullable=False)
+    time = Column(DateTime, nullable=False)
+    seen = Column(Boolean, nullable=False)
+    message = Column(String(255), nullable=False)
+
+    chat = relationship("Chat")
+    user = relationship("User")
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.message_id,
+            "chat_id": self.chat_id,
+            "user_id": self.user_id,
+            "time": self.time,
+            "message": self.message,
+            "seen": self.seen,
         }

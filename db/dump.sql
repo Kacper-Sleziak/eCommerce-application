@@ -121,6 +121,26 @@ CREATE TABLE auction (
     FOREIGN KEY (highest_bidder_id) REFERENCES user_(user_id)
 );
 
+CREATE TABLE chat (
+    chat_id serial PRIMARY KEY,
+    first_user_id int NOT NULL,
+    second_user_id int NOT NULL,
+    blocked boolean NOT NULL DEFAULT true,
+    FOREIGN KEY (first_user_id) REFERENCES user_(user_id),
+    FOREIGN KEY (second_user_id) REFERENCES user_(user_id)
+);
+
+CREATE TABLE chat_message (
+    message_id serial PRIMARY KEY,
+    chat_id int NOT NULL,
+    user_id int NOT NULL,
+    time timestamp NOT NULL DEFAULT now(),
+    seen boolean NOT NULL DEFAULT false,
+    message VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user_(user_id),
+    FOREIGN KEY (chat_id) references chat(chat_id)
+);
+
 INSERT INTO category(name) VALUES ('Car'), ('Desk'), ('Chair');
 
 INSERT INTO address(country, region, city, postal_code, street, building, flat, latitude, longitude) VALUES ('Poland', 'Lower Silesia', 'Wroclaw', '51-000', 'Grunwaldzka', 16, 2, null, null);
