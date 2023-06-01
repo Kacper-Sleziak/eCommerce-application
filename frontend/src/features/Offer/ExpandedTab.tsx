@@ -24,13 +24,14 @@ const SimpleAccordion: React.FC<ISimpleAccordion> = ({
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography variant="h6">Parameters</Typography>
+          <Typography variant="h5">Parameters</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Colors: {Array(colors).join(', ')}
+            <b>Colors: </b>
+            {Array(colors).join(', ')}
             <br />
-            Categories: {Array(categories).join(', ')}
+            <b>Categories:</b> {Array(categories).join(', ')}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -40,7 +41,7 @@ const SimpleAccordion: React.FC<ISimpleAccordion> = ({
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography variant="h6">Description</Typography>
+          <Typography variant="h5">Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>{description}</Typography>

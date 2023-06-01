@@ -19,6 +19,7 @@ const InputSearchBar = ({ label }: InputProps) => {
   return (
     <TextField
       label={label}
+      color="warning"
       value={searchValue}
       onChange={handleSearchInputChange}
       variant="outlined"

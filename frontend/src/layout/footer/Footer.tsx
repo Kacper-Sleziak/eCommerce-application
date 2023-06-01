@@ -1,18 +1,19 @@
 import React from 'react'
+import { Typography } from '@mui/material'
 import '../../styles/layout/footer.css'
 
 const Footer: React.FC = () => {
   return (
     <div className="footer">
       <div className="rightFotter">
-        <p>Nazwa firmy</p>
+        <Typography variant="h6" sx={{ marginTop: '1rem' }}>
+          Post-lease Company
+        </Typography>
         <address>
-          ulica. xxxxx nr X <br />
-          Wrocław
+          wybrzeże Stanisława Wyspiańskiego 27 <br />
+          50-370 Wrocław
         </address>
-        <p className="copywright">
-          © 2023 Post-lease. Wszelkie prawa zastrzeżone.{' '}
-        </p>
+        <p className="copywright">© 2023 Post-lease. All rights reserved. </p>
       </div>
       <div className="footerNavbarShortcut">
         <a href="https://www.google.pl/">Automotive</a>

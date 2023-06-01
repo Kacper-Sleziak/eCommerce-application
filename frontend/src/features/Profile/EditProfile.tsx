@@ -1,16 +1,6 @@
 // import PropTypes from 'prop-types'
 import '../../styles/pages/profile.css'
-import {
-  Button,
-  Card,
-  FormControl,
-  FormHelperText,
-  Grid,
-  Input,
-  InputLabel,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Button, Card, Grid, TextField, Typography } from '@mui/material'
 import PasswordStrengthBar from 'react-password-strength-bar'
 
 const EditProfile = () => {
@@ -56,7 +46,8 @@ const EditProfile = () => {
             borderRadius: '10px',
             boxSizing: 'border-box',
             textTransform: 'none',
-            fontSize: '18px',
+            fontWeight: '600',
+            fontSize: '16px',
             '&:hover': {
               background: '#121D35',
             },

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
 import Stack from '@mui/material/Stack'
+import { Typography } from '@mui/material'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
@@ -43,6 +44,20 @@ const MappedOffers = () => {
     if (data !== undefined) {
       return (
         <Stack spacing={3} direction="column">
+          <Typography
+            sx={{
+              paddingBottom: 2,
+              width: '222px',
+              height: '30px',
+              fontStyle: 'normal',
+              fontWeight: 600,
+              fontSize: '32px',
+              lineHeight: '37px',
+              color: '#000000',
+            }}
+          >
+            Offers
+          </Typography>
           {Object.values(data).map((offer: any) => (
             <Offer
               key={`offer-${offer.id}`}
