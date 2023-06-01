@@ -11,8 +11,8 @@ class ProductCreateSchema(BaseModel):
     quantity: int
     total_price: float
     sale_type: str
-    categories: List[int]
-    colors: List[int]
+    categories: List[str]
+    colors: List[str]
     photos: List[str]
 
 
@@ -30,7 +30,7 @@ class ProductParams:
             self,
             search: str | None,
             quantity: int | None,
-            categories: list[int] | None,
+            categories: list[str] | None,
             brands: list[str] | None,
             colors: list[str] | None,
             price: int | None,
@@ -43,7 +43,7 @@ class ProductParams:
     ):
         self.search: str = search
         self.quantity: int = quantity
-        self.categories: list[int] = categories
+        self.categories: list[str] = categories
         self.brands: list[str] = brands
         self.colors: list[str] = colors
         self.price: int = price

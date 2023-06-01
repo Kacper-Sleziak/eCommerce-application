@@ -1,6 +1,5 @@
 from app.models import CreateEngine, Review, User
 from fastapi import HTTPException
-from sqlalchemy.dialects import postgresql
 from app.review.schema import ReviewSchema
 
 

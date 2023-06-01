@@ -1,5 +1,4 @@
 from app.models import CreateEngine, Product
-from sqlalchemy.dialects import postgresql
 
 
 class BrandService:

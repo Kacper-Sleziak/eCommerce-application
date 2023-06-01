@@ -1,14 +1,9 @@
-import os
 from typing import List
-import uuid
-
-import sqlalchemy.exc
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction, User
-from sqlalchemy.dialects import postgresql
 from sqlalchemy import or_, and_, desc, asc, text
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
-from fastapi import UploadFile, HTTPException
+from fastapi import HTTPException
 from decimal import Decimal
 
 sale_types = ["Regular", "Auction"]
@@ -29,7 +24,7 @@ def process_filters(params: ProductParams) -> list:
     if params.has_categories():
         categories = list()
         for category in params.categories:
-            categories.append(ProductCategory.category_id == category)
+            categories.append(Category.name.ilike(category))
         filters.append(or_(*categories))
     if params.has_brands():
         brands = list()
@@ -39,7 +34,7 @@ def process_filters(params: ProductParams) -> list:
     if params.has_colors():
         colors = list()
         for color in params.colors:
-            colors.append(Color.name == color)
+            colors.append(Color.name.ilike(color))
         filters.append(or_(*colors))
     if params.has_price():
         filters.append(Product.total_price < params.price)
@@ -68,7 +63,7 @@ class ProductService:
             filters = process_filters(params)
             sort = asc(text(params.order_by)) if params.order == "ASC" else desc(text(params.order_by))
 
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Category)
             query = query.join(Auction, isouter=True)
 
             products = query.filter(and_(*filters)).order_by(sort).limit(params.limit).offset(
@@ -108,7 +103,7 @@ class ProductService:
         with Session() as session:
             filters = process_filters(params)
 
-            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color)
+            query = session.query(Product).join(ProductCategory).join(ProductColor).join(Color).join(Category)
             query = query.join(Auction, isouter=True)
 
             total_count = query.filter(and_(*filters)).count()
@@ -248,27 +243,29 @@ class ProductService:
 
         return new_id
 
-    def create_product_colors(self, product_id: int, colors: List[int]) -> None:
+    def create_product_colors(self, product_id: int, colors: List[str]) -> None:
 
         Session = self.engine.create_session()
         with Session() as session:
-            for color_id in colors:
+            for color_name in colors:
+                color = session.query(Color).filter(Color.name.ilike(color_name)).first()
                 new_product_color = ProductColor(
                     product_id=product_id,
-                    color_id=color_id
+                    color_id=color.color_id
                 )
                 session.add(new_product_color)
             session.commit()
         Session.remove()
 
-    def create_product_categories(self, product_id: int, categories: List[int]) -> None:
+    def create_product_categories(self, product_id: int, categories: List[str]) -> None:
 
         Session = self.engine.create_session()
         with Session() as session:
-            for category_id in categories:
+            for category_name in categories:
+                category = session.query(Category).filter(Category.name.ilike(category_name)).first()
                 new_product_category = ProductCategory(
                     product_id=product_id,
-                    category_id=category_id
+                    category_id=category.category_id
                 )
                 session.add(new_product_category)
             session.commit()
@@ -328,15 +325,15 @@ class ProductService:
         Session = self.engine.create_session()
         with Session() as session:
 
-            for category_id in product.categories:
-                category = session.query(Category).get(category_id)
+            for category_name in product.categories:
+                category = session.query(Category).filter(Category.name.ilike(category_name)).first()
                 if category is None:
-                    raise HTTPException(status_code=422, detail="No category with id {}".format(category_id))
+                    raise HTTPException(status_code=422, detail="No category with name {}".format(category_name))
 
-            for color_id in product.colors:
-                color = session.query(Color).get(color_id)
+            for color_name in product.colors:
+                color = session.query(Color).filter(Color.name.ilike(color_name)).first()
                 if color is None:
-                    raise HTTPException(status_code=422, detail="No color with id {}".format(color_id))
+                    raise HTTPException(status_code=422, detail="No color with name {}".format(color_name))
 
             seller = session.query(User).get(product.seller_id)
             if seller is None:
