@@ -31,9 +31,16 @@ const QuestionAnswerAccordion = ({
   }
 
   return (
-    <Accordion expanded={expanded} onChange={handleAccordionChange}>
+    <Accordion
+      expanded={expanded}
+      onChange={handleAccordionChange}
+      sx={{ backgroundColor: '#ECEBEB' }}
+    >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6">Question: {question}</Typography>
+        <Typography variant="h6">
+          <b>Question: </b>
+          {question}
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Stack
@@ -56,14 +63,24 @@ const QuestionAnswerAccordion = ({
             onChange={(e) => {
               setAnswerText(e.target.value)
             }}
+            sx={{ backgroundColor: '#fff', borderRadius: '30px' }}
           />
 
           <Button
             color="secondary"
-            variant="outlined"
             onClick={() => {
               addAnswer(answerText, questionId)
               setAnswerText('')
+            }}
+            sx={{
+              background: '#FCA311',
+              color: '#FFF',
+              borderRadius: '10px',
+              boxSizing: 'border-box',
+              textTransform: 'none',
+              '&:hover': {
+                background: '#121D35',
+              },
             }}
           >
             Answer

@@ -23,7 +23,11 @@ const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
   }
 
   return (
-    <Accordion expanded={expanded} onChange={handleAccordionChange}>
+    <Accordion
+      expanded={expanded}
+      onChange={handleAccordionChange}
+      sx={{ backgroundColor: '#ECEBEB' }}
+    >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="h6">Ask a question about this product:</Typography>
       </AccordionSummary>
@@ -47,17 +51,27 @@ const AskQuestionAccordion = ({ addQuestion }: IAskQuestionAccordionProps) => {
             onChange={(e) => {
               setQuestionText(e.target.value)
             }}
+            sx={{ backgroundColor: '#fff', borderRadius: '30px' }}
           />
 
           <Button
             color="secondary"
-            variant="outlined"
             onClick={() => {
               addQuestion(questionText)
               setQuestionText('')
             }}
+            sx={{
+              background: '#FCA311',
+              color: '#FFF',
+              borderRadius: '10px',
+              boxSizing: 'border-box',
+              textTransform: 'none',
+              '&:hover': {
+                background: '#121D35',
+              },
+            }}
           >
-            Post Question
+            Post a question
           </Button>
         </Stack>
       </AccordionDetails>

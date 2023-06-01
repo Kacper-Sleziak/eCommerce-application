@@ -68,6 +68,9 @@ const OfferSidePanel = ({
               borderRadius: '30px',
               width: '159px',
               height: '96px',
+              '&:hover': {
+                background: '#121D35',
+              },
             }}
           >
             <Typography
@@ -93,6 +96,9 @@ const OfferSidePanel = ({
               borderRadius: '30px',
               width: '159px',
               height: '96px',
+              '&:hover': {
+                background: '#121D35',
+              },
             }}
           >
             <Typography
@@ -157,6 +163,9 @@ const OfferSidePanel = ({
             background: '#FCA311',
             borderRadius: '10px',
             marginLeft: '1rem',
+            '&:hover': {
+              background: '#FCA311',
+            },
           }}
         >
           <Typography

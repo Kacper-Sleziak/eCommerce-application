@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import '../../styles/pages/profile.css'
-import { Button, Card, IconButton, Typography } from '@mui/material'
+import { Button, Card, Typography } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 interface IUserProps {
@@ -34,13 +34,13 @@ const HelloUser: React.FC<IUserProps> = ({ username, useremail }) => {
             borderRadius: '10px',
             fontWeight: '600',
             textTransform: 'none',
-            fontSize: '16px',
+            fontSize: '18px',
             '&:hover': {
               background: '#121D35',
             },
           }}
         >
-          Check your auctions
+          Log out
         </Button>
       </div>
     </Card>

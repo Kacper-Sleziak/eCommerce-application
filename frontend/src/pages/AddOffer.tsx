@@ -141,7 +141,7 @@ const AddOffer = () => {
   )
 
   return (
-    <Card sx={{ maxWidth: '60%' }}>
+    <Card sx={{ margin: '0 20%' }}>
       <div className="marginAddOfferTitle">
         <Typography variant="h3">Add offer</Typography>
       </div>

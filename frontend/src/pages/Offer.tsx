@@ -25,7 +25,7 @@ const Offer: React.FC = () => {
   const returnOffer = () => {
     if (data !== undefined) {
       return (
-        <div>
+        <div style={{ marginTop: '1rem' }}>
           <Typography variant="h4" fontWeight="600">
             {data.name}
           </Typography>
@@ -65,7 +65,7 @@ const Offer: React.FC = () => {
           />
           <br />
           <br />
-          <Typography>Q&A Section:</Typography>
+          <Typography variant="h5">Q&A section:</Typography>
           <FAQPage
             // @ts-expect-error
             productId={parseInt(queryParameters.get('product_id'), 10)}
