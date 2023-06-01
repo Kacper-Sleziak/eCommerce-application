@@ -1,4 +1,4 @@
-from src.app.models import CreateEngine, Category
+from app.models import CreateEngine, Category
 
 
 class CategoryService:

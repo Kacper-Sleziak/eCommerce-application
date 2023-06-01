@@ -1,4 +1,4 @@
-from src.app.models import CreateEngine, Product
+from app.models import CreateEngine, Product
 
 
 class BrandService:

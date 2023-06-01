@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.app.chat.service import ChatService
-from src.app.chat.schema import ChatMessageSchema
+from app.chat.service import ChatService
+from app.chat.schema import ChatMessageSchema
 
 router = APIRouter(
     prefix="/chat",

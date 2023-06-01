@@ -1,6 +1,6 @@
 from fastapi import HTTPException
-from src.app.models import CreateEngine, Review, User
-from src.app.review.schema import ReviewSchema
+from app.models import CreateEngine, Review, User
+from app.review.schema import ReviewSchema
 
 
 class ReviewService:

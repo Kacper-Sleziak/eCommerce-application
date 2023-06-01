@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from src.app.auth.service import AuthService
-from src.app.auth.schema import UserSignUpSchema, UserLoginSchema
-from src.app.auth.utils import sign_jwt
+from app.auth.service import AuthService
+from app.auth.schema import UserSignUpSchema, UserLoginSchema
+from app.auth.utils import sign_jwt
 from argon2 import PasswordHasher
 
 router = APIRouter(

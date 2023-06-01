@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from src.app.qa.service import QAService
-from src.app.qa.schema import QuestionSchema
+from app.qa.service import QAService
+from app.qa.schema import QuestionSchema
 
 router = APIRouter(
     prefix="/qa",

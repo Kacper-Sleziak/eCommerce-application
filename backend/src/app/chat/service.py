@@ -1,4 +1,4 @@
-from src.app.models import CreateEngine, Chat
+from app.models import CreateEngine, Chat
 
 
 class ChatService:

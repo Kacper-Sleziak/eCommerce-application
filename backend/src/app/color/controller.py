@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.app.color.service import ColorService
+from app.color.service import ColorService
 
 router = APIRouter(
     prefix="/colors",

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.app.brand.service import BrandService
+from app.brand.service import BrandService
 
 router = APIRouter(
     prefix="/brands",

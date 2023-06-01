@@ -1,5 +1,5 @@
 from typing import List
-from src.app.models import (
+from app.models import (
     CreateEngine,
     Product,
     ProductCategory,
@@ -11,7 +11,7 @@ from src.app.models import (
     User,
 )
 from sqlalchemy import or_, and_, desc, asc, text
-from src.app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
 from datetime import datetime
 from fastapi import HTTPException
 from decimal import Decimal
