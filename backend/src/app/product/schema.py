@@ -11,8 +11,8 @@ class ProductCreateSchema(BaseModel):
     quantity: int
     total_price: float
     sale_type: str
-    categories: List[int]
-    colors: List[int]
+    categories: List[str]
+    colors: List[str]
     photos: List[str]
 
 

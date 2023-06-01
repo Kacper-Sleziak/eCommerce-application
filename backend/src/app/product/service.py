@@ -243,27 +243,29 @@ class ProductService:
 
         return new_id
 
-    def create_product_colors(self, product_id: int, colors: List[int]) -> None:
+    def create_product_colors(self, product_id: int, colors: List[str]) -> None:
 
         Session = self.engine.create_session()
         with Session() as session:
-            for color_id in colors:
+            for color_name in colors:
+                color = session.query(Color).filter(Color.name.ilike(color_name)).first()
                 new_product_color = ProductColor(
                     product_id=product_id,
-                    color_id=color_id
+                    color_id=color.color_id
                 )
                 session.add(new_product_color)
             session.commit()
         Session.remove()
 
-    def create_product_categories(self, product_id: int, categories: List[int]) -> None:
+    def create_product_categories(self, product_id: int, categories: List[str]) -> None:
 
         Session = self.engine.create_session()
         with Session() as session:
-            for category_id in categories:
+            for category_name in categories:
+                category = session.query(Category).filter(Category.name.ilike(category_name)).first()
                 new_product_category = ProductCategory(
                     product_id=product_id,
-                    category_id=category_id
+                    category_id=category.category_id
                 )
                 session.add(new_product_category)
             session.commit()
@@ -323,15 +325,15 @@ class ProductService:
         Session = self.engine.create_session()
         with Session() as session:
 
-            for category_id in product.categories:
-                category = session.query(Category).get(category_id)
+            for category_name in product.categories:
+                category = session.query(Category).filter(Category.name.ilike(category_name)).first()
                 if category is None:
-                    raise HTTPException(status_code=422, detail="No category with id {}".format(category_id))
+                    raise HTTPException(status_code=422, detail="No category with name {}".format(category_name))
 
-            for color_id in product.colors:
-                color = session.query(Color).get(color_id)
+            for color_name in product.colors:
+                color = session.query(Color).filter(Color.name.ilike(color_name)).first()
                 if color is None:
-                    raise HTTPException(status_code=422, detail="No color with id {}".format(color_id))
+                    raise HTTPException(status_code=422, detail="No color with name {}".format(color_name))
 
             seller = session.query(User).get(product.seller_id)
             if seller is None:
