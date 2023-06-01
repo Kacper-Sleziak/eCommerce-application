@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, Table, text, create_engine
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String, text, create_engine
 from sqlalchemy.orm import relationship, sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 

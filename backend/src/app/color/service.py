@@ -1,5 +1,4 @@
 from app.models import CreateEngine, Color
-from sqlalchemy.dialects import postgresql
 
 
 class ColorService:

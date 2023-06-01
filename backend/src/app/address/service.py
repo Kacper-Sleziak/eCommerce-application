@@ -1,5 +1,4 @@
 from fastapi import HTTPException
-from sqlalchemy.dialects import postgresql
 from app.address.schema import CreateAddressSchema
 from app.models import CreateEngine, Address
 
