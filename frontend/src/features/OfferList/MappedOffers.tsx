@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { Typography } from '@mui/material'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
@@ -96,7 +97,11 @@ const MappedOffers = () => {
 
   const returnOffers: () => JSX.Element = () => {
     if (isLoading) {
-      return <CircularProgress />
+      return (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      )
     }
 
     if (error !== undefined) {

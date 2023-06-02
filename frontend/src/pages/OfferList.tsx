@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 import { useSearchParams } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
@@ -88,7 +90,9 @@ const OfferList: React.FC = () => {
 
   const renderPagination = () => {
     if (isLoading) {
-      return <h3>loading...</h3>
+      ;<Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
     }
     if (data !== undefined) {
       const { count } = data
