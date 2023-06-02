@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Button,
   ClickAwayListener,
@@ -10,6 +11,7 @@ import {
   Popper,
 } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
+import { selectUserAuth } from '../../store/slices/UserDataSlice'
 
 interface UserProfileDropdownProps {
   onLogout: () => void
@@ -22,6 +24,7 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
+  const userAuth = useSelector(selectUserAuth)
 
   const handleToggle = () => {
     setIsOpen((prevOpen) => !prevOpen)
@@ -45,17 +48,26 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
     setIsOpen(false)
   }
 
+  const renderProfileButton = () => {
+    if (userAuth !== null) {
+      return (
+        <Button
+          ref={anchorRef}
+          aria-controls={isOpen ? 'menu-list' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+          color="inherit"
+        >
+          <AccountCircle />
+        </Button>
+      )
+    }
+    return null
+  }
+
   return (
     <>
-      <Button
-        ref={anchorRef}
-        aria-controls={isOpen ? 'menu-list' : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-        color="inherit"
-      >
-        <AccountCircle />
-      </Button>
+      {renderProfileButton()}
       <Popper
         open={isOpen}
         anchorEl={anchorRef.current}

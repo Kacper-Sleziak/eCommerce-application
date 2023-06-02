@@ -1,4 +1,6 @@
+import { useSelector, useDispatch } from 'react-redux'
 import Button from '@mui/material/Button'
+import { useNavigate } from 'react-router-dom'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
@@ -7,10 +9,17 @@ import InputSearchBar from './InputMui'
 import ProfileBar from './ProfileBar'
 import bubbles from '../../imgs/bubbles.png'
 import '../../styles/layout/navbar.css'
+import { selectUserAuth, logoutUser } from '../../store/slices/UserDataSlice'
+import type { IUserAuth } from '../../store/slices/UserDataSlice'
 
 const UpperNavbar: React.FC = () => {
+  const userAuth: IUserAuth = useSelector(selectUserAuth)
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
   const handleLogout = () => {
-    // Your logout logic here
+    dispatch(logoutUser())
     console.log('Logging out...')
   }
 
@@ -19,24 +28,9 @@ const UpperNavbar: React.FC = () => {
     console.log('Navigating to My Profile...')
   }
 
-  return (
-    <div className="upperNavbar">
-      <div className="logo">
-        <Card style={{ boxShadow: 'none' }}>
-          <CardMedia className="logoIcon" image={bubbles} title="My Image" />
-        </Card>
-        <Typography
-          variant="h4"
-          component="h2"
-          className="logoText"
-          sx={{ fontFamily: 'Arial' }}
-        >
-          Post-lease
-        </Typography>
-      </div>
-      <InputSearchBar label="Search..." />
-      <div className="upperNavbarButtons">
-        <ProfileBar onLogout={handleLogout} onMyProfile={handleMyProfile} />
+  const renderSignIn = () => {
+    if (userAuth === null) {
+      return (
         <Button
           href="/signin"
           className="signInButton"
@@ -55,6 +49,35 @@ const UpperNavbar: React.FC = () => {
         >
           Sign in
         </Button>
+      )
+    }
+    return null
+  }
+
+  return (
+    <div className="upperNavbar">
+      <div
+        className="logo"
+        onClick={() => {
+          navigate('/')
+        }}
+      >
+        <Card style={{ boxShadow: 'none' }}>
+          <CardMedia className="logoIcon" image={bubbles} title="My Image" />
+        </Card>
+        <Typography
+          variant="h4"
+          component="h2"
+          className="logoText"
+          sx={{ fontFamily: 'Arial' }}
+        >
+          Post-lease
+        </Typography>
+      </div>
+      <InputSearchBar label="Search..." />
+      <div className="upperNavbarButtons">
+        <ProfileBar onLogout={handleLogout} onMyProfile={handleMyProfile} />
+        {renderSignIn()}
         <Button
           variant="outlined"
           href="/"

@@ -59,11 +59,20 @@ export const UserDataSlice = createSlice({
     updateUserAuth: (state, action: PayloadAction<IUserAuth>) => {
       state.userAuth = action.payload
     },
+
+    logoutUser: (state) => {
+      console.log(state.userAuth)
+      state.userAuth = null
+    },
   },
 })
 
-export const { updateUserInfo, updateUserPreferences, updateUserAuth } =
-  UserDataSlice.actions
+export const {
+  updateUserInfo,
+  updateUserPreferences,
+  updateUserAuth,
+  logoutUser,
+} = UserDataSlice.actions
 
 export const selectUserInfo = (state: { userData: { userInfo: IUserInfo } }) =>
   state.userData.userInfo

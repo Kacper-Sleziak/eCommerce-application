@@ -41,14 +41,16 @@ const RouterRoot = () => {
           minHeight: '100vh',
         }}
       >
-        <Navbar />
-        <Box
-          className="boxClass"
-          style={{ width: '100%', marginBottom: '1rem' }}
-        >
-          <Router>
+        <Router>
+          <Navbar />
+          <Box
+            className="boxClass"
+            style={{ width: '100%', marginBottom: '1rem' }}
+          >
             <Routes>
-              <Route path="/addoffer" element={<AddOffer />} />
+              <Route element={<AuthRoute user={user} protectionType="auth" />}>
+                <Route path="/addoffer" element={<AddOffer />} />
+              </Route>
               <Route path="/" element={<Home />} />
               <Route path="/offers" element={<OfferList />} />
               <Route path="/contact" element={<Contact />} />
@@ -70,8 +72,8 @@ const RouterRoot = () => {
                 <Route path="/signin" element={<SignIn />} />
               </Route>
             </Routes>
-          </Router>
-        </Box>
+          </Box>
+        </Router>
         <Footer />
       </Box>
     </ThemeProvider>

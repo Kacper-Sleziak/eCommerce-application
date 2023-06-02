@@ -14,9 +14,7 @@
   ],
   "overrides": [
     {
-      "files": [
-        "*.tsx"
-      ],
+      "files": ["*.tsx"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off"
       }
@@ -28,24 +26,17 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "react", "prettier"],
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   },
   "rules": {
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "@typescript-eslint/method-signature-style": "off",
     "import/prefer-default-export": "off",
     "react/function-component-definition": [
@@ -60,12 +51,7 @@
     "react/jsx-filename-extension": [
       2,
       {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ],
     "no-param-reassign": "off",
@@ -76,9 +62,7 @@
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "warn",
     "@typescript-eslint/dot-notation": "error",
-    "quotes": [
-      "error"
-    ],
+    "quotes": ["error"],
     "import/extensions": [
       "error",
       "ignorePackages",
