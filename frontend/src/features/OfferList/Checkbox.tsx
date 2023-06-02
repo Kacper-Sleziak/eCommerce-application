@@ -5,7 +5,12 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  useEffect,
+} from 'react'
 import type { FilterRefInterface } from './interface/filterCallInterface'
 import { updateFilters } from '../../store/slices/OfferFiltersSlice'
 
@@ -14,6 +19,7 @@ interface Category {
 }
 
 interface Filter {
+  value: []
   categories: Category[]
   filterlabel: string
 }
@@ -24,14 +30,34 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />
 const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
   (props: Filter, ref) => {
     const { filterlabel } = props
-    const [value, setValue] = useState<Category[]>([])
+
+    const changeFormatOfPropsValue = () => {
+      const formatedProps: any = []
+
+      props.value.forEach((element) => {
+        const formatedElement = { title: element }
+        formatedProps.push(formatedElement)
+      })
+
+      return formatedProps
+    }
+
+    const formatedValueProps = changeFormatOfPropsValue()
+    const [value, setValue] = useState<Category[]>(formatedValueProps)
+
+    useEffect(() => {
+      const newFormatedValueProps = changeFormatOfPropsValue()
+      setValue(newFormatedValueProps)
+    }, [props.value])
 
     const dispatch = useDispatch()
 
     useImperativeHandle(ref, () => ({
       pushFiltersToStore() {
-        const data = value.map((filter) => filter.title)
-        dispatch(updateFilters({ filterName: filterlabel, data }))
+        const data = value?.map((filter) => filter.title)
+        if (data) {
+          dispatch(updateFilters({ filterName: filterlabel, data }))
+        }
       },
       clearFilter() {
         setValue([])

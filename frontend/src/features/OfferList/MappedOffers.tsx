@@ -1,13 +1,26 @@
 import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress'
 import Stack from '@mui/material/Stack'
 import { Typography } from '@mui/material'
 import { useGetOfferListQuery } from '../../store/services/OfferListDataApi'
 import Offer from './Offer'
 import { searchParamsToStringQuery } from '../../utils/urls'
-import { selectOffersData } from '../../store/slices/OfferFiltersSlice'
+import {
+  selectOffersData,
+  updatePage,
+  updatePaginationLimit,
+  updateOrdering,
+  clearFilters,
+  updateFilters,
+} from '../../store/slices/OfferFiltersSlice'
+import type { IUpdateOrderingLoad } from '../../store/slices/OfferFiltersSlice'
+
+interface readParam {
+  filterName: string
+  data: string[]
+}
 
 const MappedOffers = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -15,6 +28,66 @@ const MappedOffers = () => {
 
   const { data, error, isLoading } = useGetOfferListQuery(paramsString)
   const storeFilters = useSelector(selectOffersData)
+
+  const dispatch = useDispatch()
+
+  const readFiltersFromParamasAndPushToStore = () => {
+    dispatch(clearFilters)
+    const brand: readParam = {
+      filterName: 'brand',
+      data: [],
+    }
+    const color: readParam = {
+      filterName: 'color',
+      data: [],
+    }
+    const category: readParam = {
+      filterName: 'category',
+      data: [],
+    }
+
+    const ordering: IUpdateOrderingLoad = {
+      orderBy: '',
+      order: '',
+    }
+
+    for (const [key, value] of searchParams.entries()) {
+      switch (key) {
+        case 'page':
+          dispatch(updatePage(parseInt(value)))
+          break
+        case 'limit':
+          dispatch(updatePaginationLimit(parseInt(value)))
+          break
+        case 'order':
+          ordering.order = value
+          dispatch(updateOrdering(ordering))
+          break
+        case 'order_by':
+          ordering.orderBy = value
+          dispatch(updateOrdering(ordering))
+          break
+        case 'color':
+          color.data = [...color.data, value]
+          dispatch(updateFilters(color))
+          break
+        case 'category':
+          category.data = [...category.data, value]
+          dispatch(updateFilters(category))
+          break
+        case 'brand':
+          brand.data = [...brand.data, value]
+          dispatch(updateFilters(brand))
+          break
+        default:
+      }
+    }
+  }
+
+  // Read Filters from params and push to store
+  useEffect(() => {
+    readFiltersFromParamasAndPushToStore()
+  }, [])
 
   useEffect(() => {
     const storeFiltersVar: any = storeFilters

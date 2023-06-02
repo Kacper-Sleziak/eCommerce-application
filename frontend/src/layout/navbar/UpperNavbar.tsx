@@ -20,7 +20,7 @@ const UpperNavbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser())
-    console.log('Logging out...')
+    navigate('/signin')
   }
 
   const handleMyProfile = () => {

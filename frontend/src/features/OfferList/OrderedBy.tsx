@@ -1,25 +1,42 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import type { SelectChangeEvent } from '@mui/material/Select'
-import { useDispatch } from 'react-redux'
-import { updateOrdering } from '../../store/slices/OfferFiltersSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  updateOrdering,
+  updatePage,
+  selectOrdering,
+} from '../../store/slices/OfferFiltersSlice'
+
+type OrderingTableType = Record<string, { orderBy: string; order: string }>
 
 const OrderedBy: React.FC = () => {
-  const [value, setValue] = React.useState('0')
-  const dispatch = useDispatch()
+  const ordering = useSelector(selectOrdering)
+  const order = ordering?.order
 
-  type OrderingTableType = Record<string, { orderBy: string; order: string }>
+  const [value, setValue] = React.useState('0')
 
   const orderingTable: OrderingTableType = {
     '0': { orderBy: 'total_price', order: 'ASC' },
     '1': { orderBy: 'total_price', order: 'DESC' },
   }
 
+  useEffect(() => {
+    for (const key in orderingTable) {
+      if (order && orderingTable[key].order === order) {
+        setValue(key)
+      }
+    }
+  }, [order])
+
+  const dispatch = useDispatch()
+
   const handleChange = (event: SelectChangeEvent) => {
+    dispatch(updatePage(1))
     const key: string = event.target.value
     setValue(key)
 

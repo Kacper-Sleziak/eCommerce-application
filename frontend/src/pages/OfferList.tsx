@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Pagination from '@mui/material/Pagination'
@@ -11,6 +11,7 @@ import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
 import {
+  selectOffersData,
   selectPagination,
   updatePage,
   clearFilters,
@@ -48,6 +49,13 @@ const OfferList: React.FC = () => {
 
   const pagination = useSelector(selectPagination)
   const { page } = pagination
+
+  const storeFilters = useSelector(selectOffersData)
+  const [storeFiltersState, setStoreFiltersState] = useState<any>(storeFilters)
+
+  useEffect(() => {
+    setStoreFiltersState(storeFilters)
+  }, [storeFilters])
 
   const dispatch = useDispatch()
 
@@ -148,16 +156,19 @@ const OfferList: React.FC = () => {
             }}
           >
             <CheckboxCategories
+              value={storeFiltersState.brand}
               categories={brandList}
               filterlabel="brand"
               ref={brandFilterRef}
             />
             <CheckboxCategories
+              value={storeFiltersState.color}
               categories={colorList}
               filterlabel="color"
               ref={colorFilterRef}
             />
             <CheckboxCategories
+              value={storeFiltersState.category}
               categories={categoryList}
               filterlabel="category"
               ref={categoryFilterRef}
