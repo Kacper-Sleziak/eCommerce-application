@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Pagination from '@mui/material/Pagination'
+import { useSearchParams } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import { useDispatch, useSelector } from 'react-redux'
 import CheckboxCategories from '../features/OfferList/Checkbox'
@@ -16,6 +17,7 @@ import {
 } from '../store/slices/OfferFiltersSlice'
 import type { FilterRefInterface } from '../features/OfferList/interface/filterCallInterface'
 import { useGetOffersCountQuery } from '../store/services/OfferListDataApi'
+import { searchParamsToStringQuery } from '../utils/urls'
 
 const brandList = [
   { title: 'Basic' },
@@ -40,14 +42,17 @@ const OfferList: React.FC = () => {
 
   const refArray = [brandFilterRef, colorFilterRef, categoryFilterRef]
 
-  const { data, isLoading } = useGetOffersCountQuery({})
+  const [searchParams] = useSearchParams()
+  const paramsString = searchParamsToStringQuery(searchParams)
+  const { data, isLoading } = useGetOffersCountQuery(paramsString)
 
   const pagination = useSelector(selectPagination)
-  const { page, limit } = pagination
+  const { page } = pagination
 
   const dispatch = useDispatch()
 
   const filterOnClick = () => {
+    dispatch(updatePage(1))
     refArray.forEach((ref) => {
       if (ref.current !== null) {
         ref.current.pushFiltersToStore()
@@ -56,6 +61,7 @@ const OfferList: React.FC = () => {
   }
 
   const clearOnClick = () => {
+    dispatch(updatePage(1))
     dispatch(clearFilters())
 
     refArray.forEach((ref) => {
@@ -77,12 +83,11 @@ const OfferList: React.FC = () => {
       return <h3>loading...</h3>
     }
     if (data !== undefined) {
-      const dataCount = data.count
-      const pagesCount = Math.ceil(dataCount / limit)
+      const { count } = data
       return (
         <Pagination
           page={page}
-          count={pagesCount}
+          count={count}
           shape="rounded"
           onChange={handlePaginationChange}
         />

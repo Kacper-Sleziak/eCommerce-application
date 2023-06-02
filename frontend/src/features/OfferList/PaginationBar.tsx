@@ -8,6 +8,7 @@ import Select from '@mui/material/Select'
 import {
   selectPagination,
   updatePaginationLimit,
+  updatePage,
 } from '../../store/slices/OfferFiltersSlice'
 
 const PaginationBar: React.FC = () => {
@@ -17,6 +18,7 @@ const PaginationBar: React.FC = () => {
   const dispatch = useDispatch()
 
   const handleSelectChange = (event: any) => {
+    dispatch(updatePage(1))
     dispatch(updatePaginationLimit(event.target.value))
   }
 

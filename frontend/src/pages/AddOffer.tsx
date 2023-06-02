@@ -69,6 +69,7 @@ const AddOffer = () => {
         (category) => category.name,
       )
       setCategories(newCategories)
+      console.log(newCategories)
     }
   }, [categoriesData])
 
