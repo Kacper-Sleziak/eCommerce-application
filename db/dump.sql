@@ -121,13 +121,13 @@ CREATE TABLE auction (
     FOREIGN KEY (highest_bidder_id) REFERENCES user_(user_id)
 );
 
-INSERT INTO category(name) VALUES ('Car'), ('Desk'), ('Chair');
+INSERT INTO category(name) VALUES ('Automotive'), ('Office Furniture'), ('Electronics'), ('Home appliances');
 
 INSERT INTO address(country, region, city, postal_code, street, building, flat, latitude, longitude) VALUES ('Poland', 'Lower Silesia', 'Wroclaw', '51-000', 'Grunwaldzka', 16, 2, null, null);
 
 INSERT INTO role(name) VALUES ('Admin'), ('User');
 
-INSERT INTO color(name) VALUES ('Blue'), ('Red'), ('Yellow'), ('White'), ('Black'), ('Green');
+INSERT INTO color(name) VALUES ('Blue'), ('Red'), ('Yellow'), ('White'), ('Black'), ('Green'), ('Orange'), ('Pink'), ('Purple'), ('Gray'), ('Brown');
 
 INSERT INTO user_(role_id, address_id, username, email, password) VALUES (1, 1, 'adm', 'adm@pwr.pl', 'p0o9i8u7'), (2, 1, 'pickle', 'pickle@pwr.pl', '1q2w3e4r5t');
 
@@ -145,7 +145,7 @@ INSERT INTO photo(content, product_id) VALUES
 ('ccc', 3), 
 ('ddd', 4);
 
-INSERT INTO product_category(category_id, product_id) VALUES (3, 1), (1, 2), (1, 3), (1, 4);
+INSERT INTO product_category(category_id, product_id) VALUES (2, 1), (1, 2), (1, 3), (1, 4);
 
 INSERT INTO product_color(color_id, product_id) VALUES (1, 1), (2, 2), (3, 3), (4, 4);
 
