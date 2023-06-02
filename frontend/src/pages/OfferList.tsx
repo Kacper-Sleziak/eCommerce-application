@@ -1,6 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Card, Divider, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 import { useSearchParams } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
@@ -11,6 +13,7 @@ import MappedOffers from '../features/OfferList/MappedOffers'
 import OrderedBy from '../features/OfferList/OrderedBy'
 import PaginationBar from '../features/OfferList/PaginationBar'
 import {
+  selectOffersData,
   selectPagination,
   updatePage,
   clearFilters,
@@ -49,6 +52,13 @@ const OfferList: React.FC = () => {
   const pagination = useSelector(selectPagination)
   const { page } = pagination
 
+  const storeFilters = useSelector(selectOffersData)
+  const [storeFiltersState, setStoreFiltersState] = useState<any>(storeFilters)
+
+  useEffect(() => {
+    setStoreFiltersState(storeFilters)
+  }, [storeFilters])
+
   const dispatch = useDispatch()
 
   const filterOnClick = () => {
@@ -80,7 +90,9 @@ const OfferList: React.FC = () => {
 
   const renderPagination = () => {
     if (isLoading) {
-      return <h3>loading...</h3>
+      ;<Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
     }
     if (data !== undefined) {
       const { count } = data
@@ -148,16 +160,19 @@ const OfferList: React.FC = () => {
             }}
           >
             <CheckboxCategories
+              value={storeFiltersState.brand}
               categories={brandList}
               filterlabel="brand"
               ref={brandFilterRef}
             />
             <CheckboxCategories
+              value={storeFiltersState.color}
               categories={colorList}
               filterlabel="color"
               ref={colorFilterRef}
             />
             <CheckboxCategories
+              value={storeFiltersState.category}
               categories={categoryList}
               filterlabel="category"
               ref={categoryFilterRef}

@@ -16,11 +16,11 @@ const Footer: React.FC = () => {
         <p className="copywright">© 2023 Post-lease. All rights reserved. </p>
       </div>
       <div className="footerNavbarShortcut">
-        <a href="https://www.google.pl/">Automotive</a>
-        <a href="https://www.google.pl/">Electronics</a>
-        <a href="https://www.google.pl/">Office furniture</a>
-        <a href="https://www.google.pl/">White goods</a>
-        <a href="https://www.google.pl/">Contact</a>
+        <a href="http://localhost:3000/">Automotive</a>
+        <a href="http://localhost:3000/">Electronics</a>
+        <a href="http://localhost:3000/">Office furniture</a>
+        <a href="http://localhost:3000/">White goods</a>
+        <a href="http://localhost:3000/">Contact</a>
       </div>
     </div>
   )

@@ -86,9 +86,15 @@ export const OfferFiltersSLice = createSlice({
       action: PayloadAction<IUpdateOrderingLoad>,
     ) => {
       const { orderBy, order } = action.payload
-      state.ordering.order_by = orderBy
-      state.ordering.order = order
+
+      if (order !== '') {
+        state.ordering.order = order
+      }
+      if (orderBy !== '') {
+        state.ordering.order_by = orderBy
+      }
     },
+
     clearFilters: (state: any) => {
       state.filters = initialState.filters
     },
