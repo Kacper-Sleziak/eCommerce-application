@@ -13,7 +13,7 @@ export const offerListDataApi = createApi({
     }),
 
     getOffersCount: builder.query({
-      query: () => 'products/count',
+      query: (params: string) => `products/count?${params}`,
     }),
 
     addProduct: builder.mutation({
