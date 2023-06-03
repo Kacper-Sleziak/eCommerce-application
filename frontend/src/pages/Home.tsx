@@ -73,25 +73,25 @@ const Home: React.FC = () => {
         </Card>
         <div className="panel">
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Automotive&page=1&limit=25&order_by=total_price&order=DESC"
             text="Automotive"
             backgroundColor="#fca311"
             startIcon={DirectionsCarIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Electronics&page=1&limit=25&order_by=total_price&order=DESC"
             text="Electronics"
             backgroundColor="#14213d"
             startIcon={LaptopChromebookIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Office+Furniture&page=1&limit=25&order_by=total_price&order=DESC"
             text="Office Furniture"
             backgroundColor="#14213d"
             startIcon={DeskIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Home+appliances&page=1&limit=25&order_by=total_price&order=DESC"
             text="Home appliances"
             backgroundColor="#fca311"
             startIcon={KitchenIcon}

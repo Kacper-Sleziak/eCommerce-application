@@ -68,7 +68,7 @@ const SignUp = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const roleId = 1
+    const roleId = 2
     const addressId = 1
 
     if (!isSignUpFormValid(username, password, email)) {

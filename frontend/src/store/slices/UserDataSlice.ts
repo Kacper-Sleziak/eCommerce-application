@@ -35,9 +35,9 @@ export interface IUserDataState {
 
 const initialState: IUserDataState = {
   userInfo: {
-    name: 'Olga',
-    email: 'fasolka@wp.pl',
-    nickname: 'oldzii',
+    name: '',
+    email: '',
+    nickname: '',
     roles: [Role.ADMIN, Role.CLIENT],
   },
   userPreferences: { theme: Theme.CONTRAST, fontSize: 10 },

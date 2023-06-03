@@ -24,8 +24,7 @@ const UpperNavbar: React.FC = () => {
   }
 
   const handleMyProfile = () => {
-    // Navigate to user's profile or perform other actions
-    console.log('Navigating to My Profile...')
+    navigate('/profile')
   }
 
   const renderSignIn = () => {

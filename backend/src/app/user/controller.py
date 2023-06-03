@@ -1,6 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Request
 from app.user.service import UserService
 from app.user.schema import UserSchema, UserUpdateSchema
+from app.auth.utils import JwtUserBearer
+from app.auth.service import AuthService
 
 router = APIRouter(
     prefix="/users",
@@ -8,7 +10,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 user_service = UserService()
-
+auth_service = AuthService()
 
 @router.get("/{user_id}")
 def get_user(user_id: int) -> dict:
@@ -28,3 +30,10 @@ def update_user(user: UserUpdateSchema) -> dict:
             "address_id": 1,
             "username": "test",
             "email": "test@tst.com"}
+
+
+@router.get("/me", dependencies=[Depends(JwtUserBearer)])
+def get_user_me(request: Request) -> dict:
+    user_id = request.token_payload.get("user_id")
+    user = user_service.get_user_by_id(user_id)
+    return user
