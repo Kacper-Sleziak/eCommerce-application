@@ -1,8 +1,10 @@
 from datetime import datetime
+from app.auth.utils import JwtUserBearer
 
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends, Request
 from app.product.service import ProductService
 from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
+from app.auth.service import AuthService
 from typing import List, Annotated
 
 router = APIRouter(
@@ -11,7 +13,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 product_service = ProductService()
-
+auth_service = AuthService()
 
 @router.get("/")
 def get_products_filter(search: str | None = None,
@@ -92,16 +94,19 @@ def get_product_id(product_id: int) -> dict:
     return product_service.get_product(product_id)
 
 
-@router.post("/")
-def create_product(seller_id: int,
-                   name: str,
+@router.post("/", dependencies=[Depends(JwtUserBearer())])
+def create_product(name: str,
                    brand: str,
                    description: str,
                    quantity: int,
                    total_price: float,
                    categories: List[str],
                    colors: List[str],
-                   photos: List[str]) -> dict:
+                   photos: List[str],
+                   request: Request) -> dict:
+    email = request.token_payload.get("user_email")
+    seller = auth_service.get_user_by_email(email)
+    seller_id = seller.get("id")
     product = ProductCreateSchema(seller_id=seller_id,
                                   name=name,
                                   brand=brand,
@@ -115,9 +120,8 @@ def create_product(seller_id: int,
     return product_service.create_product(product)
 
 
-@router.post("/auction")
-def create_auction(seller_id: int,
-                   name: str,
+@router.post("/auction", dependencies=[Depends(JwtUserBearer())])
+def create_auction(name: str,
                    brand: str,
                    description: str,
                    quantity: int,
@@ -126,8 +130,11 @@ def create_auction(seller_id: int,
                    photos: List[str],
                    starting_price: float,
                    minimal_bump: float,
-                   end_date: str
-                   ) -> dict:
+                   end_date: str,
+                   request: Request) -> dict:
+    email = request.token_payload.get("user_email")
+    seller = auth_service.get_user_by_email(email)
+    seller_id = seller.get("id")
     product = ProductCreateSchema(seller_id=seller_id,
                                   name=name,
                                   brand=brand,
@@ -147,6 +154,9 @@ def create_auction(seller_id: int,
     return product_service.create_product_auction(product, auction)
 
 
-@router.put("/auction")
-def bid_auction(product_id: int, user_id: int, bid: float) -> dict:
+@router.put("/auction", dependencies=[Depends(JwtUserBearer())])
+def bid_auction(product_id: int, bid: float, request: Request) -> dict:
+    email = request.token_payload.get("user_email")
+    user = auth_service.get_user_by_email(email)
+    user_id = user.get("id")
     return product_service.auction_bump(product_id, user_id, bid)
