@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
   Button,
@@ -26,6 +27,8 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
   const anchorRef = React.useRef<HTMLButtonElement>(null)
   const userAuth = useSelector(selectUserAuth)
 
+  const navigate = useNavigate()
+
   const handleToggle = () => {
     setIsOpen((prevOpen) => !prevOpen)
   }
@@ -45,6 +48,10 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
   const handleMyProfile = () => {
     onMyProfile()
     setIsOpen(false)
+  }
+
+  const navigateToAddOffer = () => {
+    navigate('/addoffer')
   }
 
   const renderProfileButton = () => {
@@ -95,6 +102,17 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
                     }}
                   >
                     My Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={navigateToAddOffer}
+                    sx={{
+                      '&:hover': {
+                        background: '#FCA311',
+                        color: '#fff',
+                      },
+                    }}
+                  >
+                    Add Offer
                   </MenuItem>
                   <MenuItem
                     onClick={handleLogout}

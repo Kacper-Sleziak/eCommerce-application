@@ -86,7 +86,6 @@ const UpperNavbar: React.FC = () => {
         <Button
           onClick={navigateToCart}
           variant="outlined"
-          href="/"
           startIcon={<ShoppingBagIcon />}
           sx={{
             color: '#000',
