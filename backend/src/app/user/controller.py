@@ -32,8 +32,10 @@ def update_user(user: UserUpdateSchema) -> dict:
             "email": "test@tst.com"}
 
 
-@router.get("/me", dependencies=[Depends(JwtUserBearer)])
+@router.get("/me/", dependencies=[Depends(JwtUserBearer())])
 def get_user_me(request: Request) -> dict:
-    user_id = request.token_payload.get("user_id")
-    user = user_service.get_user_by_id(user_id)
+    email = request.token_payload.get("user_email")
+    user = auth_service.get_user_by_email(email)
+    user.pop("password")
     return user
+

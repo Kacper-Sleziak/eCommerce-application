@@ -45,6 +45,7 @@ class JwtAdminBearer(HTTPBearer):
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
+            request.token_payload = decode_jwt(credentials.credentials)
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
@@ -71,6 +72,7 @@ class JwtUserBearer(HTTPBearer):
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
+            request.token_payload = decode_jwt(credentials.credentials)
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
@@ -97,6 +99,7 @@ class JwtBearer(HTTPBearer):
                 raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
             if not self.verify_jwt(credentials.credentials):
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
+            request.token_payload = decode_jwt(credentials.credentials)
             return credentials.credentials
         except:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
