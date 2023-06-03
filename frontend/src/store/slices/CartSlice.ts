@@ -33,7 +33,7 @@ export const CartSlice = createSlice({
       const item = action.payload
       let isItemInCart = false
 
-      state.items.array.forEach((element: IItem) => {
+      state.items.forEach((element: IItem) => {
         if (element.id === item.id) {
           isItemInCart = true
           element.amount += item.amount
@@ -54,6 +54,10 @@ export const { addItemToCart, clearCart } = CartSlice.actions
 
 export const selectCart = (state: { cartData: IState }) => {
   return state.cartData.items
+}
+
+export const selectAmountOfItems = (state: { cartData: IState }) => {
+  return state.cartData.items.length
 }
 
 export default CartSlice.reducer

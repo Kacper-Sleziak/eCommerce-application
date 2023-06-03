@@ -16,6 +16,7 @@ import theme from '../utils/materialUI/colorScheme'
 import SignIn from '../pages/SignIn'
 import SignOut from '../pages/SignOut'
 import SignUp from '../pages/SignUp'
+import NotFoundPage from '../pages/NotFound'
 
 const RouterRoot = () => {
   const user = {
@@ -66,6 +67,8 @@ const RouterRoot = () => {
               <Route path="/offerdetails" element={<Offer />} />
               <Route path="/signout" element={<SignOut />} />
               <Route path="/cart" element={<Cart />} />
+
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Box>
         </Router>

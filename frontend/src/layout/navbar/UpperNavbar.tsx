@@ -10,13 +10,15 @@ import ProfileBar from './ProfileBar'
 import bubbles from '../../imgs/bubbles.png'
 import '../../styles/layout/navbar.css'
 import { selectUserAuth, logoutUser } from '../../store/slices/UserDataSlice'
+import { selectAmountOfItems } from '../../store/slices/CartSlice'
 import type { IUserAuth } from '../../store/slices/UserDataSlice'
 
 const UpperNavbar: React.FC = () => {
   const userAuth: IUserAuth = useSelector(selectUserAuth)
   const navigate = useNavigate()
-
   const dispatch = useDispatch()
+
+  const itemsInCart = useSelector(selectAmountOfItems)
 
   const handleLogout = () => {
     dispatch(logoutUser())
@@ -96,7 +98,7 @@ const UpperNavbar: React.FC = () => {
             textTransform: 'none',
           }}
         >
-          Cart (0)
+          Cart ({itemsInCart})
         </Button>
       </div>
     </div>
