@@ -34,7 +34,6 @@ const ProfileBar: React.FC<UserProfileDropdownProps> = ({
     // if (anchorRef.current?.contains(event.target as HTMLElement)) {
     //  return
     // }
-    // console.log("test")
     setIsOpen(false)
   }
 

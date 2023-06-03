@@ -10,10 +10,6 @@ const theme = createTheme({
       // blue
       main: '#14213d',
     },
-    success: {
-      // yellow
-      main: '#fca311',
-    },
     error: {
       // black
       main: '#ff0000',

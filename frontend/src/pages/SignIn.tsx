@@ -25,11 +25,16 @@ const isSignInDataValid = (email: string, password: string) => {
   return false
 }
 
+interface AlertProps {
+  severity: 'error' | 'info' | 'warning' | 'success'
+}
+
 const SignIn = () => {
   const [signInText] = useState<string>('Sign in')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [userMessage, setUserMessage] = useState<string>('')
+  const [severity, setSeverity] = useState<AlertProps['severity']>('info')
 
   const [signIn, signInResult] = useSignInMutation()
 
@@ -37,9 +42,12 @@ const SignIn = () => {
 
   useEffect(() => {
     if (signInResult.isSuccess) {
+      setSeverity('success')
       dispatch(
         updateUserAuth({ accessToken: signInResult.data['access_token'] }),
       )
+    } else {
+      setSeverity('error')
     }
   }, [signInResult])
 
@@ -47,7 +55,7 @@ const SignIn = () => {
     event.preventDefault()
 
     if (!isSignInDataValid(email, password)) {
-      setUserMessage('Something is wrong man')
+      setUserMessage('Wrong email or password!')
       return
     }
     signIn({
@@ -143,7 +151,7 @@ const SignIn = () => {
           </Grid>
         </Box>
       </Box>
-      <ConfirmationMessageSnackbar message={userMessage} severity="error" />
+      <ConfirmationMessageSnackbar message={userMessage} severity={severity} />
     </Container>
   )
 }
