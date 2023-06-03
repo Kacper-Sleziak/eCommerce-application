@@ -27,6 +27,10 @@ const UpperNavbar: React.FC = () => {
     navigate('/profile')
   }
 
+  const navigateToCart = () => {
+    navigate('/cart')
+  }
+
   const renderSignIn = () => {
     if (userAuth === null) {
       return (
@@ -78,6 +82,7 @@ const UpperNavbar: React.FC = () => {
         <ProfileBar onLogout={handleLogout} onMyProfile={handleMyProfile} />
         {renderSignIn()}
         <Button
+          onClick={navigateToCart}
           variant="outlined"
           href="/"
           startIcon={<ShoppingBagIcon />}

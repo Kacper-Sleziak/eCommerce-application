@@ -61,7 +61,6 @@ export const UserDataSlice = createSlice({
     },
 
     logoutUser: (state) => {
-      console.log(state.userAuth)
       state.userAuth = null
     },
   },

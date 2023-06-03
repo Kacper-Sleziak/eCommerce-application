@@ -38,7 +38,7 @@ const SignIn = () => {
   useEffect(() => {
     if (signInResult.isSuccess) {
       dispatch(
-        updateUserAuth({ accessToken: signInResult.data['access token'] }),
+        updateUserAuth({ accessToken: signInResult.data['access_token'] }),
       )
     }
   }, [signInResult])

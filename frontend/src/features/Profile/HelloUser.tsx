@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import '../../styles/pages/profile.css'
+import { useDispatch } from 'react-redux'
 import { Button, Card, Typography } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { logoutUser } from '../../store/slices/UserDataSlice'
 
 interface IUserProps {
   username: string
@@ -9,6 +12,14 @@ interface IUserProps {
 }
 
 const HelloUser: React.FC<IUserProps> = ({ username, useremail }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const logout = () => {
+    dispatch(logoutUser())
+    navigate('/signin')
+  }
+
   return (
     <Card className="cardHelloUser">
       <div className="textHelloUser">
@@ -39,6 +50,7 @@ const HelloUser: React.FC<IUserProps> = ({ username, useremail }) => {
               background: '#121D35',
             },
           }}
+          onClick={logout}
         >
           Log out
         </Button>

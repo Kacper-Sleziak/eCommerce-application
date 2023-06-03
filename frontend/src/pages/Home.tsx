@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import DeskIcon from '@mui/icons-material/Desk'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import KitchenIcon from '@mui/icons-material/Kitchen'
@@ -13,6 +14,11 @@ import OfferShortcut from '../features/Home/OfferShortcut'
 import TabCard from '../features/Home/TabCard'
 
 const Home: React.FC = () => {
+  const navigate = useNavigate()
+  const navigateToOffers = () => {
+    navigate('/offers')
+  }
+
   return (
     <div
       className="home"
@@ -52,6 +58,7 @@ const Home: React.FC = () => {
           </CardContent>
           <CardActions>
             <Button
+              onClick={navigateToOffers}
               sx={{
                 left: '4%',
                 width: '141px',
