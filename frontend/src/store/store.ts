@@ -5,6 +5,7 @@ import { userAccountApi } from './services/UserDataApi'
 import { offerListDataApi } from './services/OfferListDataApi'
 import UserDataReducer from './slices/UserDataSlice'
 import OfferFiltersReducer from './slices/OfferFiltersSlice'
+import CartReducer from './slices/CartSlice'
 
 const persistConfig = {
   key: 'root',
@@ -16,9 +17,11 @@ const persistedOfferFiltersReducer = persistReducer(
   persistConfig,
   OfferFiltersReducer,
 )
+const persistedCardReducer = persistReducer(persistConfig, CartReducer)
 
 const rootReducer = combineReducers({
   userData: persistedUserDataReducer,
+  cartData: persistedCardReducer,
   offerFiltersData: persistedOfferFiltersReducer,
   [userAccountApi.reducerPath]: userAccountApi.reducer,
   [offerListDataApi.reducerPath]: offerListDataApi.reducer,

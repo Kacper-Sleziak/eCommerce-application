@@ -21,6 +21,25 @@ const LowerNavbar = (): JSX.Element => {
           },
         }}
         onClick={() => {
+          navigate('/')
+        }}
+      >
+        Home
+      </Button>
+      <Button
+        sx={{
+          color: '#000',
+          background: '#fff',
+          border: '#000 !important',
+          fontSize: '18px',
+          fontWeight: '550',
+          fontStyle: 'normal',
+          textTransform: 'none',
+          '&:hover': {
+            background: '#fca311',
+          },
+        }}
+        onClick={() => {
           navigate('/offers')
         }}
       >

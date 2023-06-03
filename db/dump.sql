@@ -121,7 +121,7 @@ CREATE TABLE auction (
     FOREIGN KEY (highest_bidder_id) REFERENCES user_(user_id)
 );
 
-INSERT INTO category(name) VALUES ('Automotive'), ('Office Furniture'), ('Electronics'), ('Home appliances');
+INSERT INTO category(name) VALUES ('Automotive'), ('Office_Furniture'), ('Electronics'), ('Home_appliances');
 
 INSERT INTO address(country, region, city, postal_code, street, building, flat, latitude, longitude) VALUES ('Poland', 'Lower Silesia', 'Wroclaw', '51-000', 'Grunwaldzka', 16, 2, null, null);
 

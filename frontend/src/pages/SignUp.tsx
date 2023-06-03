@@ -39,15 +39,21 @@ const isSignUpFormValid = (
   return false
 }
 
+interface AlertProps {
+  severity: 'error' | 'info' | 'warning' | 'success'
+}
+
 const SignUp = () => {
   const [signUp, signUpResult] = useSignUpMutation()
   const [userMessage, setUserMessage] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [severity, setSeverity] = useState<AlertProps['severity']>('info')
 
   useEffect(() => {
     if (signUpResult.isSuccess && userMessage === '') {
+      setSeverity('success')
       setUserMessage('Signed up successfully')
     }
 
@@ -58,6 +64,7 @@ const SignUp = () => {
         ? errorDetail[0]
         : errorDetail
 
+      setSeverity('error')
       setUserMessage(`Something went wrong: ${errorMessage}`)
     }
 
@@ -199,7 +206,10 @@ const SignUp = () => {
             </Grid>
           </Box>
         </Box>
-        <ConfirmationMessageSnackbar message={userMessage} severity="error" />
+        <ConfirmationMessageSnackbar
+          message={userMessage}
+          severity={severity}
+        />
       </Container>
     </ThemeProvider>
   )

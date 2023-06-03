@@ -69,7 +69,6 @@ const AddOffer = () => {
         (category) => category.name,
       )
       setCategories(newCategories)
-      console.log(newCategories)
     }
   }, [categoriesData])
 
@@ -131,13 +130,13 @@ const AddOffer = () => {
     },
 
     {
-      name: 'olga',
-      description: 'xd',
-      quantity: 3,
-      totalPrice: 50,
-      brand: 'xd',
-      categories: [2, 3],
-      colors: [2, 3, 4],
+      name: '',
+      description: '',
+      quantity: 1,
+      totalPrice: 100,
+      brand: '',
+      categories: [],
+      colors: [],
     },
   )
 

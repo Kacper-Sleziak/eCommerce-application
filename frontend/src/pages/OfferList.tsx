@@ -35,8 +35,18 @@ const colorList = [
   { title: 'Yellow' },
   { title: 'White' },
   { title: 'Green' },
+  { title: 'Orange' },
+  { title: 'Pink' },
+  { title: 'Purple' },
+  { title: 'Gray' },
+  { title: 'Brown' },
 ]
-const categoryList = [{ title: 'Chair' }, { title: 'Desk' }, { title: 'Car' }]
+const categoryList = [
+  { title: 'Automotive' },
+  { title: 'Office Furniture' },
+  { title: 'Electronics' },
+  { title: 'Home appliances' },
+]
 
 const OfferList: React.FC = () => {
   const brandFilterRef = useRef<FilterRefInterface | null>(null)

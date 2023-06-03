@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import DeskIcon from '@mui/icons-material/Desk'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import KitchenIcon from '@mui/icons-material/Kitchen'
@@ -13,6 +14,11 @@ import OfferShortcut from '../features/Home/OfferShortcut'
 import TabCard from '../features/Home/TabCard'
 
 const Home: React.FC = () => {
+  const navigate = useNavigate()
+  const navigateToOffers = () => {
+    navigate('/offers')
+  }
+
   return (
     <div
       className="home"
@@ -52,6 +58,7 @@ const Home: React.FC = () => {
           </CardContent>
           <CardActions>
             <Button
+              onClick={navigateToOffers}
               sx={{
                 left: '4%',
                 width: '141px',
@@ -73,25 +80,25 @@ const Home: React.FC = () => {
         </Card>
         <div className="panel">
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Automotive&page=1&limit=25&order_by=total_price&order=DESC"
             text="Automotive"
             backgroundColor="#fca311"
             startIcon={DirectionsCarIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Electronics&page=1&limit=25&order_by=total_price&order=DESC"
             text="Electronics"
             backgroundColor="#14213d"
             startIcon={LaptopChromebookIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Office+Furniture&page=1&limit=25&order_by=total_price&order=DESC"
             text="Office Furniture"
             backgroundColor="#14213d"
             startIcon={DeskIcon}
           />
           <TabCard
-            to="https://google.pl"
+            to="http://localhost:3000/offers?category=Home+appliances&page=1&limit=25&order_by=total_price&order=DESC"
             text="Home appliances"
             backgroundColor="#fca311"
             startIcon={KitchenIcon}

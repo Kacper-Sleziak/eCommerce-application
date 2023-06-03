@@ -74,6 +74,7 @@ const CheckboxCategories = forwardRef<FilterRefInterface, Filter>(
         multiple
         id="checkboxes-tags-demo"
         options={props.categories}
+        isOptionEqualToValue={(option, value) => option.title === value.title}
         disableCloseOnSelect
         getOptionLabel={(option) => option.title}
         onChange={(

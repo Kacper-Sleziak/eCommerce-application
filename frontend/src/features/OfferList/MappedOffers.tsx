@@ -53,6 +53,8 @@ const MappedOffers = () => {
     }
 
     for (const [key, value] of searchParams.entries()) {
+      value.replace('+', '_')
+
       switch (key) {
         case 'page':
           dispatch(updatePage(parseInt(value)))
