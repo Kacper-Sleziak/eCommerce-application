@@ -5,10 +5,11 @@ export interface IState {
 }
 
 export interface IItem {
+  id: number
   name: string
   brand: string
   product_description: string
-  quantity: number
+  amount: number
   total_price: number
   sale_type: string
   photos: IPhoto
@@ -30,12 +31,26 @@ export const CartSlice = createSlice({
   reducers: {
     addItemToCart: (state: any, action: PayloadAction<IItem>) => {
       const item = action.payload
-      state.items = [...state.items, item]
+      let isItemInCart = false
+
+      state.items.array.forEach((element: IItem) => {
+        if (element.id === item.id) {
+          isItemInCart = true
+          element.amount += item.amount
+        }
+      })
+
+      if (!isItemInCart) {
+        state.items = [...state.items, item]
+      }
+    },
+    clearCart: (state: any) => {
+      state = initialState
     },
   },
 })
 
-export const { addItemToCart } = CartSlice.actions
+export const { addItemToCart, clearCart } = CartSlice.actions
 
 export const selectCart = (state: { cartData: IState }) => {
   return state.cartData.items
