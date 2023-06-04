@@ -1,21 +1,34 @@
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, Button, Card, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import PlaceIcon from '@mui/icons-material/Place'
 import QuantityControl from './PlusMinus'
+import { addItemToCart } from '../../store/slices/CartSlice'
 
-interface OfferSidePanelProps {
-  quantity: number
-  price: number
-  brand: string
-  sellerId: number // xddddd
-}
+const OfferSidePanel = ({ data }: any) => {
+  const [chooseQuantity, setChoosenQuantity] = useState(1)
+  const getChoosenQuantityFromChild = (quantity: number) => {
+    setChoosenQuantity(quantity)
+  }
 
-const OfferSidePanel = ({
-  quantity,
-  price,
-  brand,
-  sellerId,
-}: OfferSidePanelProps) => {
+  const dispatch = useDispatch()
+
+  const handleAddToCart = () => {
+    const item = {
+      id: data.id,
+      name: data.name,
+      brand: data.brand,
+      product_description: data.product_description,
+      amount: chooseQuantity,
+      total_price: data.total_price,
+      sale_type: data.sale_type,
+      photos: data.photos[0],
+    }
+
+    dispatch(addItemToCart(item))
+  }
+
   return (
     <Card
       sx={{
@@ -26,7 +39,7 @@ const OfferSidePanel = ({
       }}
     >
       <Typography variant="h4" fontWeight={600}>
-        Price: {price} zł
+        Price: {data.total_price} zł
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', margin: '0.5rem 0' }}>
         {/* <Typography variant="h5" fontWeight={500}> */}
@@ -37,7 +50,7 @@ const OfferSidePanel = ({
           sx={{ color: '#000', ml: 1, mr: 1, fontSize: 10 }}
         />
         <Typography variant="h5" fontWeight={500}>
-          {brand}
+          {data.brand}
         </Typography>
       </Box>
       <Card
@@ -52,7 +65,7 @@ const OfferSidePanel = ({
         }}
       >
         <Typography variant="h5" fontWeight={600}>
-          Seller: {sellerId}
+          Seller: {data.sellerId}
         </Typography>
         <div
           style={{
@@ -154,8 +167,12 @@ const OfferSidePanel = ({
         >
           quantity:{' '}
         </Typography>
-        <QuantityControl initialQuantity={1} maxQuantity={quantity} />
-        <Typography sx={{ display: 'flex' }}> / {quantity} </Typography>
+        <QuantityControl
+          initialQuantity={1}
+          maxQuantity={data.quantity}
+          returnQuantity={getChoosenQuantityFromChild}
+        />
+        <Typography sx={{ display: 'flex' }}> / {data.quantity} </Typography>
         <Button
           sx={{
             width: '173px',
@@ -167,6 +184,7 @@ const OfferSidePanel = ({
               background: '#FCA311',
             },
           }}
+          onClick={handleAddToCart}
         >
           <Typography
             sx={{

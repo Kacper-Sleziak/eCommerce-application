@@ -35,12 +35,14 @@ export const CartSlice = createSlice({
 
       state.items.forEach((element: IItem) => {
         if (element.id === item.id) {
+          console.log('here1')
           isItemInCart = true
           element.amount += item.amount
         }
       })
 
       if (!isItemInCart) {
+        console.log('here2')
         state.items = [...state.items, item]
       }
     },
