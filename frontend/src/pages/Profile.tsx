@@ -9,7 +9,6 @@ import { selectUserAuth } from '../store/slices/UserDataSlice'
 
 const Profile = () => {
   const userAuth = useSelector(selectUserAuth)
-
   const { data, error, isLoading } = useGetMeQuery(userAuth.accessToken)
 
   const renderProfile = () => {

@@ -78,6 +78,7 @@ export const selectUserInfo = (state: { userData: { userInfo: IUserInfo } }) =>
 export const selectPreferencesInfo = (state: {
   userData: { userPreferences: IUserPreferences }
 }) => state.userData.userPreferences
+
 export const selectUserAuth = (state: { userData: { userAuth: IUserAuth } }) =>
   state.userData.userAuth
 
