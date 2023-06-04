@@ -6,7 +6,6 @@ import '../../styles/pages/cart.css'
 
 const ItemsToBuy: React.FC = () => {
   const cartItems = useSelector(selectCart)
-  console.log(cartItems)
 
   const renderItems = () => {
     if (cartItems !== undefined) {

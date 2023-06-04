@@ -35,14 +35,12 @@ export const CartSlice = createSlice({
 
       state.items.forEach((element: IItem) => {
         if (element.id === item.id) {
-          console.log('here1')
           isItemInCart = true
           element.amount += item.amount
         }
       })
 
       if (!isItemInCart) {
-        console.log('here2')
         state.items = [...state.items, item]
       }
     },
@@ -60,6 +58,16 @@ export const selectCart = (state: { cartData: IState }) => {
 
 export const selectAmountOfItems = (state: { cartData: IState }) => {
   return state.cartData.items.length
+}
+
+export const selectCartTotalPrice = (state: { cartData: IState }) => {
+  let totalPrice = 0
+
+  state.cartData.items.forEach((item: IItem) => {
+    totalPrice += item.amount * item.total_price
+  })
+
+  return totalPrice
 }
 
 export default CartSlice.reducer
