@@ -7,6 +7,8 @@ import '../../styles/pages/cart.css'
 
 const ItemsToBuy: React.FC = () => {
   const cartItems = useSelector(selectCart)
+  const options = { useGrouping: true }
+
   const renderItems = () => {
     if (cartItems !== undefined) {
       console.log(cartItems)
@@ -51,26 +53,29 @@ const ItemsToBuy: React.FC = () => {
                       textAlign: 'center',
                       color: '#000000',
                       fontWeight: '500',
+                      marginRight: '7px',
                     }}
                   >
-                    Quantity:{' '}
+                    Quantity:
                   </Typography>
-                  <CartQuantityControl
-                    initialQuantity={1}
-                    maxQuantity={7}
-                    returnQuantity={item.amount}
-                  />
+                  <CartQuantityControl item={item} />
                   <Typography variant="h6" sx={{ display: 'flex' }}>
                     {' '}
-                    / 7{' '}
+                    / {item.quantity}{' '}
                   </Typography>
                 </div>
                 <Typography variant="h6" sx={{ fontWeight: '500' }}>
-                  Item price: {item.total_price} zł
+                  Item price:{' '}
+                  {item.total_price.toLocaleString(undefined, options)} zł
                 </Typography>
                 <Divider color="#C0C0C0" />
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
-                  Summary: {item.amount * item.total_price} zł
+                  Summary:{' '}
+                  {(item.amount * item.total_price).toLocaleString(
+                    undefined,
+                    options,
+                  )}{' '}
+                  zł
                 </Typography>
               </div>
               <div className="deleteItemsButton">

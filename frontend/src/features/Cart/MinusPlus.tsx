@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Box, IconButton, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import type { IItem } from '../../store/slices/CartSlice'
+import { addItemToCart } from '../../store/slices/CartSlice'
 
 interface CartQuantityControlProps {
-  initialQuantity: number
-  maxQuantity: number
-  returnQuantity: number
+  item: IItem
 }
 
-const CartQuantityControl: React.FC<CartQuantityControlProps> = ({
-  initialQuantity,
-  maxQuantity,
-  returnQuantity,
-}) => {
-  const [quantity, setQuantity] = useState(initialQuantity)
+const CartQuantityControl: React.FC<CartQuantityControlProps> = ({ item }) => {
+  const [quantity, setQuantity] = useState(1)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setQuantity(item.amount)
+  }, [])
 
   const handleIncrement = () => {
-    quantity !== maxQuantity ? setQuantity(quantity + 1) : setQuantity(quantity)
+    if (quantity < item.quantity) {
+      setQuantity(quantity + 1)
+      dispatch(addItemToCart(item))
+    } else {
+      setQuantity(quantity)
+    }
   }
 
   const handleDecrement = () => {
