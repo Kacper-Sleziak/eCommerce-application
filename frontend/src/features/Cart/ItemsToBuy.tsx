@@ -47,17 +47,16 @@ const ItemsToBuy: React.FC = () => {
                       textAlign: 'center',
                       color: '#000000',
                       fontWeight: '600',
+                      marginRight: '7px',
                     }}
                   >
-                    Quantity:{' '}
+                    Quantity:
                   </Typography>
                   <Typography
                     variant="h6"
                     sx={{ display: 'flex', alignItems: 'center' }}
                   >
-                    {'  '}
                     {item.amount}
-                    {'  '}
                   </Typography>
                 </div>
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
