@@ -3,7 +3,7 @@ from app.auth.utils import JwtUserBearer
 
 from fastapi import APIRouter, Query, HTTPException, Depends, Request
 from app.product.service import ProductService
-from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema, BuyProductSchema
 from app.auth.service import AuthService
 from typing import List, Annotated
 
@@ -160,3 +160,11 @@ def bid_auction(product_id: int, bid: float, request: Request) -> dict:
     user = auth_service.get_user_by_email(email)
     user_id = user.get("id")
     return product_service.auction_bump(product_id, user_id, bid)
+
+@router.put("/buy", dependencies=[Depends(JwtUserBearer())])
+def buy_product(products: List[BuyProductSchema], request: Request) -> dict:
+    email = request.token_payload.get("user_email")
+    user = auth_service.get_user_by_email(email)
+    user_id = user.get("id")
+    product_service.buy_product(products, user_id)
+    return {}
