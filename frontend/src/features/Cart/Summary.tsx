@@ -1,7 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Card, Typography } from '@mui/material'
+import { selectCartTotalPrice } from '../../store/slices/CartSlice'
 
 const Summary: React.FC = () => {
+  const totalCost = useSelector(selectCartTotalPrice)
+
   return (
     <Card
       sx={{
@@ -21,7 +25,7 @@ const Summary: React.FC = () => {
           fontWeight: '600',
         }}
       >
-        Total cost: 30zł
+        Total cost: {totalCost}zł
       </Typography>
     </Card>
   )

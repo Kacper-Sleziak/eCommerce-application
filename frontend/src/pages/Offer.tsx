@@ -49,12 +49,7 @@ const Offer: React.FC = () => {
                 }}
               />
             </Card>
-            <OfferSidePanel
-              quantity={data.quantity}
-              price={data.total_price}
-              brand={data.brand}
-              sellerId={data.seller_id}
-            />
+            <OfferSidePanel data={data} />
           </div>
           <SimpleAccordion
             description={data.product_description}

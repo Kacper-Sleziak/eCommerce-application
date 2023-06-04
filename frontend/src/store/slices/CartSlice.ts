@@ -60,4 +60,14 @@ export const selectAmountOfItems = (state: { cartData: IState }) => {
   return state.cartData.items.length
 }
 
+export const selectCartTotalPrice = (state: { cartData: IState }) => {
+  let totalPrice = 0
+
+  state.cartData.items.forEach((item: IItem) => {
+    totalPrice += item.amount * item.total_price
+  })
+
+  return totalPrice
+}
+
 export default CartSlice.reducer
