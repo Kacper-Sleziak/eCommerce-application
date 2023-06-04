@@ -25,7 +25,8 @@ const Summary: React.FC = () => {
           fontWeight: '600',
         }}
       >
-        Total cost: {totalCost}zł
+        Total cost: {totalCost.toLocaleString(undefined, { useGrouping: true })}
+        zł
       </Typography>
     </Card>
   )

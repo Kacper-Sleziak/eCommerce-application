@@ -9,6 +9,7 @@ export interface IItem {
   name: string
   brand: string
   product_description: string
+  quantity: number
   amount: number
   total_price: number
   sale_type: string
@@ -30,18 +31,18 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart: (state: any, action: PayloadAction<IItem>) => {
-      const item = action.payload
+      const passedItem = action.payload
       let isItemInCart = false
 
       state.items.forEach((element: IItem) => {
-        if (element.id === item.id) {
+        if (element.id === passedItem.id) {
           isItemInCart = true
-          element.amount += item.amount
+          element.amount += passedItem.amount
         }
       })
 
       if (!isItemInCart) {
-        state.items = [...state.items, item]
+        state.items = [...state.items, passedItem]
       }
     },
     clearCart: (state: any) => {

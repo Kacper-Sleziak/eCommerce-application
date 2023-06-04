@@ -19,6 +19,7 @@ const OfferSidePanel = ({ data }: any) => {
       id: data.id,
       name: data.name,
       brand: data.brand,
+      quantity: data.quantity,
       product_description: data.product_description,
       amount: chooseQuantity,
       total_price: data.total_price,
