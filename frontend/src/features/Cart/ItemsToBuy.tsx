@@ -1,14 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Button, Card, CardMedia, Typography } from '@mui/material'
+import { Button, Card, CardMedia, Divider, Typography } from '@mui/material'
 import { selectCart } from '../../store/slices/CartSlice'
+import CartQuantityControl from './MinusPlus'
 import '../../styles/pages/cart.css'
 
 const ItemsToBuy: React.FC = () => {
   const cartItems = useSelector(selectCart)
-  console.log(cartItems)
   const renderItems = () => {
     if (cartItems !== undefined) {
+      console.log(cartItems)
       return (
         <>
           {Object.values(cartItems).map((item: any) => (
@@ -37,33 +38,38 @@ const ItemsToBuy: React.FC = () => {
                 />
               </div>
               <div className="offerDetails">
+                <Typography variant="h5" sx={{ fontWeight: '600' }}>
+                  {item.name}
+                </Typography>
                 <div className="cartItems">
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
                       fontStyle: 'normal',
                       textAlign: 'center',
                       color: '#000000',
-                      fontWeight: '600',
+                      fontWeight: '500',
                     }}
                   >
                     Quantity:{' '}
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    {'  '}
-                    {item.amount}
-                    {'  '}
+                  <CartQuantityControl
+                    initialQuantity={1}
+                    maxQuantity={7}
+                    returnQuantity={item.amount}
+                  />
+                  <Typography variant="h6" sx={{ display: 'flex' }}>
+                    {' '}
+                    / 7{' '}
                   </Typography>
                 </div>
-                <Typography variant="h6" sx={{ fontWeight: '600' }}>
+                <Typography variant="h6" sx={{ fontWeight: '500' }}>
                   Item price: {item.total_price} zł
                 </Typography>
-                <Typography variant="h5" sx={{ fontWeight: '600' }}>
+                <Divider color="#C0C0C0" />
+                <Typography variant="h6" sx={{ fontWeight: '600' }}>
                   Summary: {item.amount * item.total_price} zł
                 </Typography>
               </div>
