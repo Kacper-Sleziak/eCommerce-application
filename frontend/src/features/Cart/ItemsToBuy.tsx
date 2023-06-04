@@ -6,7 +6,7 @@ import '../../styles/pages/cart.css'
 
 const ItemsToBuy: React.FC = () => {
   const cartItems = useSelector(selectCart)
-
+  console.log(cartItems)
   const renderItems = () => {
     if (cartItems !== undefined) {
       return (
@@ -26,7 +26,7 @@ const ItemsToBuy: React.FC = () => {
               <div>
                 <CardMedia
                   component="img"
-                  image={item.photo}
+                  image={item.photos?.content}
                   alt="Image"
                   sx={{
                     borderRadius: '20px',
