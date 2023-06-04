@@ -1,7 +1,7 @@
 from typing import List
 from app.models import CreateEngine, Product, ProductCategory, Category, Photo, Color, ProductColor, Auction, User
 from sqlalchemy import or_, and_, desc, asc, text
-from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema
+from app.product.schema import ProductCreateSchema, ProductParams, AuctionCreateSchema, BuyProductSchema
 from datetime import datetime
 from fastapi import HTTPException
 from decimal import Decimal
@@ -345,4 +345,31 @@ class ProductService:
                 raise HTTPException(status_code=422, detail="Quantity cannot be smaller than 1")
             if product.total_price < 0:
                 raise HTTPException(status_code=422, detail="Price cannot be negative")
-
+    
+    def buy_product(self, products: BuyProductSchema, user_id: int) -> None:
+        Session = self.engine.create_session()
+        with Session() as session:
+            for product_schema in products:
+                product_id = product_schema.product_id
+                quantity = product_schema.quantity
+                product = session.query(Product).get(product_id)
+                if product is None:
+                    raise HTTPException(status_code=422, detail=f"No product with given id") 
+                if user_id == product.seller_id:
+                    raise HTTPException(status_code=422, detail="You cannot buy your own product")
+                if product.quantity < quantity:
+                    raise HTTPException(status_code=422, detail=f"Not enough products in stock, in stock: {product.quantity}, requested: {quantity}")
+                product.quantity -= quantity
+                if product.quantity == 0:
+                    product_categories = session.query(ProductCategory).filter(ProductCategory.product_id == product_id).all()
+                    for product_category in product_categories:
+                        session.delete(product_category)
+                    product_colors = session.query(ProductColor).filter(ProductColor.product_id == product_id).all()
+                    for product_color in product_colors:
+                        session.delete(product_color)
+                    product_photos = session.query(Photo).filter(Photo.product_id == product_id).all()
+                    for product_photo in product_photos:
+                        session.delete(product_photo)
+                    session.delete(product)
+                session.commit()
+        Session.remove()

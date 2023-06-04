@@ -96,3 +96,7 @@ class ProductParams:
                 or self.has_price()
                 or self.has_auction()
                 or self.has_auction_active())
+
+class BuyProductSchema(BaseModel):
+    product_id: int
+    quantity: int
